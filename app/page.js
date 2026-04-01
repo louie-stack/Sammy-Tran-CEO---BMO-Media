@@ -127,8 +127,20 @@ export default function Home() {
       <Nav />
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section style={{ paddingTop: 54 }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 60px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
+      <section style={{ paddingTop: 54, position: "relative", overflow: "hidden" }}>
+        {/* Hero background image */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "url('/hero-banner.png')",
+          backgroundSize: "cover", backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          opacity: 0.35,
+        }} />
+        {/* Fade to page bg at bottom */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
+        {/* Fade edges left/right */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 60px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
               style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14 }}>
