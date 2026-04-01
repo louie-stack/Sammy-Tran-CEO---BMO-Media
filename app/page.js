@@ -161,7 +161,7 @@ export default function Home() {
       </section>
 
       {/* ── REVENUE STATS STRIP ────────────────────────────────────────── */}
-      <section style={{ borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
+      <section>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {REVENUE.map((s, i) => (
