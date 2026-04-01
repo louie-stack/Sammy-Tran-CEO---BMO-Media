@@ -106,7 +106,7 @@ const PROJECTS = [
 
 const AGENTS = [
   { name: "BMO", role: "Chief of Staff", img: "/agents/bmo.png", status: "active", color: GREEN, rgb: "196,240,0", lastAction: "Morning brief compiled", tasksToday: 18, href: "/agents", imgScale: "145%", imgTop: "8%", cardBg: true },
-  { name: "Marceline", role: "Sales & BD", img: "/agents/marceline.png", status: "active", color: "#a855f7", rgb: "168,85,247", lastAction: "3 follow-up sequences triggered", tasksToday: 11, href: "/sales", imgScale: "200%", imgTop: "8%" },
+  { name: "Marceline", role: "Sales & BD", img: "/agents/marceline.png", status: "active", color: "#a855f7", rgb: "168,85,247", lastAction: "3 follow-up sequences triggered", tasksToday: 11, href: "/sales", imgScale: "200%", imgTop: "8%", cardBg: true },
   { name: "Princess Bubblegum", role: "Research", img: "/agents/pb.png", status: "standby", color: "#ec4899", rgb: "236,72,153", lastAction: "Nexmail strategy 45% complete", tasksToday: 4, href: "/research", imgScale: "195%", imgTop: "0%" },
   { name: "Jake", role: "Builder", img: "/agents/jake.png", status: "active", color: "#eab308", rgb: "234,179,8", lastAction: "MoonBrew cart flow v3 deployed", tasksToday: 9, href: "/build", imgScale: "110%", imgTop: "15%", cardBg: true },
   { name: "Finn", role: "Health", img: "/agents/finn.png", status: "standby", color: "#06b6d4", rgb: "6,182,212", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health", imgScale: "210%", imgTop: "0%" },
