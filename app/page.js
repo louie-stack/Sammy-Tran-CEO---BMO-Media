@@ -162,16 +162,15 @@ export default function Home() {
 
       {/* ── REVENUE STATS STRIP ────────────────────────────────────────── */}
       <section style={{ borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {REVENUE.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.06}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "26px 0", borderRight: i < 3 ? "1px solid #1a1a1a" : "none" }}>
-                  <div style={{ fontSize: "clamp(1.8rem, 2.5vw, 2.6rem)", fontWeight: 800, color: s.color, letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    {s.value}<span style={{ color: GREEN, fontSize: "0.7em" }}>{s.suffix}</span>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0", borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingRight: i < 3 ? 40 : 0 }}>
+                  <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                    {s.value}<span style={{ color: GREEN }}>{s.suffix}</span>
                   </div>
-                  <div style={{ ...MO, fontSize: 11, color: "#777", letterSpacing: "0.14em", marginTop: 5 }}>{s.label}</div>
-                  <div style={{ fontSize: 12, color: "#777", marginTop: 3 }}>{s.sub}</div>
+                  <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.sub || s.label}</div>
                 </div>
               </Reveal>
             ))}
