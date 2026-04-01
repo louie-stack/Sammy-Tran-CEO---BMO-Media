@@ -25,7 +25,7 @@ const OrbitPath = memo(({ radius, color, delay = 0 }) => (
 ));
 OrbitPath.displayName = "OrbitPath";
 
-const AgentDot = memo(({ agent, angle, paused, onClick }) => {
+const AgentDot = memo(({ agent, angle, onClick }) => {
   const [hovered, setHovered] = useState(false);
   const x = Math.cos(angle) * agent.orbitRadius;
   const y = Math.sin(angle) * agent.orbitRadius;
@@ -78,10 +78,8 @@ AgentDot.displayName = "AgentDot";
 
 export default function OrbitingAgents({ onAgentClick }) {
   const [t, setT] = useState(0);
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused) return;
     let raf, last = performance.now();
     const tick = (now) => {
       setT(p => p + (now - last) / 1000);
@@ -90,13 +88,12 @@ export default function OrbitingAgents({ onAgentClick }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [paused]);
+  }, []);
 
   return (
     <div
       style={{ position: "relative", width: "100%", aspectRatio: "1/1", maxWidth: 480, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center" }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+
     >
       <style>{`@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}`}</style>
 
@@ -125,7 +122,6 @@ export default function OrbitingAgents({ onAgentClick }) {
             key={ag.id}
             agent={ag}
             angle={angle}
-            paused={paused}
             onClick={onAgentClick}
           />
         );
