@@ -6,20 +6,77 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: #080B12; color: #E8E8F0; }
+body { font-family: 'Inter', sans-serif; background: #0D0D0D; color: #fff; }
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.15); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(196,240,0,0.15); border-radius: 2px; }
 
-@keyframes gPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-@keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@keyframes particleFadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes introFadeUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-@keyframes shimmer { 0% { left: -50%; } 100% { left: 120%; } }
+@keyframes gPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-.card-hover { transition: all 0.35s cubic-bezier(0.16,1,0.3,1); }
-.nav-link { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
-.nav-link:hover { color: #3b82f6 !important; }
-.action-btn { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
-.action-btn:hover { transform: translateY(-2px) scale(1.03); }
+/* ── GlowCard — SkyVault / DataWing spotlight mechanism ──────────────────
+   Raw cursor position is stored on :root as --bmo-x / --bmo-y by GlowCard.js.
+   background-attachment: fixed anchors the gradient to the viewport so every
+   card's spotlight originates from the same cursor point simultaneously. */
+
+:root {
+  --bmo-x: -999px;
+  --bmo-y: -999px;
+}
+
+[data-bmo-glow] {
+  position: relative;
+  background: #0D0D0D;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+[data-bmo-glow]:hover {
+  border-color: rgba(196, 240, 0, 0.18);
+}
+
+/* Ambient fill — always slightly visible near cursor */
+[data-bmo-glow]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(
+    650px circle at var(--bmo-x) var(--bmo-y),
+    rgba(196, 240, 0, 0.055),
+    transparent 50%
+  );
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.2s;
+}
+
+/* Brighter inner spot — intensifies on hover */
+[data-bmo-glow]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: radial-gradient(
+    350px circle at var(--bmo-x) var(--bmo-y),
+    rgba(196, 240, 0, 0.10),
+    transparent 50%
+  );
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+[data-bmo-glow]:hover::after {
+  opacity: 1;
+}
+
+[data-bmo-glow] > .glow-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
