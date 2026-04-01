@@ -190,7 +190,7 @@ function AgentsPageInner() {
       {/* ── HERO BANNER ── */}
       <div style={{ position: "relative", width: "100%", height: isMobile ? 180 : 280, overflow: "hidden", marginTop: 54 }}>
         {/* Hero background image */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center 90%", backgroundRepeat: "no-repeat", opacity: 0.55 }} />
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center 20%", backgroundRepeat: "no-repeat", opacity: 0.55 }} />
         {/* Fade to page bg at bottom */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
