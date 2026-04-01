@@ -112,7 +112,7 @@ const AGENTS = [
   { name: "Finn", role: "Health", img: "/agents/finn.png", status: "standby", color: "#06b6d4", rgb: "6,182,212", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health", imgScale: "210%", imgTop: "0%" },
 ];
 
-const PIPELINE_SNAPSHOT = [
+const pipeline = [
   { co: "Ritual Beauty", value: "$6k/mo", stage: "Discovery", days: 0, urgent: false },
   { co: "MoonBrew", value: "$3.8k/mo", stage: "Negotiation", days: 18, urgent: true },
   { co: "Centr Fitness", value: "$4.2k/mo", stage: "Proposal", days: 6, urgent: false },
@@ -120,7 +120,7 @@ const PIPELINE_SNAPSHOT = [
   { co: "Strands Haircare", value: "$7.2k/mo", stage: "Negotiation", days: 22, urgent: true },
 ];
 
-const RECENT_BUILDS = [
+const recentBuilds = [
   { desc: "MoonBrew abandoned cart flow v3", env: "Klaviyo", date: "Today 09:31", ok: true },
   { desc: "Weekly metrics dashboard", env: "Vercel", date: "Today 11:15", ok: true },
   { desc: "Centr Fitness welcome series", env: "Klaviyo", date: "Yesterday", ok: true },
@@ -132,6 +132,7 @@ const RECENT_BUILDS = [
 export default function Home() {
   const [time, setTime] = useState("");
   const [greeting, setGreeting] = useState("Good morning");
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const tick = () => {
@@ -144,6 +145,21 @@ export default function Home() {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    fetch("/data.json").then(r => r.json()).then(setData).catch(() => {});
+  }, []);
+
+  const d = data || {};
+  const brief = d.brief || { date: brief.date, bullets: brief.bullets };
+  const emails = d.emails || emails;
+  const calendar = d.calendar || calendar;
+  const stats = d.stats || {};
+  const pipeline = d.pipeline || pipeline;
+  const recentBuilds = d.recentBuilds || recentBuilds;
+  const auditQueue = d.auditQueue || [];
+  const emailDrafts = d.emailDrafts || [];
+  const agentsData = d.agents || [];
 
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
@@ -179,7 +195,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
             style={{ textAlign: "right" }}>
             <div style={{ ...MO, fontSize: 40, fontWeight: 700, color: GREEN, letterSpacing: "0.02em", lineHeight: 1 }}>{time}</div>
-            <div style={{ ...MO, fontSize: 11, color: "#777", marginTop: 6 }}>{MORNING_BRIEF.date}</div>
+            <div style={{ ...MO, fontSize: 11, color: "#777", marginTop: 6 }}>{brief.date}</div>
           </motion.div>
         </div>
       </section>
@@ -188,11 +204,16 @@ export default function Home() {
       <section>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-            {REVENUE.map((s, i) => (
+            {[
+              { label: "MTD REVENUE", value: stats.mtdRevenue || "$42k" },
+              { label: "PIPELINE VALUE", value: stats.pipelineValue || "$180k" },
+              { label: "60-DAY FORECAST", value: stats.forecastValue || "$95k" },
+              { label: "ACTIVE CLIENTS", value: String(stats.clientsActive ?? 12) },
+            ].map((s, i) => (
               <Reveal key={s.label} delay={i * 0.06}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0" }}>
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    <CountUp value={s.value} /><span style={{ color: GREEN }}>{s.suffix}</span>
+                    <CountUp value={s.value} /><span style={{ color: GREEN }}>+</span>
                   </div>
                   <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.label}</div>
                 </div>
@@ -216,7 +237,7 @@ export default function Home() {
               <GlowCard style={{ padding: "22px 24px", height: "100%" }}>
                 <div style={{ ...MO, fontSize: 10, color: "#666", letterSpacing: "0.14em", marginBottom: 16 }}>BMO SAYS</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }}>
-                  {MORNING_BRIEF.bullets.map((b, i) => (
+                  {brief.bullets.map((b, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                       <span style={{ width: 5, height: 5, borderRadius: "50%", flexShrink: 0, marginTop: 6,
                         background: b.urgent ? "#ef4444" : GREEN,
@@ -236,9 +257,9 @@ export default function Home() {
             {/* Inbox */}
             <Reveal delay={0.1}>
               <GlowCard style={{ padding: "22px 24px" }}>
-                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>INBOX — {MORNING_BRIEF.emails.length} UNREAD</div>
-                {MORNING_BRIEF.emails.map((e, i) => (
-                  <div key={i} style={{ paddingBottom: i < MORNING_BRIEF.emails.length - 1 ? 12 : 0, marginBottom: i < MORNING_BRIEF.emails.length - 1 ? 12 : 0, borderBottom: i < MORNING_BRIEF.emails.length - 1 ? "1px solid #111" : "none" }}>
+                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>INBOX — {emails.length} UNREAD</div>
+                {emails.map((e, i) => (
+                  <div key={i} style={{ paddingBottom: i < emails.length - 1 ? 12 : 0, marginBottom: i < emails.length - 1 ? 12 : 0, borderBottom: i < emails.length - 1 ? "1px solid #111" : "none" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
                       <span style={{ fontSize: 13, fontWeight: 600, color: "#ccc" }}>{e.from}</span>
                       <span style={{ ...MO, fontSize: 10, color: "#777" }}>{e.time}</span>
@@ -259,8 +280,8 @@ export default function Home() {
             <Reveal delay={0.14}>
               <GlowCard style={{ padding: "22px 24px" }}>
                 <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>TODAY'S SCHEDULE</div>
-                {MORNING_BRIEF.calendar.map((c, i) => (
-                  <div key={i} style={{ display: "flex", gap: 14, paddingBottom: i < MORNING_BRIEF.calendar.length - 1 ? 14 : 0, marginBottom: i < MORNING_BRIEF.calendar.length - 1 ? 14 : 0, borderBottom: i < MORNING_BRIEF.calendar.length - 1 ? "1px solid #111" : "none" }}>
+                {calendar.map((c, i) => (
+                  <div key={i} style={{ display: "flex", gap: 14, paddingBottom: i < calendar.length - 1 ? 14 : 0, marginBottom: i < calendar.length - 1 ? 14 : 0, borderBottom: i < calendar.length - 1 ? "1px solid #111" : "none" }}>
                     <div style={{ ...MO, fontSize: 10, color: GREEN, width: 42, flexShrink: 0, paddingTop: 1 }}>{c.time}</div>
                     <div>
                       <div style={{ fontSize: 13, color: "#ccc", marginBottom: 5 }}>{c.title}</div>
@@ -357,9 +378,9 @@ export default function Home() {
                 <SectionHeader label="SALES PIPELINE" title="Deals Needing Attention" href="/sales" />
               </Reveal>
               <GlowCard>
-                {PIPELINE_SNAPSHOT.map((d, i) => (
+                {pipeline.map((d, i) => (
                   <Reveal key={d.co} delay={i * 0.05}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < PIPELINE_SNAPSHOT.length - 1 ? "1px solid #111" : "none" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < pipeline.length - 1 ? "1px solid #111" : "none" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{d.co}</div>
                         <div style={{ fontSize: 12, color: "#888" }}>{d.stage}</div>
@@ -385,9 +406,9 @@ export default function Home() {
                 <SectionHeader label="BUILD STATUS" title="Recent Deployments" href="/build" />
               </Reveal>
               <GlowCard>
-                {RECENT_BUILDS.map((b, i) => (
+                {recentBuilds.map((b, i) => (
                   <Reveal key={i} delay={i * 0.06}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < RECENT_BUILDS.length - 1 ? "1px solid #111" : "none" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < recentBuilds.length - 1 ? "1px solid #111" : "none" }}>
                       <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: b.ok ? GREEN : "#ef4444", boxShadow: b.ok ? `0 0 5px ${GREEN}60` : "0 0 5px rgba(239,68,68,0.5)" }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, color: "#ccc", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>{b.desc}</div>
@@ -423,6 +444,72 @@ export default function Home() {
                 </Link>
               </Reveal>
             </div>
+          </div>
+        </section>
+
+        {/* ── EMAIL DRAFTS ────────────────────────────────────────────────── */}
+        <section style={{ padding: "56px 0 0" }}>
+          <Reveal>
+            <SectionHeader label="PENDING APPROVAL" title="Email Drafts" />
+          </Reveal>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {emailDrafts.map((e, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <GlowCard style={{ padding: "20px 24px" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: `1.5px solid ${GREEN}40` }}>
+                      <img src={`/agents/${e.agent.toLowerCase()}.png`} alt={e.agent} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{e.subject}</span>
+                        {e.urgent && <span style={{ ...MO, fontSize: 9, color: "#ef4444", background: "rgba(239,68,68,0.08)", padding: "2px 7px", borderRadius: 70, border: "1px solid rgba(239,68,68,0.2)", flexShrink: 0 }}>URGENT</span>}
+                      </div>
+                      <div style={{ ...MO, fontSize: 10, color: "#555", marginBottom: 6 }}>TO: {e.to} · DRAFTED BY {e.agent.toUpperCase()}</div>
+                      <div style={{ fontSize: 12, color: "#777", lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.preview}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                      <button style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: `${GREEN}15`, border: `1px solid ${GREEN}40`, color: GREEN, cursor: "pointer" }}>APPROVE</button>
+                      <button style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: "transparent", border: "1px solid #222", color: "#555", cursor: "pointer" }}>EDIT</button>
+                    </div>
+                  </div>
+                </GlowCard>
+              </Reveal>
+            ))}
+            {emailDrafts.length === 0 && <div style={{ ...MO, fontSize: 12, color: "#444", padding: "24px 0" }}>No drafts pending approval.</div>}
+          </div>
+        </section>
+
+        {/* ── AUDIT QUEUE ─────────────────────────────────────────────────── */}
+        <section style={{ padding: "56px 0 0" }}>
+          <Reveal>
+            <SectionHeader label="KLAVIYO AUDITS" title="Audit Queue" />
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
+            {auditQueue.map((a, i) => (
+              <Reveal key={i} delay={i * 0.05}>
+                <GlowCard style={{ padding: "20px 24px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{a.client}</div>
+                      <div style={{ fontSize: 12, color: "#888" }}>{a.type}</div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <span style={{ ...MO, fontSize: 9, padding: "3px 9px", borderRadius: 70, border: `1px solid ${a.status === "READY FOR REVIEW" ? GREEN : a.status === "IN PROGRESS" ? "#a855f7" : "#222"}40`, color: a.status === "READY FOR REVIEW" ? GREEN : a.status === "IN PROGRESS" ? "#a855f7" : "#444" }}>{a.status}</span>
+                      <div style={{ ...MO, fontSize: 10, color: "#555", marginTop: 5 }}>DUE {a.due}</div>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ ...MO, fontSize: 9, color: "#444" }}>{a.assignee}</span>
+                    <span style={{ ...MO, fontSize: 9, color: a.pct === 100 ? GREEN : "#555" }}>{a.pct}%</span>
+                  </div>
+                  <div style={{ background: "#1a1a1a", borderRadius: 3, height: 2 }}>
+                    <div style={{ width: `${a.pct}%`, height: 2, borderRadius: 3, background: a.pct === 100 ? GREEN : "#a855f7", boxShadow: a.pct === 100 ? `0 0 6px ${GREEN}60` : "none" }} />
+                  </div>
+                </GlowCard>
+              </Reveal>
+            ))}
+            {auditQueue.length === 0 && <div style={{ ...MO, fontSize: 12, color: "#444", padding: "24px 0" }}>No audits in queue.</div>}
           </div>
         </section>
 
@@ -472,6 +559,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 

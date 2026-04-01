@@ -1,0 +1,59 @@
+{
+  "stats": {
+    "mtdRevenue": "$42k",
+    "pipelineValue": "$180k",
+    "forecastValue": "$95k",
+    "clientsActive": 12
+  },
+  "brief": {
+    "date": "Wednesday, April 1 2026",
+    "bullets": [
+      { "text": "3 emails need your sign-off before 12pm", "urgent": true },
+      { "text": "Ritual Beauty discovery call at 2:00 PM today", "urgent": false },
+      { "text": "MoonBrew Klaviyo cart flow v3 is live", "urgent": false },
+      { "text": "Nexmail strategy review is overdue by 2 days", "urgent": true },
+      { "text": "Jolie Skin follow-up is 3 days overdue — Marceline is on it", "urgent": false }
+    ]
+  },
+  "emails": [
+    { "from": "Ritual Beauty", "subject": "Re: Partnership proposal — ready to move forward", "urgent": true, "time": "8:14am" },
+    { "from": "Jolie Skin", "subject": "Following up on our intro call last week", "urgent": false, "time": "9:02am" },
+    { "from": "Centr Fitness", "subject": "BFCM planning kickoff — can we get on a call?", "urgent": false, "time": "10:31am" }
+  ],
+  "calendar": [
+    { "time": "2:00 PM", "title": "Discovery call — Ritual Beauty", "tag": "SALES" },
+    { "time": "4:30 PM", "title": "Team sync — weekly review", "tag": "INTERNAL" },
+    { "time": "EOD", "title": "Review Nexmail strategy v2", "tag": "PRODUCT" }
+  ],
+  "agents": [
+    { "name": "BMO", "role": "Chief of Staff", "status": "active", "task": "Morning brief compiled", "tasksToday": 18, "progress": 72 },
+    { "name": "Marceline", "role": "BD & Sales", "status": "active", "task": "3 follow-up sequences triggered", "tasksToday": 11, "progress": 60 },
+    { "name": "PB", "role": "Research Intel", "status": "standby", "task": "Nexmail strategy 45% complete", "tasksToday": 4, "progress": 45 },
+    { "name": "Jake", "role": "Builder", "status": "active", "task": "MoonBrew cart flow v3 deployed", "tasksToday": 9, "progress": 80 },
+    { "name": "Finn", "role": "Health", "status": "standby", "task": "Week 8 tirzepatide logged", "tasksToday": 3, "progress": 30 }
+  ],
+  "pipeline": [
+    { "co": "Ritual Beauty", "value": "$6k/mo", "stage": "Discovery", "daysSinceContact": 0, "urgent": false },
+    { "co": "MoonBrew", "value": "$3.8k/mo", "stage": "Negotiation", "daysSinceContact": 18, "urgent": true },
+    { "co": "Centr Fitness", "value": "$4.2k/mo", "stage": "Proposal", "daysSinceContact": 6, "urgent": false },
+    { "co": "Jolie Skin", "value": "$4.1k/mo", "stage": "Qualified", "daysSinceContact": 14, "urgent": true },
+    { "co": "Strands Haircare", "value": "$7.2k/mo", "stage": "Negotiation", "daysSinceContact": 22, "urgent": true }
+  ],
+  "auditQueue": [
+    { "client": "MoonBrew", "type": "Klaviyo Full Audit", "status": "IN PROGRESS", "pct": 65, "assignee": "Jake", "due": "Apr 3" },
+    { "client": "James Michelle", "type": "Flow Performance Review", "status": "READY FOR REVIEW", "pct": 100, "assignee": "PB", "due": "Today" },
+    { "client": "Centr Fitness", "type": "Welcome Series Audit", "status": "IN PROGRESS", "pct": 30, "assignee": "Jake", "due": "Apr 5" },
+    { "client": "LA Clippers", "type": "Q2 Loyalty Program Audit", "status": "QUEUED", "pct": 0, "assignee": "PB", "due": "Apr 7" }
+  ],
+  "emailDrafts": [
+    { "to": "Ritual Beauty", "subject": "Partnership proposal — next steps", "preview": "Following our call today, I wanted to outline what a partnership could look like...", "agent": "BMO", "urgent": true },
+    { "to": "Jolie Skin", "subject": "Checking in — email strategy", "preview": "Hi — just wanted to follow up on our intro call and share a few initial thoughts on your email setup...", "agent": "Marceline", "urgent": false },
+    { "to": "Centr Fitness", "subject": "BFCM planning — proposed timeline", "preview": "Ahead of our kickoff call, here's a rough timeline for BFCM prep based on your current setup...", "agent": "BMO", "urgent": false }
+  ],
+  "recentBuilds": [
+    { "desc": "MoonBrew abandoned cart flow v3", "env": "Klaviyo", "date": "Today 09:31", "ok": true },
+    { "desc": "Weekly metrics dashboard", "env": "Vercel", "date": "Today 11:15", "ok": true },
+    { "desc": "Centr Fitness welcome series", "env": "Klaviyo", "date": "Yesterday", "ok": true },
+    { "desc": "Gorgias webhook patch", "env": "n8n", "date": "Mar 31", "ok": false }
+  ]
+}
