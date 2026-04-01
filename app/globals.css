@@ -13,7 +13,4 @@ body { font-family: 'Inter', sans-serif; background: #0D0D0D; color: #fff; }
 
 @keyframes gPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-:root {
-  --bmo-x: -999px;
-  --bmo-y: -999px;
-}
+
