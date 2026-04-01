@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const IN = { fontFamily: "'Inter', sans-serif" };
-const MO = { fontFamily: "'Space Mono', monospace" };
 const GREEN = "#C4F000";
 
 const links = [
@@ -18,55 +16,102 @@ const links = [
 
 export default function Nav() {
   const pathname = usePathname();
-  const [time, setTime] = useState("");
-  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const tick = () => setTime(new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }));
-    tick();
-    const id = setInterval(tick, 30000);
-    return () => clearInterval(id);
+    const fn = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   return (
     <nav style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, height: 54,
-      background: "rgba(13,13,13,0.9)", backdropFilter: "blur(20px)",
-      borderBottom: "1px solid #1a1a1a",
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+      height: 58,
+      background: scrolled ? "rgba(10,10,10,0.97)" : "#0a0a0a",
+      backdropFilter: "blur(20px)",
+      borderBottom: scrolled ? "1px solid #1a1a1a" : "1px solid transparent",
       display: "flex", alignItems: "center",
+      transition: "border-color 0.3s, background 0.3s",
     }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", width: "100%", padding: "0 60px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{
+        maxWidth: 1440, margin: "0 auto", width: "100%",
+        padding: "0 40px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
 
-        {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-          <div style={{ width: 28, height: 28, borderRadius: 6, background: GREEN, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ ...IN, fontWeight: 900, fontSize: 13, color: "#0D0D0D", lineHeight: 1 }}>S</span>
-          </div>
-          <span style={{ ...IN, fontWeight: 700, fontSize: 14, color: "#fff", letterSpacing: "-0.01em" }}>BMO Media</span>
-          <span style={{ ...MO, fontSize: 8, color: "#444", marginLeft: 2 }}>AI OS</span>
+        {/* Logo — matches BMO MEDIA wordmark */}
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <span style={{
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 800, fontSize: 16,
+            color: "#fff", letterSpacing: "0.01em",
+          }}>BMO MEDIA</span>
         </Link>
 
-        {/* Links */}
-        <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+        {/* Centre nav links — pill buttons like their site */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           {links.map((l) => {
             const active = pathname === l.href;
             return (
               <Link key={l.href} href={l.href} style={{
-                ...IN, fontSize: 13, fontWeight: active ? 600 : 400,
-                color: active ? "#fff" : "#555",
-                textDecoration: "none", padding: "0 14px", height: 54, display: "flex", alignItems: "center",
-                borderBottom: active ? `2px solid ${GREEN}` : "2px solid transparent",
-                transition: "color 0.2s",
+                textDecoration: "none",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13, fontWeight: 500,
+                color: active ? "#fff" : "rgba(255,255,255,0.65)",
+                background: active ? "#1c1c1c" : "#161616",
+                border: "1px solid",
+                borderColor: active ? "#2a2a2a" : "#1e1e1e",
+                borderRadius: 8,
+                padding: "7px 16px",
+                display: "flex", alignItems: "center", gap: 5,
+                transition: "all 0.15s",
+                whiteSpace: "nowrap",
               }}
-                onMouseEnter={e => { if (!active) e.currentTarget.style.color = "#aaa"; }}
-                onMouseLeave={e => { if (!active) e.currentTarget.style.color = "#555"; }}
-              >{l.label}</Link>
+                onMouseEnter={e => {
+                  if (!active) {
+                    e.currentTarget.style.color = "#fff";
+                    e.currentTarget.style.background = "#1c1c1c";
+                    e.currentTarget.style.borderColor = "#2a2a2a";
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!active) {
+                    e.currentTarget.style.color = "rgba(255,255,255,0.65)";
+                    e.currentTarget.style.background = "#161616";
+                    e.currentTarget.style.borderColor = "#1e1e1e";
+                  }
+                }}
+              >
+                {l.label}
+              </Link>
             );
           })}
         </div>
 
-        {/* Right */}
-        <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.08em" }}>{time}</div>
+        {/* Right CTA — green outlined button */}
+        <Link href="/agents?chat=1" style={{
+          textDecoration: "none",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 13, fontWeight: 600,
+          color: GREEN,
+          background: "transparent",
+          border: `1px solid ${GREEN}`,
+          borderRadius: 8,
+          padding: "7px 20px",
+          transition: "all 0.15s",
+          whiteSpace: "nowrap",
+        }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = `${GREEN}12`;
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = "transparent";
+          }}
+        >
+          Talk to BMO
+        </Link>
+
       </div>
     </nav>
   );
