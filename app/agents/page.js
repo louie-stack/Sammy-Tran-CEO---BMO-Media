@@ -229,7 +229,7 @@ function AgentsPageInner() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 16 }}>
                   <span style={{ width: 5, height: 5, borderRadius: "50%", background: ag.color, opacity: on ? 1 : 0.25, boxShadow: on ? `0 0 6px rgba(${ag.rgb},0.5)` : "none", animation: on && ag.status === "active" ? "gPulse 2s ease-in-out infinite" : "none", display: "block" }} />
                   <span style={{ fontSize: 13, fontWeight: 700, color: on ? "#fff" : "#3a3a3a" }}>{ag.name}</span>
-                  {!isMobile && <span style={{ ...MO, fontSize: 10, color: on ? `rgba(${ag.rgb},0.6)` : "#2a2a2a" }}>{ag.role}</span>}
+
                 </div>
               </div>
             );
