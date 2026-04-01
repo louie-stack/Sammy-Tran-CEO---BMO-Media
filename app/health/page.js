@@ -12,7 +12,7 @@ function Reveal({ children, delay = 0, y = 30 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.12 });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
       {children}
     </motion.div>
   );
@@ -54,7 +54,7 @@ export default function HealthPage() {
   const [hovDay, setHovDay] = useState(null);
 
   return (
-    <div style={{ background: "#0D0D0D", minHeight: "100vh", color: "#E8E8F0" }}>
+    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
       <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
 
       {/* Hero */}
@@ -66,7 +66,7 @@ export default function HealthPage() {
               <span style={{ ...mo, fontSize: 9, color: "rgba(6,182,212,0.7)", letterSpacing: "0.18em" }}>FINN — HEALTH & WELLNESS</span>
             </div>
             <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Health Dashboard</h1>
-            <p style={{ ...mo, fontSize: 11, color: "#2a3040" }}>BP tracking · tirzepatide cycle · workouts · sciatica management</p>
+            <p style={{ ...mo, fontSize: 11, color: "#333" }}>BP tracking · tirzepatide cycle · workouts · sciatica management</p>
           </motion.div>
         </div>
       </div>
@@ -80,22 +80,22 @@ export default function HealthPage() {
             <GlowCard style={{ padding: "32px 40px", textAlign: "center", minWidth: 190 }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 80, background: "linear-gradient(180deg, rgba(6,182,212,0.06) 0%, transparent 100%)", borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
               <div style={{ position: "relative" }}>
-                <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 12 }}>WELLNESS SCORE</div>
+                <div style={{ ...mo, fontSize: 9, color: "#333", letterSpacing: "0.15em", marginBottom: 12 }}>WELLNESS SCORE</div>
                 <div style={{ ...IN, fontSize: 62, fontWeight: 900, color: "#06b6d4", lineHeight: 1 }}>7.8</div>
-                <div style={{ ...mo, fontSize: 11, color: "#2a3040", marginTop: 4 }}>/ 10</div>
+                <div style={{ ...mo, fontSize: 11, color: "#333", marginTop: 4 }}>/ 10</div>
                 <div style={{ ...mo, fontSize: 9, color: "#10b981", marginTop: 14 }}>↑ +0.3 vs last week</div>
               </div>
             </GlowCard>
             {/* Breakdown */}
             <GlowCard style={{ padding: "26px 30px" }}>
-              <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 18 }}>BREAKDOWN</div>
+              <div style={{ ...mo, fontSize: 9, color: "#333", letterSpacing: "0.15em", marginBottom: 18 }}>BREAKDOWN</div>
               {wellnessBreakdown.map((w) => (
                 <div key={w.label} style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                  <span style={{ fontSize: 12, color: "#4a5570", width: 70, flexShrink: 0 }}>{w.label}</span>
-                  <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 4, height: 5 }}>
+                  <span style={{ fontSize: 12, color: "#555", width: 70, flexShrink: 0 }}>{w.label}</span>
+                  <div style={{ flex: 1, background: "#111", borderRadius: 4, height: 5 }}>
                     <div style={{ width: `${(w.score / 10) * 100}%`, height: 5, borderRadius: 4, background: w.color, transition: "width 0.6s ease" }} />
                   </div>
-                  <span style={{ ...mo, fontSize: 11, color: "#3a4555", width: 28, textAlign: "right" }}>{w.score}</span>
+                  <span style={{ ...mo, fontSize: 11, color: "#444", width: 28, textAlign: "right" }}>{w.score}</span>
                 </div>
               ))}
             </GlowCard>
@@ -112,7 +112,7 @@ export default function HealthPage() {
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                   <span style={{ ...mo, fontSize: 9, color: "#06b6d4" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>BLOOD PRESSURE — 14 DAYS</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>BLOOD PRESSURE — 14 DAYS</span>
                 </div>
               </Reveal>
               <GlowCard style={{ padding: "24px 26px" }}>
@@ -135,9 +135,9 @@ export default function HealthPage() {
                   })}
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-                  <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>Mar 19</span>
+                  <span style={{ ...mo, fontSize: 8, color: "#333" }}>Mar 19</span>
                   <span style={{ ...mo, fontSize: 10, color: "#06b6d4" }}>Latest: 121/79</span>
-                  <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>Apr 1</span>
+                  <span style={{ ...mo, fontSize: 8, color: "#333" }}>Apr 1</span>
                 </div>
                 <div style={{ display: "flex", gap: 16 }}>
                   <span style={{ ...mo, fontSize: 9, color: "#10b981" }}>● Normal</span>
@@ -151,7 +151,7 @@ export default function HealthPage() {
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                   <span style={{ ...mo, fontSize: 9, color: "#06b6d4" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>TIRZEPATIDE CYCLE</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>TIRZEPATIDE CYCLE</span>
                 </div>
               </Reveal>
               <GlowCard style={{ padding: "24px 26px" }}>
@@ -161,16 +161,16 @@ export default function HealthPage() {
                     {[{ l: "Week", v: "8 / 12" }, { l: "Dose", v: "7.5mg" }, { l: "Next Dose", v: "Apr 8" }].map(s => (
                       <div key={s.l} style={{ textAlign: "center", padding: "12px", background: "rgba(6,182,212,0.04)", borderRadius: 8, border: "1px solid rgba(6,182,212,0.08)" }}>
                         <div style={{ ...IN, fontSize: 18, fontWeight: 800, color: "#06b6d4" }}>{s.v}</div>
-                        <div style={{ ...mo, fontSize: 8, color: "#2a3040", marginTop: 3 }}>{s.l}</div>
+                        <div style={{ ...mo, fontSize: 8, color: "#333", marginTop: 3 }}>{s.l}</div>
                       </div>
                     ))}
                   </div>
-                  <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 5, height: 5 }}>
+                  <div style={{ background: "#111", borderRadius: 5, height: 5 }}>
                     <div style={{ width: "66%", height: 5, borderRadius: 5, background: "linear-gradient(90deg, #06b6d4, #3b82f6)" }} />
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
-                    <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>Wk 1 · 2.5mg</span>
-                    <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>Wk 12 · 15mg</span>
+                    <span style={{ ...mo, fontSize: 8, color: "#333" }}>Wk 1 · 2.5mg</span>
+                    <span style={{ ...mo, fontSize: 8, color: "#333" }}>Wk 12 · 15mg</span>
                   </div>
                 </div>
               </GlowCard>
@@ -185,7 +185,7 @@ export default function HealthPage() {
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                   <span style={{ ...mo, fontSize: 9, color: "#06b6d4" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>WORKOUT LOG — THIS WEEK</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>WORKOUT LOG — THIS WEEK</span>
                 </div>
               </Reveal>
               <GlowCard style={{ padding: "22px 24px" }}>
@@ -194,7 +194,7 @@ export default function HealthPage() {
                     <div key={w.day} style={{ flex: 1, textAlign: "center" }}>
                       <div style={{
                         background: w.done && !w.rest ? "rgba(6,182,212,0.08)" : "rgba(255,255,255,0.02)",
-                        border: `1px solid ${w.done && !w.rest ? "rgba(6,182,212,0.18)" : "rgba(255,255,255,0.04)"}`,
+                        border: `1px solid ${w.done && !w.rest ? "rgba(6,182,212,0.18)" : "#111"}`,
                         borderRadius: 8, padding: "12px 4px", marginBottom: 6,
                         opacity: w.done ? 1 : 0.35,
                       }}>
@@ -203,7 +203,7 @@ export default function HealthPage() {
                           {w.type.split(" ").map((word, i) => <div key={i}>{word}</div>)}
                         </div>
                       </div>
-                      <div style={{ ...mo, fontSize: 9, color: "#2a3040" }}>{w.day}</div>
+                      <div style={{ ...mo, fontSize: 9, color: "#333" }}>{w.day}</div>
                     </div>
                   ))}
                 </div>
@@ -215,21 +215,21 @@ export default function HealthPage() {
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                   <span style={{ ...mo, fontSize: 9, color: "#06b6d4" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>SCIATICA / BACK LOG</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>SCIATICA / BACK LOG</span>
                 </div>
               </Reveal>
               {sciaticaLog.map((s, i) => (
                 <Reveal key={i} delay={i * 0.07}>
                   <GlowCard style={{ padding: "16px 20px", marginBottom: 10, borderLeft: `2px solid ${s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981"}` }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                      <span style={{ ...mo, fontSize: 10, color: "#3a4555" }}>{s.date}</span>
+                      <span style={{ ...mo, fontSize: 10, color: "#444" }}>{s.date}</span>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 3 }}>
-                        <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>PAIN</span>
+                        <span style={{ ...mo, fontSize: 8, color: "#333" }}>PAIN</span>
                         <span style={{ ...IN, fontSize: 18, fontWeight: 800, color: s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981" }}>{s.pain}</span>
-                        <span style={{ ...mo, fontSize: 9, color: "#2a3040" }}>/10</span>
+                        <span style={{ ...mo, fontSize: 9, color: "#333" }}>/10</span>
                       </div>
                     </div>
-                    <p style={{ fontSize: 12, color: "#4a5570", lineHeight: 1.65 }}>{s.notes}</p>
+                    <p style={{ fontSize: 12, color: "#555", lineHeight: 1.65 }}>{s.notes}</p>
                   </GlowCard>
                 </Reveal>
               ))}
@@ -240,6 +240,8 @@ export default function HealthPage() {
     </div>
   );
 }
+
+
 
 
 
