@@ -207,7 +207,7 @@ export default function SalesPage() {
                     <div style={{ fontSize: "clamp(1.5rem, 1.8vw, 2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
                       <CountUp value={s.value} />
                     </div>
-                    <div style={{ fontSize: 12, color: GREEN, marginTop: 6, fontWeight: 500 }}>{s.label}</div>
+                    <div style={{ fontSize: 11, color: GREEN, marginTop: 6, fontWeight: 400 }}>{s.label}</div>
                   </div>
                 </Reveal>
               ))}
