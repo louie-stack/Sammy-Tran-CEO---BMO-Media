@@ -65,10 +65,10 @@ const MORNING_BRIEF = {
 };
 
 const REVENUE = [
-  { label: "MTD REVENUE", value: "$42k", suffix: "", sub: "5 deals closed", color: GREEN },
-  { label: "PIPELINE VALUE", value: "$180k", suffix: "", sub: "16 active deals", color: "#fff" },
-  { label: "60-DAY FORECAST", value: "$95k", suffix: "", sub: "Based on velocity", color: "#fff" },
-  { label: "ACTIVE CLIENTS", value: "12", suffix: "", sub: "2 in onboarding", color: "#fff" },
+  { label: "MTD REVENUE", value: "$42k", suffix: "+", sub: "5 deals closed", color: GREEN },
+  { label: "PIPELINE VALUE", value: "$180k", suffix: "+", sub: "16 active deals", color: "#fff" },
+  { label: "60-DAY FORECAST", value: "$95k", suffix: "+", sub: "Based on velocity", color: "#fff" },
+  { label: "ACTIVE CLIENTS", value: "12", suffix: "+", sub: "2 in onboarding", color: "#fff" },
 ];
 
 const PROJECTS = [
@@ -166,11 +166,11 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {REVENUE.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.06}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0", borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingRight: i < 3 ? 40 : 0 }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 0" }}>
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
                     {s.value}<span style={{ color: GREEN }}>{s.suffix}</span>
                   </div>
-                  <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.sub || s.label}</div>
+                  <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.sub}</div>
                 </div>
               </Reveal>
             ))}
