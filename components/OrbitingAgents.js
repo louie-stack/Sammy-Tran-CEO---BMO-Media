@@ -19,8 +19,7 @@ const OrbitPath = memo(({ radius, color, delay = 0 }) => (
     width: radius * 2, height: radius * 2,
     transform: "translate(-50%, -50%)",
     borderRadius: "50%",
-    border: `1px solid rgba(196,240,0,0.08)`,
-    boxShadow: `0 0 24px rgba(196,240,0,0.04), inset 0 0 24px rgba(196,240,0,0.02)`,
+    border: `1px solid rgba(196,240,0,0.07)`,
     pointerEvents: "none",
   }} />
 ));
@@ -45,27 +44,15 @@ const AgentDot = memo(({ agent, angle, paused, onClick }) => {
       onMouseLeave={() => setHovered(false)}
       onClick={() => onClick && onClick(agent)}
     >
-      {/* Outer glow ring */}
-      {hovered && (
-        <div style={{
-          position: "absolute", inset: -8, borderRadius: "50%",
-          background: `radial-gradient(circle, ${agent.glowColor}22 0%, transparent 70%)`,
-          animation: "pulse 1.5s ease-in-out infinite",
-        }} />
-      )}
-
       {/* Dot */}
       <div style={{
         width: "100%", height: "100%", borderRadius: "50%",
-        background: hovered ? `rgba(13,13,13,0.95)` : "#111",
+        background: hovered ? "#161616" : "#111",
         border: `1.5px solid ${hovered ? agent.color : "rgba(255,255,255,0.08)"}`,
-        boxShadow: hovered
-          ? `0 0 20px ${agent.glowColor}55, 0 0 40px ${agent.glowColor}22`
-          : "none",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: agent.size * 0.44,
-        transform: hovered ? "scale(1.22)" : "scale(1)",
-        transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
+        transform: hovered ? "scale(1.18)" : "scale(1)",
+        transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
       }}>
         {agent.emoji}
       </div>
@@ -121,8 +108,7 @@ export default function OrbitingAgents({ onAgentClick }) {
       <div style={{
         width: 80, height: 80, borderRadius: "50%", zIndex: 5,
         background: "#111",
-        border: `1.5px solid rgba(196,240,0,0.3)`,
-        boxShadow: `0 0 36px rgba(196,240,0,0.18), 0 0 72px rgba(196,240,0,0.07)`,
+        border: `1.5px solid rgba(196,240,0,0.2)`,
         display: "flex", alignItems: "center", justifyContent: "center",
         flexDirection: "column", gap: 2,
         cursor: "pointer",

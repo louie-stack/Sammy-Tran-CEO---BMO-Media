@@ -250,7 +250,7 @@ function AgentsPageInner() {
             borderRadius: 12,
             background: "#0D0D0D",
             border: `1px solid rgba(${a.rgb},0.18)`,
-            boxShadow: `0 0 40px rgba(${a.rgb},0.06), 0 0 80px rgba(${a.rgb},0.03)`,
+            
             position: "relative", overflow: "hidden",
             transition: "border-color 0.4s, box-shadow 0.4s",
           }}>
@@ -351,7 +351,7 @@ function AgentsPageInner() {
         width: 52, height: 52, borderRadius: "50%",
         background: chatOpen ? `rgba(${ca.color},0.14)` : "rgba(13,13,13,0.95)",
         border: `1px solid rgba(${ca.color},0.3)`,
-        boxShadow: `0 0 20px rgba(${ca.color},0.2), 0 8px 24px rgba(0,0,0,0.6)`,
+        boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
         display: "flex", alignItems: "center", justifyContent: "center",
         cursor: "pointer", transition: "all 0.25s",
       }}>
@@ -367,7 +367,7 @@ function AgentsPageInner() {
         width: isMobile ? "calc(100vw - 32px)" : 370, maxHeight: "62vh",
         borderRadius: 14, background: "rgba(10,10,10,0.97)",
         border: `1px solid rgba(${ca.color},0.18)`,
-        boxShadow: `0 0 40px rgba(${ca.color},0.1), 0 24px 60px rgba(0,0,0,0.7)`,
+        boxShadow: "0 16px 48px rgba(0,0,0,0.7)",
         display: "flex", flexDirection: "column", overflow: "hidden",
         transform: chatOpen ? "translateY(0) scale(1)" : "translateY(16px) scale(0.97)",
         opacity: chatOpen ? 1 : 0, pointerEvents: chatOpen ? "all" : "none",
@@ -445,5 +445,6 @@ function AgentsPageInner() {
 export default function AgentsPage() {
   return <Suspense fallback={null}><AgentsPageInner /></Suspense>;
 }
+
 
 

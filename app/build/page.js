@@ -139,7 +139,7 @@ export default function BuildPage() {
               <GlowCard style={{ padding: "20px 22px" }}>
                 {deployments.map((d, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, paddingBottom: i < deployments.length - 1 ? 12 : 0, marginBottom: i < deployments.length - 1 ? 12 : 0, borderBottom: i < deployments.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: d.ok ? "#10b981" : "#ef4444", boxShadow: `0 0 6px ${d.ok ? "rgba(16,185,129,0.5)" : "rgba(239,68,68,0.5)"}` }} />
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: d.ok ? "#10b981" : "#ef4444",  }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 12, color: "#aaa", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 1 }}>{d.desc}</div>
                       <div style={{ ...mo, fontSize: 11, color: "#777" }}>{d.env} · {d.date}</div>
@@ -173,6 +173,7 @@ export default function BuildPage() {
     </div>
   );
 }
+
 
 
 
