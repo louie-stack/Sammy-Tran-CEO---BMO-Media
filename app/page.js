@@ -112,15 +112,15 @@ const AGENTS = [
   { name: "Finn", role: "Health", img: "/agents/finn.png", status: "standby", color: "#06b6d4", rgb: "6,182,212", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health", imgScale: "210%", imgTop: "0%" },
 ];
 
-const pipeline = [
-  { co: "Ritual Beauty", value: "$6k/mo", stage: "Discovery", days: 0, urgent: false },
-  { co: "MoonBrew", value: "$3.8k/mo", stage: "Negotiation", days: 18, urgent: true },
-  { co: "Centr Fitness", value: "$4.2k/mo", stage: "Proposal", days: 6, urgent: false },
-  { co: "Jolie Skin", value: "$4.1k/mo", stage: "Qualified", days: 14, urgent: true },
-  { co: "Strands Haircare", value: "$7.2k/mo", stage: "Negotiation", days: 22, urgent: true },
+const PIPELINE_SNAPSHOT = [
+  { co: "Ritual Beauty", value: "$6k/mo", stage: "Discovery", daysSinceContact: 0, urgent: false },
+  { co: "MoonBrew", value: "$3.8k/mo", stage: "Negotiation", daysSinceContact: 18, urgent: true },
+  { co: "Centr Fitness", value: "$4.2k/mo", stage: "Proposal", daysSinceContact: 6, urgent: false },
+  { co: "Jolie Skin", value: "$4.1k/mo", stage: "Qualified", daysSinceContact: 14, urgent: true },
+  { co: "Strands Haircare", value: "$7.2k/mo", stage: "Negotiation", daysSinceContact: 22, urgent: true },
 ];
 
-const recentBuilds = [
+const RECENT_BUILDS = [
   { desc: "MoonBrew abandoned cart flow v3", env: "Klaviyo", date: "Today 09:31", ok: true },
   { desc: "Weekly metrics dashboard", env: "Vercel", date: "Today 11:15", ok: true },
   { desc: "Centr Fitness welcome series", env: "Klaviyo", date: "Yesterday", ok: true },
