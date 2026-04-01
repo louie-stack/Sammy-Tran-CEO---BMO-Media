@@ -27,7 +27,8 @@ const agents = [
       { task: "Draft reply — Ritual Beauty", project: "Inbox", pct: 80 },
       { task: "Route research to PB", project: "Centr Fitness", pct: null },
     ],
-    video: null,
+    video: "/agents/bmo.mp4",
+    img: "/agents/bmo.png",
   },
   {
     id: "marceline", name: "MARCELINE", role: "Sales & BD Lead", rank: "02",
@@ -42,7 +43,8 @@ const agents = [
       { task: "Draft proposal — Centr Fitness", project: "Sales", pct: 60 },
       { task: "Pipeline report — weekly", project: "All deals", pct: 100 },
     ],
-    video: null,
+    video: "/agents/marceline.mp4",
+    img: "/agents/marceline.png",
   },
   {
     id: "pb", name: "PRINCESS BUBBLEGUM", role: "Research & Strategy", rank: "03",
@@ -57,7 +59,8 @@ const agents = [
       { task: "Nexmail strategy v2", project: "Product", pct: 45 },
       { task: "Retention.com competitive update", project: "Intel", pct: 100 },
     ],
-    video: null,
+    video: "/agents/pb.mp4",
+    img: "/agents/pb.png",
   },
   {
     id: "jake", name: "JAKE", role: "Builder", rank: "04",
@@ -72,7 +75,8 @@ const agents = [
       { task: "Fix Gorgias webhook auth", project: "n8n", pct: 40 },
       { task: "Weekly metrics dashboard", project: "Reporting", pct: 100 },
     ],
-    video: null,
+    video: "/agents/jake.mp4",
+    img: "/agents/jake.png",
   },
   {
     id: "finn", name: "FINN", role: "Health & Wellness", rank: "05",
@@ -87,7 +91,8 @@ const agents = [
       { task: "Week 8 tirzepatide log", project: "Cycle", pct: 100 },
       { task: "Weekly wellness summary", project: "Report", pct: null },
     ],
-    video: null,
+    video: "/agents/finn.mp4",
+    img: "/agents/finn.png",
   },
 ];
 
@@ -445,6 +450,7 @@ function AgentsPageInner() {
 export default function AgentsPage() {
   return <Suspense fallback={null}><AgentsPageInner /></Suspense>;
 }
+
 
 
 
