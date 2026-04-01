@@ -151,12 +151,12 @@ export default function Home() {
   }, []);
 
   const d = data || {};
-  const brief = d.brief || { date: brief.date, bullets: brief.bullets };
-  const emails = d.emails || emails;
-  const calendar = d.calendar || calendar;
+  const brief = d.brief || { date: MORNING_BRIEF.date, bullets: MORNING_BRIEF.bullets };
+  const emails = d.emails || MORNING_BRIEF.emails;
+  const calendar = d.calendar || MORNING_BRIEF.calendar;
   const stats = d.stats || {};
-  const pipeline = d.pipeline || pipeline;
-  const recentBuilds = d.recentBuilds || recentBuilds;
+  const pipeline = d.pipeline || PIPELINE_SNAPSHOT;
+  const recentBuilds = d.recentBuilds || RECENT_BUILDS;
   const auditQueue = d.auditQueue || [];
   const emailDrafts = d.emailDrafts || [];
   const agentsData = d.agents || [];
@@ -378,20 +378,20 @@ export default function Home() {
                 <SectionHeader label="SALES PIPELINE" title="Deals Needing Attention" href="/sales" />
               </Reveal>
               <GlowCard>
-                {pipeline.map((d, i) => (
-                  <Reveal key={d.co} delay={i * 0.05}>
+                {pipeline.map((pl, i) => (
+                  <Reveal key={pl.co} delay={i * 0.05}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < pipeline.length - 1 ? "1px solid #111" : "none" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{d.co}</div>
-                        <div style={{ fontSize: 12, color: "#888" }}>{d.stage}</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{pl.co}</div>
+                        <div style={{ fontSize: 12, color: "#888" }}>{pl.stage}</div>
                       </div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{d.value}</div>
-                      {d.days > 0 && (
-                        <span style={{ ...MO, fontSize: 10, color: d.urgent ? "#ef4444" : "#555", background: d.urgent ? "rgba(239,68,68,0.08)" : "#1e1e1e", padding: "2px 7px", borderRadius: 70, border: `1px solid ${d.urgent ? "rgba(239,68,68,0.2)" : "#1f1f1f"}`, flexShrink: 0 }}>
-                          {d.days}d
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{pl.value}</div>
+                      {pl.daysSinceContact > 0 && (
+                        <span style={{ ...MO, fontSize: 10, color: pl.urgent ? "#ef4444" : "#555", background: pl.urgent ? "rgba(239,68,68,0.08)" : "#1e1e1e", padding: "2px 7px", borderRadius: 70, border: `1px solid ${pl.urgent ? "rgba(239,68,68,0.2)" : "#1f1f1f"}`, flexShrink: 0 }}>
+                          {pl.daysSinceContact}d
                         </span>
                       )}
-                      {d.days === 0 && (
+                      {pl.daysSinceContact === 0 && (
                         <span style={{ ...MO, fontSize: 10, color: GREEN, background: `${GREEN}10`, padding: "2px 7px", borderRadius: 70, border: `1px solid ${GREEN}25`, flexShrink: 0 }}>NEW</span>
                       )}
                     </div>
@@ -559,6 +559,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
