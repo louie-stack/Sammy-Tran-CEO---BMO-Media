@@ -105,10 +105,10 @@ const PROJECTS = [
 ];
 
 const AGENTS = [
-  { name: "BMO", role: "Chief of Staff", img: "/agents/bmo.png", status: "active", color: GREEN, rgb: "196,240,0", lastAction: "Morning brief compiled", tasksToday: 18, href: "/agents", imgScale: "145%", imgTop: "8%" },
+  { name: "BMO", role: "Chief of Staff", img: "/agents/bmo.png", status: "active", color: GREEN, rgb: "196,240,0", lastAction: "Morning brief compiled", tasksToday: 18, href: "/agents", imgScale: "145%", imgTop: "8%", cardBg: true },
   { name: "Marceline", role: "Sales & BD", img: "/agents/marceline.png", status: "active", color: "#a855f7", rgb: "168,85,247", lastAction: "3 follow-up sequences triggered", tasksToday: 11, href: "/sales", imgScale: "200%", imgTop: "0%" },
   { name: "Princess Bubblegum", role: "Research", img: "/agents/pb.png", status: "standby", color: "#ec4899", rgb: "236,72,153", lastAction: "Nexmail strategy 45% complete", tasksToday: 4, href: "/research", imgScale: "195%", imgTop: "0%" },
-  { name: "Jake", role: "Builder", img: "/agents/jake.png", status: "active", color: "#eab308", rgb: "234,179,8", lastAction: "MoonBrew cart flow v3 deployed", tasksToday: 9, href: "/build", imgScale: "125%", imgTop: "8%" },
+  { name: "Jake", role: "Builder", img: "/agents/jake.png", status: "active", color: "#eab308", rgb: "234,179,8", lastAction: "MoonBrew cart flow v3 deployed", tasksToday: 9, href: "/build", imgScale: "110%", imgTop: "8%", cardBg: true },
   { name: "Finn", role: "Health", img: "/agents/finn.png", status: "standby", color: "#06b6d4", rgb: "6,182,212", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health", imgScale: "210%", imgTop: "0%" },
 ];
 
@@ -320,7 +320,7 @@ export default function Home() {
                     onMouseEnter={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.35)`; e.currentTarget.style.transform = "translateY(-2px)"; }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.12)`; e.currentTarget.style.transform = "translateY(0)"; }}>
                     {/* Card header — gradient + image */}
-                    <div style={{ position: "relative", height: 160, overflow: "hidden", background: `linear-gradient(170deg, rgba(${a.rgb},0.18) 0%, rgba(${a.rgb},0.06) 45%, rgba(0,0,0,0.98) 100%)` }}>
+                    <div style={{ position: "relative", height: 160, overflow: "hidden", background: a.cardBg ? "#000" : `linear-gradient(170deg, rgba(${a.rgb},0.18) 0%, rgba(${a.rgb},0.06) 45%, rgba(0,0,0,0.98) 100%)` }}>
                       <div style={{ position: "absolute", top: "10%", left: "50%", width: 140, height: 140, borderRadius: "50%", background: `radial-gradient(circle, rgba(${a.rgb},0.15) 0%, transparent 65%)`, filter: "blur(18px)", transform: "translateX(-50%)" }} />
                       {a.img && <img src={a.img} alt={a.name} style={{ position: "absolute", top: a.imgTop || "0%", left: "50%", transform: "translateX(-50%)", height: a.imgScale || "120%", width: "auto", objectFit: "contain" }} />}
                       <div style={{ position: "absolute", top: 10, left: 12, display: "flex", alignItems: "center", gap: 5 }}>
