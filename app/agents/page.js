@@ -183,6 +183,8 @@ function AgentsPageInner() {
 
   return (
     <div style={{ ...IN, background: "#000", minHeight: "100vh", color: "#fff" }}>
+      {/* Page-level agent colour glow — fixed, bottom-right, over everything */}
+      <div style={{ position: "fixed", bottom: 0, right: 0, width: "55vw", height: "65vh", background: `radial-gradient(ellipse at 100% 100%, rgba(${a.rgb},0.2) 0%, transparent 65%)`, zIndex: 50, pointerEvents: "none", transition: "background 0.5s ease" }} />
       <style>{`@keyframes gPulse{0%,100%{opacity:0.5}50%{opacity:1}} @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.04)}} @keyframes dotPulse{0%,80%,100%{opacity:0}40%{opacity:1}}`}</style>
 
       <Nav />
@@ -329,9 +331,7 @@ function AgentsPageInner() {
                 <video key={a.video} src={a.video} autoPlay loop muted playsInline style={{ height: a.id === "jake" ? "62%" : a.id === "bmo" ? "76%" : "82%", width: "auto", display: "block", position: "relative", zIndex: 1 }} />
                 <div style={{ position: "absolute", top: 0, left: 0, width: "25%", height: "100%", background: "linear-gradient(90deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
-                {/* Agent colour glow — bottom-right, over video */}
-                <div style={{ position: "absolute", bottom: "-10%", right: "-10%", width: "70%", height: "70%", background: `radial-gradient(ellipse at 80% 80%, rgba(${a.rgb},0.18) 0%, transparent 65%)`, zIndex: 3, pointerEvents: "none", transition: "background 0.4s" }} />
-                <div style={{ position: "absolute", bottom: 0, right: 0, width: "40%", height: "40%", background: `radial-gradient(ellipse at 100% 100%, rgba(${a.rgb},0.12) 0%, transparent 70%)`, zIndex: 3, pointerEvents: "none", transition: "background 0.4s" }} />
+
               </>
             ) : (
               <>
