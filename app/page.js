@@ -10,6 +10,30 @@ const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
 const GREEN = "#C4F000";
 
+function CountUp({ value, duration = 1.6 }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const [display, setDisplay] = useState("0");
+
+  useEffect(() => {
+    if (!inView) return;
+    const prefix = value.startsWith("$") ? "$" : "";
+    const hasSuffix = value.endsWith("k");
+    const raw = parseFloat(value.replace(/[$k]/g, ""));
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - start) / (duration * 1000), 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(eased * raw);
+      setDisplay(`${prefix}${current}${hasSuffix ? "k" : ""}`);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [inView, value, duration]);
+
+  return <span ref={ref}>{display}</span>;
+}
+
 function Reveal({ children, delay = 0, y = 20 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.08 });
@@ -168,7 +192,7 @@ export default function Home() {
               <Reveal key={s.label} delay={i * 0.06}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0" }}>
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    {s.value}<span style={{ color: GREEN }}>{s.suffix}</span>
+                    <CountUp value={s.value} /><span style={{ color: GREEN }}>{s.suffix}</span>
                   </div>
                   <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.label}</div>
                 </div>
