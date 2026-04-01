@@ -165,15 +165,17 @@ export default function SalesPage() {
           </div>
 
           {/* Stats strip */}
-          <div style={{ padding: "16px 20px", borderTop: "1px solid #111" }}>
-            <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 12 }}>MONTH TOTALS</div>
+          <div style={{ padding: "20px 20px 24px", borderTop: "1px solid #111" }}>
+            <div style={{ ...MO, fontSize: 8, color: "#444", letterSpacing: "0.14em", marginBottom: 16 }}>MONTH TOTALS</div>
             {[
-              { label: "Closed MRR", value: `$${closedTotal.toFixed(0)}k` },
-              { label: "Active deals", value: String(activeDeals) },
+              { label: "Closed MRR", value: `$${closedTotal.toFixed(0)}k`, color: "#10b981" },
+              { label: "Active deals", value: String(activeDeals), color: PURPLE },
             ].map(s => (
-              <div key={s.label} style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ ...IN, fontSize: 11, color: "#555" }}>{s.label}</span>
-                <span style={{ ...MO, fontSize: 11, color: "#fff", fontWeight: 700 }}>{s.value}<span style={{ color: GREEN, fontSize: 9 }}>+</span></span>
+              <div key={s.label} style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 4 }}>
+                  {s.value}
+                </div>
+                <div style={{ ...MO, fontSize: 9, color: "#555", letterSpacing: "0.1em" }}>{s.label.toUpperCase()}</div>
               </div>
             ))}
           </div>
@@ -224,13 +226,13 @@ export default function SalesPage() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                       {col.deals.map((d, di) => (
-                        <ColourCard key={di} rgb={col.rgb} style={{ padding: "12px 14px", borderLeft: `2px solid rgba(${col.rgb},0.4)` }}>
-                          <div style={{ fontSize: 12, fontWeight: 600, color: "#d0d0d8", marginBottom: 3 }}>{d.co}</div>
-                          <div style={{ ...MO, fontSize: 9, color: "#444", marginBottom: 6 }}>{d.contact}</div>
+                        <ColourCard key={di} rgb={col.rgb} style={{ padding: "14px 16px", borderLeft: `2px solid rgba(${col.rgb},0.4)` }}>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: "#e0e0e8", marginBottom: 4 }}>{d.co}</div>
+                          <div style={{ ...MO, fontSize: 10, color: "#555", marginBottom: 8 }}>{d.contact}</div>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ ...MO, fontSize: 10, color: col.color }}>{d.value}</span>
-                            {d.days > 0 && <span style={{ ...MO, fontSize: 9, color: d.days > 12 ? "#f59e0b" : "#333", background: d.days > 12 ? "rgba(245,158,11,0.08)" : "#111", padding: "1px 6px", borderRadius: 3 }}>{d.days}d</span>}
-                            {col.key === "closed" && <span style={{ ...MO, fontSize: 9, color: "#10b981" }}>ACTIVE</span>}
+                            <span style={{ ...MO, fontSize: 12, fontWeight: 700, color: col.color }}>{d.value}</span>
+                            {d.days > 0 && <span style={{ ...MO, fontSize: 10, color: d.days > 12 ? "#f59e0b" : "#444", background: d.days > 12 ? "rgba(245,158,11,0.08)" : "#111", padding: "2px 7px", borderRadius: 3 }}>{d.days}d</span>}
+                            {col.key === "closed" && <span style={{ ...MO, fontSize: 10, color: "#10b981" }}>ACTIVE</span>}
                           </div>
                         </ColourCard>
                       ))}
