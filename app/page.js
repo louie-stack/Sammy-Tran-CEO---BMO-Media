@@ -327,7 +327,7 @@ export default function Home() {
               <Reveal>
                 <SectionHeader label="SALES PIPELINE" title="Deals Needing Attention" href="/sales" />
               </Reveal>
-              <GlowCard style={{ overflow: "hidden" }}>
+              <GlowCard>
                 {PIPELINE_SNAPSHOT.map((d, i) => (
                   <Reveal key={d.co} delay={i * 0.05}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < PIPELINE_SNAPSHOT.length - 1 ? "1px solid #111" : "none" }}>
@@ -355,7 +355,7 @@ export default function Home() {
               <Reveal>
                 <SectionHeader label="BUILD STATUS" title="Recent Deployments" href="/build" />
               </Reveal>
-              <GlowCard style={{ overflow: "hidden" }}>
+              <GlowCard>
                 {RECENT_BUILDS.map((b, i) => (
                   <Reveal key={i} delay={i * 0.06}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < RECENT_BUILDS.length - 1 ? "1px solid #111" : "none" }}>
@@ -441,5 +441,7 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 
