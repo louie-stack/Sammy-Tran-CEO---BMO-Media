@@ -128,19 +128,19 @@ export default function Home() {
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section style={{ paddingTop: 54, position: "relative", overflow: "hidden" }}>
-        {/* Hero background image */}
+        {/* Hero background image — shifted up to show characters */}
         <div style={{
-          position: "absolute", inset: 0,
+          position: "absolute", inset: "-60px 0 0 0",
           backgroundImage: "url('/hero-banner.png')",
-          backgroundSize: "cover", backgroundPosition: "center top",
+          backgroundSize: "cover", backgroundPosition: "center 30%",
           backgroundRepeat: "no-repeat",
-          opacity: 0.35,
+          opacity: 0.55,
         }} />
         {/* Fade to page bg at bottom */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.5) 50%, rgba(13,13,13,0.1) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 60px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 25%, transparent 75%, #0D0D0D 100%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
               style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14 }}>
@@ -148,7 +148,7 @@ export default function Home() {
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 1.2, delay: 0.1 }}
               style={{ lineHeight: 1.04, letterSpacing: "-0.035em" }}>
-              <span style={{ display: "block", color: "rgba(255,255,255,0.4)", fontWeight: 300, fontSize: "clamp(2.2rem, 3.5vw, 4rem)" }}>{greeting},</span>
+              <span style={{ display: "block", color: "#fff", fontWeight: 300, fontSize: "clamp(2.2rem, 3.5vw, 4rem)" }}>{greeting},</span>
               <span style={{ display: "block", fontWeight: 800, fontSize: "clamp(2.8rem, 5vw, 5.5rem)", color: "#fff" }}>Sammy.</span>
             </motion.h1>
           </div>
