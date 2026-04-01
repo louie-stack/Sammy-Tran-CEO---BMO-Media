@@ -166,7 +166,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {REVENUE.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.06}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "32px 0" }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0" }}>
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
                     {s.value}<span style={{ color: GREEN }}>{s.suffix}</span>
                   </div>
