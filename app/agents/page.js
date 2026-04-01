@@ -202,7 +202,7 @@ function AgentsPageInner() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                 <span style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em" }}>AGENT ROSTER</span>
               </div>
-              <h1 style={{ fontSize: isMobile ? 22 : 30, fontWeight: 800, letterSpacing: "-0.02em" }}>Your AI Team</h1>
+              <h1 style={{ fontSize: isMobile ? 28 : 48, fontWeight: 800, letterSpacing: "-0.02em" }}>Your AI Team</h1>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
               {[0, 0.3, 0.6].map((d, i) => <span key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: `gPulse 2s ease-in-out ${d}s infinite`, display: "block" }} />)}
