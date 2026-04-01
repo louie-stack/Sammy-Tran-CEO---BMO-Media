@@ -133,6 +133,15 @@ export default function Home() {
   const [time, setTime] = useState("");
   const [greeting, setGreeting] = useState("Good morning");
   const [data, setData] = useState(null);
+  const [approvedDrafts, setApprovedDrafts] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const tick = () => {
@@ -180,7 +189,7 @@ export default function Home() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.5) 50%, rgba(13,13,13,0.1) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, rgba(13,13,13,0.85) 25%, rgba(13,13,13,0.4) 45%, transparent 65%, #0D0D0D 100%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "80px 20px 40px" : "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
               style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14, marginLeft: 6 }}>
@@ -202,8 +211,8 @@ export default function Home() {
 
       {/* ── REVENUE STATS STRIP ────────────────────────────────────────── */}
       <section>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 20px" : "0 60px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)" }}>
             {[
               { label: "MTD REVENUE", value: stats.mtdRevenue || "$42k" },
               { label: "PIPELINE VALUE", value: stats.pipelineValue || "$180k" },
@@ -223,14 +232,14 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 20px" : "0 60px" }}>
 
         {/* ── MORNING BRIEF ──────────────────────────────────────────────── */}
         <section style={{ padding: "56px 0 0" }}>
           <Reveal>
             <SectionHeader label="DAILY INTEL" title="Morning Brief" />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 12 }}>
 
             {/* Summary */}
             <Reveal delay={0.06}>
@@ -299,7 +308,7 @@ export default function Home() {
           <Reveal>
             <SectionHeader label="CLIENT WORK" title="Active Projects" href="/sales" linkLabel="FULL PIPELINE" />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 12 }}>
             {PROJECTS.map((p, i) => (
               <Reveal key={p.client} delay={i * 0.05}>
                 <GlowCard style={{ padding: "20px 22px" }}>
@@ -333,7 +342,7 @@ export default function Home() {
           <Reveal>
             <SectionHeader label="AI TEAM" title="Agent Status" href="/agents" />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(5, 1fr)", gap: 10 }}>
             {AGENTS.map((a, i) => (
               <Reveal key={a.name} delay={i * 0.06}>
                 <Link href={a.href} style={{ textDecoration: "none", display: "block" }}>
@@ -353,13 +362,14 @@ export default function Home() {
                     <div style={{ padding: "16px 16px 14px" }}>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#e8e8f0", marginBottom: 4 }}>{a.name}</div>
                       <p style={{ fontSize: 11, color: "#667", lineHeight: 1.5, marginBottom: 14, minHeight: 32 }}>{a.lastAction}</p>
+                      {(() => { const live = agentsData.find(x => x.name.toLowerCase() === a.name.toLowerCase().split(" ")[0]); const status = live?.status || a.status; const progress = live?.progress ?? (a.status === "active" ? Math.min(a.tasksToday * 5, 100) : 15); const tasks = live?.tasksToday ?? a.tasksToday; return (<>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        <span style={{ ...MO, fontSize: 8, color: "#445" }}>{a.status === "active" ? "ACTIVE" : "STANDBY"}</span>
-                        <span style={{ ...MO, fontSize: 8, color: a.color }}>{a.tasksToday} tasks</span>
+                        <span style={{ ...MO, fontSize: 8, color: "#445" }}>{status === "active" ? "ACTIVE" : "STANDBY"}</span>
+                        <span style={{ ...MO, fontSize: 8, color: a.color }}>{tasks} tasks</span>
                       </div>
                       <div style={{ height: 2, background: "rgba(255,255,255,0.06)", borderRadius: 2 }}>
-                        <div style={{ height: "100%", width: a.status === "active" ? `${Math.min(a.tasksToday * 5, 100)}%` : "15%", background: a.status === "active" ? a.color : "#222", borderRadius: 2, boxShadow: a.status === "active" ? `0 0 6px ${a.color}60` : "none" }} />
-                      </div>
+                        <div style={{ height: "100%", width: `${progress}%`, background: status === "active" ? a.color : "#222", borderRadius: 2, boxShadow: status === "active" ? `0 0 6px ${a.color}60` : "none" }} />
+                      </div></>); })()}
                     </div>
                   </div>
                 </Link>
@@ -370,7 +380,7 @@ export default function Home() {
 
         {/* ── DEALS + BUILDS ────────────────────────────────────────────── */}
         <section style={{ padding: "56px 0 0" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
 
             {/* Pipeline snapshot */}
             <div>
@@ -468,9 +478,15 @@ export default function Home() {
                       <div style={{ ...MO, fontSize: 10, color: "#555", marginBottom: 6 }}>TO: {e.to} · DRAFTED BY {e.agent.toUpperCase()}</div>
                       <div style={{ fontSize: 12, color: "#777", lineHeight: 1.6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.preview}</div>
                     </div>
-                    <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                      <button style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: `${GREEN}15`, border: `1px solid ${GREEN}40`, color: GREEN, cursor: "pointer" }}>APPROVE</button>
-                      <button style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: "transparent", border: "1px solid #222", color: "#555", cursor: "pointer" }}>EDIT</button>
+                    <div style={{ display: "flex", gap: 8, flexShrink: 0, alignItems: "center" }}>
+                      {approvedDrafts[i] ? (
+                        <span style={{ ...MO, fontSize: 10, color: GREEN, display: "flex", alignItems: "center", gap: 5 }}>✓ APPROVED</span>
+                      ) : (
+                        <>
+                          <button onClick={() => setApprovedDrafts(prev => ({ ...prev, [i]: true }))} style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: `${GREEN}15`, border: `1px solid ${GREEN}40`, color: GREEN, cursor: "pointer" }}>APPROVE</button>
+                          <button style={{ ...MO, fontSize: 10, padding: "6px 14px", borderRadius: 6, background: "transparent", border: "1px solid #222", color: "#555", cursor: "pointer" }}>EDIT</button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </GlowCard>
@@ -485,7 +501,7 @@ export default function Home() {
           <Reveal>
             <SectionHeader label="KLAVIYO AUDITS" title="Audit Queue" />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 10 }}>
             {auditQueue.map((a, i) => (
               <Reveal key={i} delay={i * 0.05}>
                 <GlowCard style={{ padding: "20px 24px" }}>
@@ -520,7 +536,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.08}>
             <GlowCard style={{ padding: "32px 36px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 24 : 40, alignItems: "center" }}>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>Nexmail v2 — Positioning & Pricing</div>
                   <p style={{ fontSize: 14, color: "#888", lineHeight: 1.75, marginBottom: 20 }}>
@@ -559,6 +575,8 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 
 
