@@ -132,7 +132,7 @@ export default function Home() {
         <div style={{
           position: "absolute", inset: "-60px 0 0 0",
           backgroundImage: "url('/hero-banner.png')",
-          backgroundSize: "cover", backgroundPosition: "center 30%",
+          backgroundSize: "cover", backgroundPosition: "center 22%",
           backgroundRepeat: "no-repeat",
           opacity: 0.55,
         }} />
