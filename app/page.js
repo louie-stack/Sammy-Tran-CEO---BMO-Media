@@ -140,7 +140,7 @@ export default function Home() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.5) 50%, rgba(13,13,13,0.1) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, rgba(13,13,13,0.85) 25%, rgba(13,13,13,0.4) 45%, transparent 65%, #0D0D0D 100%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
               style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14 }}>
