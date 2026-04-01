@@ -26,7 +26,7 @@ const CSS = `
     background-image: radial-gradient(
       var(--spotlight-size) var(--spotlight-size)
       at calc(var(--bmo-x, -999) * 1px) calc(var(--bmo-y, -999) * 1px),
-      hsl(var(--hue) 100% 55% / 0.08),
+      hsl(var(--hue) 100% 55% / 0.04),
       transparent
     );
     background-color:       var(--backdrop);
@@ -64,17 +64,17 @@ const CSS = `
     background-image: radial-gradient(
       calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75)
       at calc(var(--bmo-x, -999) * 1px) calc(var(--bmo-y, -999) * 1px),
-      hsl(var(--hue) 100% 55% / 1),
+      hsl(var(--hue) 100% 55% / 0.7),
       transparent 100%
     );
-    filter: brightness(2);
+    filter: brightness(1.4);
   }
 
   [data-glow]::after {
     background-image: radial-gradient(
       calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5)
       at calc(var(--bmo-x, -999) * 1px) calc(var(--bmo-y, -999) * 1px),
-      hsl(0 100% 100% / 0.18),
+      hsl(0 100% 100% / 0.07),
       transparent 100%
     );
   }
