@@ -54,7 +54,7 @@ const AgentDot = memo(({ agent, angle, onClick }) => {
         transform: hovered ? "scale(1.18)" : "scale(1)",
         transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
       }}>
-        <img src={agent.img} alt={agent.label} style={{ width: "85%", height: "85%", objectFit: "contain" }} />
+        <img src={agent.img} alt={agent.label} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
       </div>
 
       {/* Label on hover */}
@@ -109,7 +109,7 @@ export default function OrbitingAgents({ onAgentClick }) {
         display: "flex", alignItems: "center", justifyContent: "center",
         overflow: "hidden", cursor: "pointer", flexDirection: "column",
       }}>
-        <img src="/agents/bmo.png" alt="BMO" style={{ width: "80%", height: "80%", objectFit: "contain" }} />
+        <img src="/agents/bmo.png" alt="BMO" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
       </div>
 
       {/* Agents */}

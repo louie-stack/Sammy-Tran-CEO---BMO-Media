@@ -193,9 +193,26 @@ function AgentsPageInner() {
         <div style={{ position: "absolute", inset: 0, background: "#080808", backgroundImage: "linear-gradient(rgba(196,240,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(196,240,0,0.03) 1px, transparent 1px)", backgroundSize: "48px 48px", animation: "slowZoom 25s ease-in-out infinite alternate" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, transparent 60%)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%)" }} />
-        {/* Agent emoji row in the banner */}
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 20 : 40, opacity: 0.18 }}>
-          {agents.map(ag => <span key={ag.id} style={{ fontSize: isMobile ? 40 : 60 }}>{ag.emoji}</span>)}
+        {/* Agent PFP row in the banner */}
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 20 : 40 }}>
+          {agents.map((ag, i) => (
+            <div key={ag.id} onClick={() => pick(i)} style={{
+              width: isMobile ? 52 : 72, height: isMobile ? 52 : 72,
+              borderRadius: "50%", overflow: "hidden",
+              border: `2px solid rgba(${ag.rgb},0.35)`,
+              boxShadow: `0 0 18px rgba(${ag.rgb},0.2)`,
+              cursor: "pointer", flexShrink: 0, opacity: 0.7,
+              transition: "opacity 0.2s, transform 0.2s",
+            }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "scale(1.08)"; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = "0.7"; e.currentTarget.style.transform = "scale(1)"; }}
+            >
+              {ag.img
+                ? <img src={ag.img} alt={ag.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                : <div style={{ width: "100%", height: "100%", background: `rgba(${ag.rgb},0.15)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 24 : 32 }}>{ag.emoji}</div>
+              }
+            </div>
+          ))}
         </div>
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 20px" : "0 60px 28px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
@@ -333,17 +350,29 @@ function AgentsPageInner() {
               </>
             ) : (
               <>
-                {/* Placeholder — same layout Issa uses but without the video */}
-                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 60% at 50% 60%, rgba(${a.rgb},0.1) 0%, transparent 65%)`, transition: "background 0.4s", pointerEvents: "none" }} />
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, position: "relative", zIndex: 1 }}>
-                  <span style={{ fontSize: isMobile ? 72 : 100, filter: `drop-shadow(0 0 40px rgba(${a.rgb},0.3))`, animation: "slowFloat 4s ease-in-out infinite" }}>{a.emoji}</span>
+                {/* Placeholder — large PFP with glow */}
+                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 60% at 50% 50%, rgba(${a.rgb},0.08) 0%, transparent 65%)`, transition: "background 0.4s", pointerEvents: "none" }} />
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20, position: "relative", zIndex: 1 }}>
+                  <div style={{
+                    width: isMobile ? 160 : 220, height: isMobile ? 160 : 220,
+                    borderRadius: "50%", overflow: "hidden",
+                    border: `3px solid rgba(${a.rgb},0.45)`,
+                    boxShadow: `0 0 60px rgba(${a.rgb},0.25), 0 0 20px rgba(${a.rgb},0.15)`,
+                    animation: "slowFloat 4s ease-in-out infinite",
+                    flexShrink: 0,
+                  }}>
+                    {a.img
+                      ? <img src={a.img} alt={a.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                      : <div style={{ width: "100%", height: "100%", background: `rgba(${a.rgb},0.12)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 60 : 80 }}>{a.emoji}</div>
+                    }
+                  </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ ...MO, fontSize: 11, color: `rgba(${a.rgb},0.5)`, letterSpacing: "0.15em", marginBottom: 6 }}>AGENT {a.rank}</div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{a.name}</div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{a.name}</div>
                     <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.1em" }}>CHARACTER VIDEO COMING SOON</div>
                   </div>
                 </div>
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(0deg, #0D0D0D 0%, transparent 100%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #0D0D0D 0%, transparent 100%)", pointerEvents: "none" }} />
               </>
             )}
           </div>
@@ -380,7 +409,12 @@ function AgentsPageInner() {
       }}>
         {/* Header */}
         <div style={{ padding: "13px 16px", borderBottom: `1px solid rgba(${ca.color},0.1)`, display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 8, background: `rgba(${ca.color},0.08)`, border: `1px solid rgba(${ca.color},0.18)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: ca.hex }}>{ca.label}</div>
+          <div style={{ width: 28, height: 28, borderRadius: "50%", overflow: "hidden", border: `1px solid rgba(${ca.color},0.35)`, flexShrink: 0 }}>
+            {agents[sel]?.img
+              ? <img src={agents[sel].img} alt={ca.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+              : <div style={{ width: "100%", height: "100%", background: `rgba(${ca.color},0.08)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: ca.hex }}>{ca.label}</div>
+            }
+          </div>
           <div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{ca.name}</div>
             <div style={{ ...MO, fontSize: 10, color: `rgba(${ca.color},0.6)` }}>ONLINE · READY</div>
@@ -408,13 +442,23 @@ function AgentsPageInner() {
             </div>
           ) : (
             <div key={i} style={{ display: "flex", gap: 6, alignItems: "flex-end" }}>
-              <div style={{ width: 20, height: 20, borderRadius: 6, background: `rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.08)`, border: `1px solid rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.15)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, color: CHAT_AGENTS[m.agentKey ?? 0].hex, flexShrink: 0 }}>{CHAT_AGENTS[m.agentKey ?? 0].label}</div>
+              <div style={{ width: 20, height: 20, borderRadius: "50%", overflow: "hidden", border: `1px solid rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.3)`, flexShrink: 0 }}>
+                {agents[m.agentKey ?? 0]?.img
+                  ? <img src={agents[m.agentKey ?? 0].img} alt={CHAT_AGENTS[m.agentKey ?? 0].name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                  : <div style={{ width: "100%", height: "100%", background: `rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.08)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, color: CHAT_AGENTS[m.agentKey ?? 0].hex }}>{CHAT_AGENTS[m.agentKey ?? 0].label}</div>
+                }
+              </div>
               <div style={{ padding: "7px 11px", borderRadius: "10px 10px 10px 3px", background: `rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.04)`, border: `1px solid rgba(${CHAT_AGENTS[m.agentKey ?? 0].color},0.08)`, maxWidth: "80%", fontSize: 12, color: "#666", lineHeight: 1.5 }}>{m.text}</div>
             </div>
           ))}
           {chatLoading && (
             <div style={{ display: "flex", gap: 6, alignItems: "flex-end" }}>
-              <div style={{ width: 20, height: 20, borderRadius: 6, background: `rgba(${ca.color},0.08)`, border: `1px solid rgba(${ca.color},0.15)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, color: ca.hex, flexShrink: 0 }}>{ca.label}</div>
+              <div style={{ width: 20, height: 20, borderRadius: "50%", overflow: "hidden", border: `1px solid rgba(${ca.color},0.3)`, flexShrink: 0 }}>
+                {agents[sel]?.img
+                  ? <img src={agents[sel].img} alt={ca.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                  : <div style={{ width: "100%", height: "100%", background: `rgba(${ca.color},0.08)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, fontWeight: 800, color: ca.hex }}>{ca.label}</div>
+                }
+              </div>
               <div style={{ padding: "8px 12px", borderRadius: "10px 10px 10px 3px", background: `rgba(${ca.color},0.04)`, border: `1px solid rgba(${ca.color},0.08)`, display: "flex", gap: 4, alignItems: "center" }}>
                 {[0, 1, 2].map(j => <span key={j} style={{ width: 4, height: 4, borderRadius: "50%", background: ca.hex, animation: `dotPulse 1.4s ${j * 0.2}s ease-in-out infinite`, display: "block" }} />)}
               </div>

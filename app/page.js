@@ -81,11 +81,11 @@ const PROJECTS = [
 ];
 
 const AGENTS = [
-  { name: "BMO", role: "Chief of Staff", emoji: "🤖", status: "active", color: GREEN, lastAction: "Morning brief compiled", tasksToday: 18, href: "/agents" },
-  { name: "Marceline", role: "Sales & BD", emoji: "🎸", status: "active", color: "#a855f7", lastAction: "3 follow-up sequences triggered", tasksToday: 11, href: "/sales" },
-  { name: "Princess Bubblegum", role: "Research", emoji: "👑", status: "standby", color: "#ec4899", lastAction: "Nexmail strategy 45% complete", tasksToday: 4, href: "/research" },
-  { name: "Jake", role: "Builder", emoji: "🐕", status: "active", color: "#eab308", lastAction: "MoonBrew cart flow v3 deployed", tasksToday: 9, href: "/build" },
-  { name: "Finn", role: "Health", emoji: "⚔️", status: "standby", color: "#06b6d4", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health" },
+  { name: "BMO", role: "Chief of Staff", img: "/agents/bmo.png", status: "active", color: GREEN, rgb: "196,240,0", lastAction: "Morning brief compiled", tasksToday: 18, href: "/agents" },
+  { name: "Marceline", role: "Sales & BD", img: "/agents/marceline.png", status: "active", color: "#a855f7", rgb: "168,85,247", lastAction: "3 follow-up sequences triggered", tasksToday: 11, href: "/sales" },
+  { name: "Princess Bubblegum", role: "Research", img: "/agents/pb.png", status: "standby", color: "#ec4899", rgb: "236,72,153", lastAction: "Nexmail strategy 45% complete", tasksToday: 4, href: "/research" },
+  { name: "Jake", role: "Builder", img: "/agents/jake.png", status: "active", color: "#eab308", rgb: "234,179,8", lastAction: "MoonBrew cart flow v3 deployed", tasksToday: 9, href: "/build" },
+  { name: "Finn", role: "Health", img: "/agents/finn.png", status: "standby", color: "#06b6d4", rgb: "6,182,212", lastAction: "Week 8 tirzepatide logged", tasksToday: 3, href: "/health" },
 ];
 
 const PIPELINE_SNAPSHOT = [
@@ -294,7 +294,12 @@ export default function Home() {
                         onMouseEnter={e => e.currentTarget.style.opacity = "0.75"}
                         onMouseLeave={e => e.currentTarget.style.opacity = "1"}
                       >
-                        <span style={{ fontSize: 22, flexShrink: 0 }}>{a.emoji}</span>
+                        <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: `1.5px solid rgba(${a.rgb},0.35)`, flexShrink: 0 }}>
+                          {a.img
+                            ? <img src={a.img} alt={a.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                            : <div style={{ width: "100%", height: "100%", background: `rgba(${a.rgb},0.12)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>{a.name[0]}</div>
+                          }
+                        </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", marginBottom: 2 }}>{a.name}</div>
                           <div style={{ fontSize: 12, color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.lastAction}</div>
@@ -386,7 +391,9 @@ export default function Home() {
                           ))}
                         </div>
                       </div>
-                      <span style={{ fontSize: 28 }}>⚔️</span>
+                      <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(6,182,212,0.35)", flexShrink: 0 }}>
+                        <img src="/agents/finn.png" alt="Finn" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                      </div>
                     </div>
                   </GlowCard>
                 </Link>
