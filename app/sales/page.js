@@ -2,19 +2,30 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Nav from "../../components/Nav";
-import GlowCard from "../../components/GlowCard";
 
-const mo = { fontFamily: "'Space Mono', monospace" };
-const GREEN = "#C4F000";
+const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
+const GREEN = "#C4F000";
+const PURPLE = "#a855f7";
 
-function Reveal({ children, delay = 0, y = 30 }) {
+function Reveal({ children, delay = 0 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.12 });
+  const inView = useInView(ref, { once: true, amount: 0.08 });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
       {children}
     </motion.div>
+  );
+}
+
+function Pill({ label, color }) {
+  return (
+    <span style={{ ...MO, fontSize: 9, padding: "3px 10px", borderRadius: 70, border: `1px solid ${color}40`, color, letterSpacing: "0.08em" }}>
+      {label}
+    </span>
   );
 }
 
@@ -48,118 +59,157 @@ const pipeline = [
 ];
 
 const followUps = [
-  { co: "Starface", contact: "Megan K.", overdue: 5, note: "Discovery call booked" },
-  { co: "Fly By Jing", contact: "Sarah T.", overdue: 7, note: "Qualification call" },
-  { co: "MoonBrew", contact: "Dan S.", overdue: 2, note: "Contract revision sent" },
-  { co: "Jolie Skin", contact: "Alex M.", overdue: 3, note: "Proposal follow-up" },
-  { co: "Brightland", contact: "Rachel S.", overdue: 1, note: "Initial outreach" },
+  { co: "Starface", contact: "Megan K.", overdue: 5, note: "Discovery call booked", assignee: "Marceline" },
+  { co: "Fly By Jing", contact: "Sarah T.", overdue: 7, note: "Qualification call", assignee: "Marceline" },
+  { co: "MoonBrew", contact: "Dan S.", overdue: 2, note: "Contract revision sent", assignee: "BMO" },
+  { co: "Jolie Skin", contact: "Alex M.", overdue: 3, note: "Proposal follow-up", assignee: "Marceline" },
+  { co: "Brightland", contact: "Rachel S.", overdue: 1, note: "Initial outreach", assignee: "BMO" },
 ];
 
 export default function SalesPage() {
+  const totalPipeline = pipeline.reduce((acc, col) => acc + col.deals.reduce((s, d) => s + parseFloat(d.value.replace(/[$k\/mo]/g, "")), 0), 0);
+  const closedWon = pipeline.find(c => c.stage === "Closed Won");
+  const closedTotal = closedWon ? closedWon.deals.reduce((s, d) => s + parseFloat(d.value.replace(/[$k\/mo]/g, "")), 0) : 0;
+  const totalDeals = pipeline.reduce((acc, col) => acc + col.deals.length, 0);
+
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
-      <style>{`@keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}`}</style>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
+      <style>{`
+        @keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+        .deal-card:hover .deal-glow { opacity: 1 !important; }
+        .deal-card:hover { transform: translateY(-1px); }
+        .deal-card { transition: transform 0.2s; }
+        .followup-card:hover .followup-glow { opacity: 1 !important; }
+        .col-card:hover .col-glow { opacity: 1 !important; }
+      `}</style>
+      <Nav />
 
-      {/* Hero */}
+      {/* ── HERO ── */}
       <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "70px 60px 0" }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <span style={{ fontSize: 20 }}>🎸</span>
-              <span style={{ ...mo, fontSize: 11, color: "rgba(168,85,247,0.7)", letterSpacing: "0.18em" }}>MARCELINE — SALES & BD</span>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "60px 60px 0" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: PURPLE, boxShadow: `0 0 6px ${PURPLE}80`, animation: "gPulse 2s infinite" }} />
+              <span style={{ ...MO, fontSize: 11, color: `${PURPLE}99`, letterSpacing: "0.18em" }}>MARCELINE — SALES & BD</span>
             </div>
-            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>
-              <span style={{ color: "#fff" }}>Pipeline</span>
+            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.4rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 8 }}>
+              Pipeline
             </h1>
-            <p style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 0 }}>Lead triage · proposals · CRM · follow-up sequences</p>
+            <p style={{ ...MO, fontSize: 11, color: "#555" }}>Lead triage · proposals · CRM · follow-up sequences</p>
           </motion.div>
         </div>
       </div>
 
-      {/* Revenue stats strip */}
-      <div style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", margin: "40px 0 0" }}>
-        <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 500, height: 1, background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.2), transparent)" }} />
-        <div style={{ maxWidth: 1440, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
-            {[
-              { label: "MTD PIPELINE", value: "$180k", sub: "16 active deals", color: "#3b82f6" },
-              { label: "CLOSED THIS MONTH", value: "$42k", sub: "5 deals won", color: "#10b981" },
-              { label: "60-DAY FORECAST", value: "$95k", sub: "Based on velocity", color: "#a855f7" },
-            ].map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.08}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 0", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
-                  <div style={{ ...IN, fontSize: "clamp(1.8rem, 2.5vw, 2.5rem)", fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ ...mo, fontSize: 11, color: "#777", letterSpacing: "0.15em", marginTop: 6 }}>{s.label}</div>
-                  <div style={{ ...mo, fontSize: 11, color: "#777", marginTop: 3 }}>{s.sub}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+      {/* ── STATS STRIP ── */}
+      <div style={{ maxWidth: 1440, margin: "40px auto 0", padding: "0 60px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderTop: "1px solid #111", borderBottom: "1px solid #111" }}>
+          {[
+            { label: "TOTAL PIPELINE", value: `$${totalPipeline.toFixed(0)}k/mo`, color: "#3b82f6" },
+            { label: "CLOSED THIS MONTH", value: `$${closedTotal.toFixed(0)}k/mo`, color: "#10b981" },
+            { label: "ACTIVE DEALS", value: String(totalDeals), color: PURPLE },
+            { label: "OVERDUE FOLLOW-UPS", value: String(followUps.length), color: "#f59e0b" },
+          ].map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.07}>
+              <div style={{ padding: "28px 0", borderRight: i < 3 ? "1px solid #111" : "none", paddingLeft: i > 0 ? 24 : 0 }}>
+                <div style={{ fontSize: "clamp(1.5rem, 2vw, 2rem)", fontWeight: 800, color: s.color, lineHeight: 1, marginBottom: 6 }}>{s.value}</div>
+                <div style={{ ...MO, fontSize: 10, color: "#555", letterSpacing: "0.12em" }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "48px 60px 100px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "48px 60px 100px" }}>
 
-        {/* Pipeline */}
+        {/* ── PIPELINE BOARD ── */}
         <Reveal>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-            <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>DEAL PIPELINE</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+            <div>
+              <div style={{ ...MO, fontSize: 10, color: PURPLE, letterSpacing: "0.18em", marginBottom: 6 }}>DEAL PIPELINE</div>
+              <h2 style={{ ...IN, fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em" }}>Active Board</h2>
+            </div>
+            <span style={{ ...MO, fontSize: 10, color: "#444" }}>{totalDeals} deals across {pipeline.length} stages</span>
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 56 }}>
-            {pipeline.map((col) => (
-              <div key={col.stage}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 0 8px", marginBottom: 10, borderBottom: `1px solid rgba(${col.rgb},0.2)` }}>
-                  <span style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.8)`, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
-                  <span style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.6)`, background: `rgba(${col.rgb},0.08)`, padding: "1px 5px", borderRadius: 3 }}>{col.deals.length}</span>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 64 }}>
+          {pipeline.map((col, ci) => (
+            <Reveal key={col.stage} delay={ci * 0.07}>
+              <div className="col-card" style={{ borderRadius: 14, background: `rgba(${col.rgb},0.04)`, border: `1px solid rgba(${col.rgb},0.12)`, overflow: "hidden", position: "relative" }}>
+                {/* Column glow */}
+                <div className="col-glow" style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 50% 0%, rgba(${col.rgb},0.08) 0%, transparent 60%)`, opacity: 0, transition: "opacity 0.4s", pointerEvents: "none" }} />
+                {/* Column header */}
+                <div style={{ padding: "14px 14px 12px", borderBottom: `1px solid rgba(${col.rgb},0.12)`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ ...MO, fontSize: 9, color: col.color, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
+                  <span style={{ ...MO, fontSize: 9, color: col.color, background: `rgba(${col.rgb},0.1)`, padding: "2px 7px", borderRadius: 4 }}>{col.deals.length}</span>
                 </div>
-                {col.deals.map((d, i) => (
-                  <GlowCard key={i} style={{ padding: "10px 12px", marginBottom: 7, borderLeft: `2px solid rgba(${col.rgb},0.35)` }}>
-                    <div style={{ ...IN, fontSize: 12, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{d.co}</div>
-                    <div style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 4 }}>{d.contact}</div>
-                    <div style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.85)` }}>{d.value}</div>
-                    {d.days > 0 && <div style={{ ...mo, fontSize: 10, color: d.days > 12 ? "#f59e0b" : "#2a3040", marginTop: 3 }}>{d.days}d in stage</div>}
-                  </GlowCard>
-                ))}
+                {/* Cards */}
+                <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+                  {col.deals.map((d, di) => (
+                    <div key={di} className="deal-card" style={{ borderRadius: 10, padding: "12px 14px", background: "rgba(255,255,255,0.03)", border: `1px solid rgba(${col.rgb},0.1)`, position: "relative", overflow: "hidden", cursor: "pointer" }}>
+                      <div className="deal-glow" style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 50% 100%, rgba(${col.rgb},0.12) 0%, transparent 65%)`, opacity: 0, transition: "opacity 0.3s", pointerEvents: "none" }} />
+                      <div style={{ position: "relative" }}>
+                        <div style={{ ...IN, fontSize: 12, fontWeight: 600, color: "#d0d0d8", marginBottom: 3 }}>{d.co}</div>
+                        <div style={{ ...MO, fontSize: 9, color: "#555", marginBottom: 6 }}>{d.contact}</div>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ ...MO, fontSize: 10, color: col.color }}>{d.value}</span>
+                          {d.days > 0 && (
+                            <span style={{ ...MO, fontSize: 9, color: d.days > 12 ? "#f59e0b" : "#333", background: d.days > 12 ? "rgba(245,158,11,0.08)" : "#111", padding: "1px 6px", borderRadius: 3 }}>{d.days}d</span>
+                          )}
+                          {d.days === 0 && col.stage === "Closed Won" && (
+                            <span style={{ ...MO, fontSize: 9, color: "#10b981" }}>✓</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+            </Reveal>
+          ))}
+        </div>
+
+        {/* ── OVERDUE FOLLOW-UPS ── */}
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+            <div>
+              <div style={{ ...MO, fontSize: 10, color: "#f59e0b", letterSpacing: "0.18em", marginBottom: 6 }}>ACTION REQUIRED</div>
+              <h2 style={{ ...IN, fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em" }}>Overdue Follow-ups</h2>
+            </div>
+            <Pill label={`${followUps.length} PENDING`} color="#f59e0b" />
           </div>
         </Reveal>
 
-        {/* Follow-ups */}
-        <Reveal>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-            <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>OVERDUE FOLLOW-UPS</span>
-          </div>
-        </Reveal>
-        {followUps.map((f, i) => (
-          <Reveal key={i} delay={i * 0.06}>
-            <GlowCard style={{ padding: "14px 20px", marginBottom: 8, display: "flex", alignItems: "center", gap: 16, borderLeft: `2px solid ${f.overdue >= 5 ? "#ef4444" : "#f59e0b"}` }}>
-              <div style={{ flex: 1 }}>
-                <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#ccc" }}>{f.co}</span>
-                <span style={{ ...mo, fontSize: 10, color: "#777", marginLeft: 10 }}>{f.contact}</span>
-              </div>
-              <span style={{ ...mo, fontSize: 10, color: "#777" }}>{f.note}</span>
-              <span style={{ ...mo, fontSize: 10, fontWeight: 700, color: f.overdue >= 5 ? "#ef4444" : "#f59e0b", background: f.overdue >= 5 ? "rgba(239,68,68,0.08)" : "rgba(245,158,11,0.08)", padding: "3px 9px", borderRadius: 4 }}>{f.overdue}d overdue</span>
-              <button style={{ ...mo, padding: "5px 14px", borderRadius: 5, fontSize: 10, background: "rgba(168,85,247,0.06)", border: "1px solid rgba(168,85,247,0.15)", color: "rgba(168,85,247,0.7)", cursor: "pointer" }}>Follow Up</button>
-            </GlowCard>
-          </Reveal>
-        ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {followUps.map((f, i) => {
+            const urgentColor = f.overdue >= 5 ? "#ef4444" : "#f59e0b";
+            const urgentRgb = f.overdue >= 5 ? "239,68,68" : "245,158,11";
+            return (
+              <Reveal key={i} delay={i * 0.05}>
+                <div className="followup-card" style={{ borderRadius: 12, padding: "16px 20px", background: "rgba(255,255,255,0.02)", border: `1px solid rgba(${urgentRgb},0.12)`, display: "flex", alignItems: "center", gap: 16, position: "relative", overflow: "hidden", cursor: "pointer" }}>
+                  <div className="followup-glow" style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 0% 50%, rgba(${urgentRgb},0.08) 0%, transparent 55%)`, opacity: 0, transition: "opacity 0.3s", pointerEvents: "none" }} />
+                  <div style={{ width: 3, height: 40, borderRadius: 2, background: urgentColor, flexShrink: 0 }} />
+                  <div style={{ flex: 1, position: "relative" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
+                      <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#d0d0d8" }}>{f.co}</span>
+                      <span style={{ ...MO, fontSize: 9, color: "#444" }}>{f.contact}</span>
+                    </div>
+                    <span style={{ ...MO, fontSize: 10, color: "#555" }}>{f.note}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0, position: "relative" }}>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ ...MO, fontSize: 10, color: "#444", marginBottom: 2 }}>assigned to</div>
+                      <div style={{ ...MO, fontSize: 10, color: PURPLE }}>{f.assignee}</div>
+                    </div>
+                    <span style={{ ...MO, fontSize: 10, fontWeight: 700, color: urgentColor, background: `rgba(${urgentRgb},0.08)`, padding: "4px 10px", borderRadius: 6, border: `1px solid rgba(${urgentRgb},0.2)` }}>{f.overdue}d overdue</span>
+                    <button style={{ ...MO, padding: "6px 14px", borderRadius: 6, fontSize: 9, background: `rgba(${urgentRgb},0.06)`, border: `1px solid rgba(${urgentRgb},0.2)`, color: urgentColor, cursor: "pointer", letterSpacing: "0.06em" }}>FOLLOW UP</button>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
