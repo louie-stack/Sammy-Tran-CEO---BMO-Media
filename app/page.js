@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import Nav from "../components/Nav";
 import GlowCard from "../components/GlowCard";
 import Link from "next/link";
+import OrbitingAgents from "../components/OrbitingAgents";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -262,31 +263,45 @@ export default function Home() {
           <Reveal>
             <SectionHeader label="AI TEAM" title="Agent Status" href="/agents" />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
-            {AGENTS.map((a, i) => (
-              <Reveal key={a.name} delay={i * 0.05}>
-                <Link href={a.href} style={{ textDecoration: "none" }}>
-                  <GlowCard style={{ padding: "18px 20px", cursor: "pointer" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                      <span style={{ fontSize: 24 }}>{a.emoji}</span>
-                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.status === "active" ? GREEN : "#333", boxShadow: a.status === "active" ? `0 0 5px ${GREEN}60` : "none", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none", display: "block" }} />
-                        <span style={{ ...MO, fontSize: 7, color: "#444" }}>{a.status.toUpperCase()}</span>
+          <Reveal delay={0.08}>
+            <GlowCard style={{ padding: "40px 32px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
+
+                {/* Orbital viz */}
+                <OrbitingAgents onAgentClick={(ag) => {}} />
+
+                {/* Agent list */}
+                <div>
+                  <div style={{ ...MO, fontSize: 9, color: "#333", letterSpacing: "0.15em", marginBottom: 20 }}>HOVER ORBIT TO PAUSE · CLICK TO VIEW</div>
+                  {AGENTS.map((a, i) => (
+                    <Link key={a.name} href={a.href} style={{ textDecoration: "none", display: "block" }}>
+                      <div
+                        style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 0", borderBottom: i < AGENTS.length - 1 ? "1px solid #111" : "none", transition: "opacity 0.2s", cursor: "pointer" }}
+                        onMouseEnter={e => e.currentTarget.style.opacity = "0.75"}
+                        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                      >
+                        <span style={{ fontSize: 22, flexShrink: 0 }}>{a.emoji}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", marginBottom: 2 }}>{a.name}</div>
+                          <div style={{ fontSize: 12, color: "#555", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.lastAction}</div>
+                        </div>
+                        <div style={{ textAlign: "right", flexShrink: 0 }}>
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 2, justifyContent: "flex-end", marginBottom: 3 }}>
+                            <span style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{a.tasksToday}</span>
+                            <span style={{ color: GREEN, fontSize: 11 }}>+</span>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
+                            <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.status === "active" ? GREEN : "#333", boxShadow: a.status === "active" ? `0 0 4px ${GREEN}80` : "none", display: "block", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none" }} />
+                            <span style={{ ...MO, fontSize: 7, color: "#444" }}>{a.status.toUpperCase()}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", marginBottom: 2 }}>{a.name}</div>
-                    <div style={{ ...MO, fontSize: 8, color: "#444", marginBottom: 10 }}>{a.role.toUpperCase()}</div>
-                    <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5, marginBottom: 10 }}>{a.lastAction}</div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 3 }}>
-                      <span style={{ fontSize: 20, fontWeight: 700, color: "#fff" }}>{a.tasksToday}</span>
-                      <span style={{ color: GREEN, fontSize: 14 }}>+</span>
-                      <span style={{ ...MO, fontSize: 8, color: "#333" }}>TODAY</span>
-                    </div>
-                  </GlowCard>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </GlowCard>
+          </Reveal>
         </section>
 
         {/* ── DEALS + BUILDS ────────────────────────────────────────────── */}
