@@ -329,6 +329,9 @@ function AgentsPageInner() {
                 <video key={a.video} src={a.video} autoPlay loop muted playsInline style={{ height: a.id === "jake" ? "62%" : a.id === "bmo" ? "76%" : "82%", width: "auto", display: "block", position: "relative", zIndex: 1 }} />
                 <div style={{ position: "absolute", top: 0, left: 0, width: "25%", height: "100%", background: "linear-gradient(90deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                {/* Agent colour glow — bottom-right, over video */}
+                <div style={{ position: "absolute", bottom: "-10%", right: "-10%", width: "70%", height: "70%", background: `radial-gradient(ellipse at 80% 80%, rgba(${a.rgb},0.18) 0%, transparent 65%)`, zIndex: 3, pointerEvents: "none", transition: "background 0.4s" }} />
+                <div style={{ position: "absolute", bottom: 0, right: 0, width: "40%", height: "40%", background: `radial-gradient(ellipse at 100% 100%, rgba(${a.rgb},0.12) 0%, transparent 70%)`, zIndex: 3, pointerEvents: "none", transition: "background 0.4s" }} />
               </>
             ) : (
               <>
