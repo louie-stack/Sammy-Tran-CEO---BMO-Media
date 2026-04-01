@@ -203,7 +203,7 @@ export default function SalesPage() {
                 <Reveal key={s.label} delay={i * 0.06}>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", padding: "28px 0", borderRight: i < 3 ? "1px solid #111" : "none", paddingRight: i < 3 ? 32 : 0, paddingLeft: i > 0 ? 32 : 0 }}>
                     <div style={{ fontSize: "clamp(1.5rem, 1.8vw, 2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      <CountUp value={s.value} /><span style={{ color: GREEN }}>+</span>
+                      <CountUp value={s.value} />
                     </div>
                     <div style={{ fontSize: 12, color: "#666", marginTop: 6, fontWeight: 500 }}>{s.label}</div>
                   </div>

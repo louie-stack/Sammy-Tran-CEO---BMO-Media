@@ -222,7 +222,7 @@ export default function Home() {
               <Reveal key={s.label} delay={i * 0.06}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "32px 0" }}>
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                    <CountUp value={s.value} /><span style={{ color: GREEN }}>+</span>
+                    <CountUp value={s.value} />
                   </div>
                   <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.label}</div>
                 </div>
