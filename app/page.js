@@ -170,7 +170,7 @@ export default function Home() {
                   <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
                     {s.value}<span style={{ color: GREEN }}>{s.suffix}</span>
                   </div>
-                  <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.sub}</div>
+                  <div style={{ fontSize: 14, color: "#888", marginTop: 6, fontWeight: 500 }}>{s.label}</div>
                 </div>
               </Reveal>
             ))}
