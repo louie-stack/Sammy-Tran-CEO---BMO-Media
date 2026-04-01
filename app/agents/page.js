@@ -190,32 +190,12 @@ function AgentsPageInner() {
       {/* ── HERO BANNER ── */}
       <div style={{ position: "relative", width: "100%", height: isMobile ? 180 : 280, overflow: "hidden", marginTop: 54 }}>
         {/* Hero background image */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", opacity: 0.35 }} />
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center 70%", backgroundRepeat: "no-repeat", opacity: 0.55 }} />
         {/* Fade to page bg at bottom */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%)", pointerEvents: "none" }} />
-        {/* Agent PFP row in the banner */}
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 20 : 40 }}>
-          {agents.map((ag, i) => (
-            <div key={ag.id} onClick={() => pick(i)} style={{
-              width: isMobile ? 52 : 72, height: isMobile ? 52 : 72,
-              borderRadius: "50%", overflow: "hidden",
-              border: `2px solid rgba(${ag.rgb},0.35)`,
-              boxShadow: `0 0 18px rgba(${ag.rgb},0.2)`,
-              cursor: "pointer", flexShrink: 0, opacity: 0.7,
-              transition: "opacity 0.2s, transform 0.2s",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "scale(1.08)"; }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = "0.7"; e.currentTarget.style.transform = "scale(1)"; }}
-            >
-              {ag.img
-                ? <img src={ag.img} alt={ag.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
-                : <div style={{ width: "100%", height: "100%", background: `rgba(${ag.rgb},0.15)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? 24 : 32 }}>{ag.emoji}</div>
-              }
-            </div>
-          ))}
-        </div>
+
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 20px" : "0 60px 28px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
             <div>
