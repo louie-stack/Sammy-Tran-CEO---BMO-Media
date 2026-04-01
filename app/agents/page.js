@@ -182,7 +182,7 @@ function AgentsPageInner() {
   const statusLabel = a.status === "active" ? "ONLINE" : a.status === "standby" ? "STANDBY" : "OFFLINE";
 
   return (
-    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
+    <div style={{ ...IN, background: "#000", minHeight: "100vh", color: "#fff" }}>
       <style>{`@keyframes gPulse{0%,100%{opacity:0.5}50%{opacity:1}} @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.04)}} @keyframes dotPulse{0%,80%,100%{opacity:0}40%{opacity:1}}`}</style>
 
       <Nav />
@@ -192,9 +192,9 @@ function AgentsPageInner() {
         {/* Hero background image */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center 50%", backgroundRepeat: "no-repeat", opacity: 0.55 }} />
         {/* Fade to page bg at bottom */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #000 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 100%)", pointerEvents: "none" }} />
         {/* Fade edges left/right */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #000 0%, transparent 20%, transparent 80%, #000 100%)", pointerEvents: "none" }} />
 
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 20px" : "0 60px 28px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
@@ -252,7 +252,7 @@ function AgentsPageInner() {
           <div style={{
             padding: isMobile ? "20px 18px" : "36px 32px",
             borderRadius: 12,
-            background: "#0D0D0D",
+            background: "#000",
             border: `1px solid rgba(${a.rgb},0.18)`,
             
             position: "relative", overflow: "hidden",
@@ -327,8 +327,8 @@ function AgentsPageInner() {
             {a.video ? (
               <>
                 <video key={a.video} src={a.video} autoPlay loop muted playsInline style={{ height: a.id === "jake" ? "75%" : "100%", width: "auto", display: "block", position: "relative", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "25%", height: "100%", background: "linear-gradient(90deg, #0D0D0D 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #0D0D0D 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: 0, left: 0, width: "25%", height: "100%", background: "linear-gradient(90deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
               </>
             ) : (
               <>
@@ -354,7 +354,7 @@ function AgentsPageInner() {
                     <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.1em" }}>CHARACTER VIDEO COMING SOON</div>
                   </div>
                 </div>
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #0D0D0D 0%, transparent 100%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", pointerEvents: "none" }} />
               </>
             )}
           </div>
@@ -365,7 +365,7 @@ function AgentsPageInner() {
       <button onClick={() => setChatOpen(v => !v)} style={{
         position: "fixed", bottom: 28, right: 28, zIndex: 200,
         width: 52, height: 52, borderRadius: "50%",
-        background: chatOpen ? `rgba(${ca.color},0.14)` : "rgba(13,13,13,0.95)",
+        background: chatOpen ? `rgba(${ca.color},0.14)` : "rgba(0,0,0,0.95)",
         border: `1px solid rgba(${ca.color},0.3)`,
         boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
         display: "flex", alignItems: "center", justifyContent: "center",
