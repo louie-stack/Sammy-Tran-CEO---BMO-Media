@@ -312,50 +312,39 @@ export default function Home() {
           <Reveal>
             <SectionHeader label="AI TEAM" title="Agent Status" href="/agents" />
           </Reveal>
-          <Reveal delay={0.08}>
-            <GlowCard style={{ padding: "40px 32px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
-
-                {/* Orbital viz */}
-                <OrbitingAgents onAgentClick={(ag) => {}} />
-
-                {/* Agent list */}
-                <div>
-                  <div style={{ ...MO, fontSize: 11, color: "#777", letterSpacing: "0.15em", marginBottom: 20 }}>HOVER ORBIT TO PAUSE · CLICK TO VIEW</div>
-                  {AGENTS.map((a, i) => (
-                    <Link key={a.name} href={a.href} style={{ textDecoration: "none", display: "block" }}>
-                      <div
-                        style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 0", borderBottom: i < AGENTS.length - 1 ? "1px solid #111" : "none", transition: "opacity 0.2s", cursor: "pointer" }}
-                        onMouseEnter={e => e.currentTarget.style.opacity = "0.75"}
-                        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-                      >
-                        <div style={{ width: 36, height: 36, borderRadius: "50%", overflow: "hidden", border: `1.5px solid rgba(${a.rgb},0.35)`, flexShrink: 0 }}>
-                          {a.img
-                            ? <img src={a.img} alt={a.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
-                            : <div style={{ width: "100%", height: "100%", background: `rgba(${a.rgb},0.12)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>{a.name[0]}</div>
-                          }
-                        </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", marginBottom: 2 }}>{a.name}</div>
-                          <div style={{ fontSize: 12, color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.lastAction}</div>
-                        </div>
-                        <div style={{ textAlign: "right", flexShrink: 0 }}>
-                          <div style={{ display: "flex", alignItems: "baseline", gap: 2, justifyContent: "flex-end", marginBottom: 3 }}>
-                            <span style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{a.tasksToday}</span>
-                            <span style={{ color: GREEN, fontSize: 11 }}>+</span>
-                          </div>
-                          <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
-                            <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.status === "active" ? GREEN : "#333", boxShadow: a.status === "active" ? `0 0 4px ${GREEN}80` : "none", display: "block", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none" }} />
-                            <span style={{ ...MO, fontSize: 7, color: "#777" }}>{a.status.toUpperCase()}</span>
-                          </div>
-                        </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10 }}>
+            {AGENTS.map((a, i) => (
+              <Reveal key={a.name} delay={i * 0.06}>
+                <Link href={a.href} style={{ textDecoration: "none", display: "block" }}>
+                  <div style={{ borderRadius: 16, overflow: "hidden", background: "rgba(255,255,255,0.02)", border: `1px solid rgba(${a.rgb},0.12)`, cursor: "pointer", transition: "border-color 0.2s, transform 0.2s" }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.35)`; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.12)`; e.currentTarget.style.transform = "translateY(0)"; }}>
+                    {/* Card header — gradient + image */}
+                    <div style={{ position: "relative", height: 160, overflow: "hidden", background: `linear-gradient(170deg, rgba(${a.rgb},0.18) 0%, rgba(${a.rgb},0.06) 45%, rgba(0,0,0,0.98) 100%)` }}>
+                      <div style={{ position: "absolute", top: "10%", left: "50%", width: 140, height: 140, borderRadius: "50%", background: `radial-gradient(circle, rgba(${a.rgb},0.15) 0%, transparent 65%)`, filter: "blur(18px)", transform: "translateX(-50%)" }} />
+                      {a.img && <img src={a.img} alt={a.name} style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", height: "95%", width: "auto", objectFit: "contain", objectPosition: "bottom" }} />}
+                      <div style={{ position: "absolute", top: 10, left: 12, display: "flex", alignItems: "center", gap: 5 }}>
+                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.status === "active" ? a.color : "#333", boxShadow: a.status === "active" ? `0 0 5px ${a.color}80` : "none", display: "block", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none" }} />
+                        <span style={{ ...MO, fontSize: 7, color: a.color, letterSpacing: "0.08em" }}>{a.role.toUpperCase()}</span>
                       </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </GlowCard>
-          </Reveal>
+                    </div>
+                    {/* Card body */}
+                    <div style={{ padding: "16px 16px 14px" }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#e8e8f0", marginBottom: 4 }}>{a.name}</div>
+                      <p style={{ fontSize: 11, color: "#667", lineHeight: 1.5, marginBottom: 14, minHeight: 32 }}>{a.lastAction}</p>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                        <span style={{ ...MO, fontSize: 8, color: "#445" }}>{a.status === "active" ? "ACTIVE" : "STANDBY"}</span>
+                        <span style={{ ...MO, fontSize: 8, color: a.color }}>{a.tasksToday} tasks</span>
+                      </div>
+                      <div style={{ height: 2, background: "rgba(255,255,255,0.06)", borderRadius: 2 }}>
+                        <div style={{ height: "100%", width: a.status === "active" ? `${Math.min(a.tasksToday * 5, 100)}%` : "15%", background: a.status === "active" ? a.color : "#222", borderRadius: 2, boxShadow: a.status === "active" ? `0 0 6px ${a.color}60` : "none" }} />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
         </section>
 
         {/* ── DEALS + BUILDS ────────────────────────────────────────────── */}
