@@ -5,7 +5,8 @@ import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 
 const mo = { fontFamily: "'Space Mono', monospace" };
-const jk = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
+const GREEN = "#C4F000";
+const IN = { fontFamily: "'Inter', sans-serif" };
 
 function Reveal({ children, delay = 0, y = 30 }) {
   const ref = useRef(null);
@@ -53,10 +54,8 @@ export default function HealthPage() {
   const [hovDay, setHovDay] = useState(null);
 
   return (
-    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0" }}>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(6,182,212,0.05) 0%, transparent 60%)", filter: "blur(60px)", pointerEvents: "none", zIndex: 0 }} />
-      <Nav />
+    <div style={{ background: "#0D0D0D", minHeight: "100vh", color: "#E8E8F0" }}>
+      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
 
       {/* Hero */}
       <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
@@ -66,7 +65,7 @@ export default function HealthPage() {
               <span style={{ fontSize: 20 }}>⚔️</span>
               <span style={{ ...mo, fontSize: 9, color: "rgba(6,182,212,0.7)", letterSpacing: "0.18em" }}>FINN — HEALTH & WELLNESS</span>
             </div>
-            <h1 style={{ ...jk, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Health Dashboard</h1>
+            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Health Dashboard</h1>
             <p style={{ ...mo, fontSize: 11, color: "#2a3040" }}>BP tracking · tirzepatide cycle · workouts · sciatica management</p>
           </motion.div>
         </div>
@@ -82,7 +81,7 @@ export default function HealthPage() {
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 80, background: "linear-gradient(180deg, rgba(6,182,212,0.06) 0%, transparent 100%)", borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
               <div style={{ position: "relative" }}>
                 <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 12 }}>WELLNESS SCORE</div>
-                <div style={{ ...jk, fontSize: 62, fontWeight: 900, color: "#06b6d4", lineHeight: 1 }}>7.8</div>
+                <div style={{ ...IN, fontSize: 62, fontWeight: 900, color: "#06b6d4", lineHeight: 1 }}>7.8</div>
                 <div style={{ ...mo, fontSize: 11, color: "#2a3040", marginTop: 4 }}>/ 10</div>
                 <div style={{ ...mo, fontSize: 9, color: "#10b981", marginTop: 14 }}>↑ +0.3 vs last week</div>
               </div>
@@ -161,7 +160,7 @@ export default function HealthPage() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 18 }}>
                     {[{ l: "Week", v: "8 / 12" }, { l: "Dose", v: "7.5mg" }, { l: "Next Dose", v: "Apr 8" }].map(s => (
                       <div key={s.l} style={{ textAlign: "center", padding: "12px", background: "rgba(6,182,212,0.04)", borderRadius: 8, border: "1px solid rgba(6,182,212,0.08)" }}>
-                        <div style={{ ...jk, fontSize: 18, fontWeight: 800, color: "#06b6d4" }}>{s.v}</div>
+                        <div style={{ ...IN, fontSize: 18, fontWeight: 800, color: "#06b6d4" }}>{s.v}</div>
                         <div style={{ ...mo, fontSize: 8, color: "#2a3040", marginTop: 3 }}>{s.l}</div>
                       </div>
                     ))}
@@ -226,7 +225,7 @@ export default function HealthPage() {
                       <span style={{ ...mo, fontSize: 10, color: "#3a4555" }}>{s.date}</span>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 3 }}>
                         <span style={{ ...mo, fontSize: 8, color: "#2a3040" }}>PAIN</span>
-                        <span style={{ ...jk, fontSize: 18, fontWeight: 800, color: s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981" }}>{s.pain}</span>
+                        <span style={{ ...IN, fontSize: 18, fontWeight: 800, color: s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981" }}>{s.pain}</span>
                         <span style={{ ...mo, fontSize: 9, color: "#2a3040" }}>/10</span>
                       </div>
                     </div>
@@ -241,3 +240,6 @@ export default function HealthPage() {
     </div>
   );
 }
+
+
+

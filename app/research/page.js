@@ -5,7 +5,8 @@ import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 
 const mo = { fontFamily: "'Space Mono', monospace" };
-const jk = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
+const GREEN = "#C4F000";
+const IN = { fontFamily: "'Inter', sans-serif" };
 
 function Reveal({ children, delay = 0, y = 30 }) {
   const ref = useRef(null);
@@ -41,10 +42,8 @@ export default function ResearchPage() {
   const [expandedComp, setExpandedComp] = useState(null);
 
   return (
-    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0" }}>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(236,72,153,0.05) 0%, transparent 60%)", filter: "blur(60px)", pointerEvents: "none", zIndex: 0 }} />
-      <Nav />
+    <div style={{ background: "#0D0D0D", minHeight: "100vh", color: "#E8E8F0" }}>
+      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
 
       {/* Hero */}
       <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
@@ -54,7 +53,7 @@ export default function ResearchPage() {
               <span style={{ fontSize: 20 }}>👑</span>
               <span style={{ ...mo, fontSize: 9, color: "rgba(236,72,153,0.7)", letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
             </div>
-            <h1 style={{ ...jk, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Research & Strategy</h1>
+            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Research & Strategy</h1>
             <p style={{ ...mo, fontSize: 11, color: "#2a3040" }}>Market intelligence · competitor tracking · client research · Nexmail product strategy</p>
           </motion.div>
         </div>
@@ -79,7 +78,7 @@ export default function ResearchPage() {
                   <GlowCard style={{ padding: "18px 22px", marginBottom: 10 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                       <div>
-                        <div style={{ ...jk, fontSize: 13, fontWeight: 600, color: "#C0C5D2", marginBottom: 6 }}>{b.title}</div>
+                        <div style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#C0C5D2", marginBottom: 6 }}>{b.title}</div>
                         <span style={{ ...mo, fontSize: 8, color: b.color, background: `${b.color}10`, padding: "2px 8px", borderRadius: 3, border: `1px solid ${b.color}20` }}>{b.tag}</span>
                       </div>
                       <span style={{ ...mo, fontSize: 12, color: b.pct === 100 ? "#10b981" : "#f59e0b", flexShrink: 0, marginLeft: 12 }}>{b.pct}%</span>
@@ -102,7 +101,7 @@ export default function ResearchPage() {
                 {/* Back-light accent */}
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 80, background: "linear-gradient(180deg, rgba(168,85,247,0.05) 0%, transparent 100%)", borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
                 <div style={{ position: "relative" }}>
-                  <div style={{ ...jk, fontSize: 15, fontWeight: 700, color: "#D0D5E2", marginBottom: 10 }}>Nexmail v2 — Strategy Brief</div>
+                  <div style={{ ...IN, fontSize: 15, fontWeight: 700, color: "#D0D5E2", marginBottom: 10 }}>Nexmail v2 — Strategy Brief</div>
                   <p style={{ fontSize: 13, color: "#4a5570", lineHeight: 1.7, marginBottom: 16 }}>
                     Positioned as a high-touch lifecycle intelligence layer sitting above Klaviyo. Core differentiator: human-verified AI strategy + execution, not just automation.
                   </p>
@@ -144,7 +143,7 @@ export default function ResearchPage() {
                     onClick={() => setExpandedComp(expandedComp === c.name ? null : c.name)}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: expandedComp === c.name ? 12 : 0 }}>
-                      <span style={{ ...jk, fontSize: 13, fontWeight: 600, color: "#C0C5D2" }}>{c.name}</span>
+                      <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#C0C5D2" }}>{c.name}</span>
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                         <span style={{ ...mo, fontSize: 8, fontWeight: 700, color: c.color, background: `rgba(${c.rgb},0.08)`, padding: "2px 7px", borderRadius: 3 }}>{c.threat.toUpperCase()} THREAT</span>
                         <span style={{ color: "#2a3040", fontSize: 10 }}>{expandedComp === c.name ? "▲" : "▼"}</span>
@@ -190,3 +189,6 @@ export default function ResearchPage() {
     </div>
   );
 }
+
+
+

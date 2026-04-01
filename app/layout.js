@@ -1,5 +1,4 @@
 import "./globals.css";
-import ParticleField from "../components/ParticleField";
 
 export const metadata = {
   title: "BMO Media | AI OS",
@@ -9,8 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{ background: "#080B12" }}>
-        <ParticleField />
+      <body style={{ background: "#0D0D0D", fontFamily: "'Inter', sans-serif" }}>
         {children}
       </body>
     </html>

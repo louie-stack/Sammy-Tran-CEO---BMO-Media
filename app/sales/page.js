@@ -5,7 +5,8 @@ import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 
 const mo = { fontFamily: "'Space Mono', monospace" };
-const jk = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
+const GREEN = "#C4F000";
+const IN = { fontFamily: "'Inter', sans-serif" };
 
 function Reveal({ children, delay = 0, y = 30 }) {
   const ref = useRef(null);
@@ -56,11 +57,9 @@ const followUps = [
 
 export default function SalesPage() {
   return (
-    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0" }}>
+    <div style={{ background: "#0D0D0D", minHeight: "100vh", color: "#E8E8F0" }}>
       <style>{`@keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}`}</style>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(168,85,247,0.055) 0%, transparent 60%)", filter: "blur(60px)", pointerEvents: "none", zIndex: 0 }} />
-      <Nav />
+      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
 
       {/* Hero */}
       <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
@@ -70,7 +69,7 @@ export default function SalesPage() {
               <span style={{ fontSize: 20 }}>🎸</span>
               <span style={{ ...mo, fontSize: 9, color: "rgba(168,85,247,0.7)", letterSpacing: "0.18em" }}>MARCELINE — SALES & BD</span>
             </div>
-            <h1 style={{ ...jk, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>
+            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>
               <span style={{ color: "#E8E8F0" }}>Pipeline</span>
             </h1>
             <p style={{ ...mo, fontSize: 11, color: "#2a3040", marginBottom: 0 }}>Lead triage · proposals · CRM · follow-up sequences</p>
@@ -90,7 +89,7 @@ export default function SalesPage() {
             ].map((s, i) => (
               <Reveal key={s.label} delay={i * 0.08}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 0", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
-                  <div style={{ ...jk, fontSize: "clamp(1.8rem, 2.5vw, 2.5rem)", fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.value}</div>
+                  <div style={{ ...IN, fontSize: "clamp(1.8rem, 2.5vw, 2.5rem)", fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.value}</div>
                   <div style={{ ...mo, fontSize: 9, color: "#334", letterSpacing: "0.15em", marginTop: 6 }}>{s.label}</div>
                   <div style={{ ...mo, fontSize: 9, color: "#2a3040", marginTop: 3 }}>{s.sub}</div>
                 </div>
@@ -120,7 +119,7 @@ export default function SalesPage() {
                 </div>
                 {col.deals.map((d, i) => (
                   <GlowCard key={i} style={{ padding: "10px 12px", marginBottom: 7, borderLeft: `2px solid rgba(${col.rgb},0.35)` }}>
-                    <div style={{ ...jk, fontSize: 12, fontWeight: 600, color: "#C0C5D2", marginBottom: 2 }}>{d.co}</div>
+                    <div style={{ ...IN, fontSize: 12, fontWeight: 600, color: "#C0C5D2", marginBottom: 2 }}>{d.co}</div>
                     <div style={{ ...mo, fontSize: 9, color: "#2a3040", marginBottom: 4 }}>{d.contact}</div>
                     <div style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.85)` }}>{d.value}</div>
                     {d.days > 0 && <div style={{ ...mo, fontSize: 8, color: d.days > 12 ? "#f59e0b" : "#2a3040", marginTop: 3 }}>{d.days}d in stage</div>}
@@ -142,7 +141,7 @@ export default function SalesPage() {
           <Reveal key={i} delay={i * 0.06}>
             <GlowCard style={{ padding: "14px 20px", marginBottom: 8, display: "flex", alignItems: "center", gap: 16, borderLeft: `2px solid ${f.overdue >= 5 ? "#ef4444" : "#f59e0b"}` }}>
               <div style={{ flex: 1 }}>
-                <span style={{ ...jk, fontSize: 13, fontWeight: 600, color: "#C0C5D2" }}>{f.co}</span>
+                <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#C0C5D2" }}>{f.co}</span>
                 <span style={{ ...mo, fontSize: 10, color: "#2a3040", marginLeft: 10 }}>{f.contact}</span>
               </div>
               <span style={{ ...mo, fontSize: 10, color: "#334" }}>{f.note}</span>
@@ -155,3 +154,6 @@ export default function SalesPage() {
     </div>
   );
 }
+
+
+
