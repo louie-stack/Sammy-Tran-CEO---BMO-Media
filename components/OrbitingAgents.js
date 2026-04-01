@@ -3,14 +3,14 @@ import { useEffect, useState, memo, useCallback } from "react";
 
 const GREEN = "#C4F000";
 
+// BMO is centre — 4 agents orbit around it
 const AGENTS = [
-  // Inner orbit — always-on agents
-  { id: "bmo",       orbitRadius: 110, size: 52, speed:  0.4,  phase: 0,                     emoji: "🤖", label: "BMO",               sublabel: "Chief of Staff",  color: GREEN,      glowColor: GREEN },
-  { id: "marceline", orbitRadius: 110, size: 48, speed:  0.4,  phase: (2 * Math.PI) / 2,     emoji: "🎸", label: "Marceline",         sublabel: "Sales & BD",      color: "#a855f7",  glowColor: "#a855f7" },
+  // Inner orbit
+  { id: "marceline", orbitRadius: 110, size: 48, speed:  0.4,  phase: 0,                    emoji: "🎸", label: "Marceline",          sublabel: "Sales & BD",  color: "#a855f7", glowColor: "#a855f7" },
+  { id: "finn",      orbitRadius: 110, size: 46, speed:  0.4,  phase: Math.PI,              emoji: "⚔️", label: "Finn",               sublabel: "Health",      color: "#06b6d4", glowColor: "#06b6d4" },
   // Outer orbit
-  { id: "pb",        orbitRadius: 195, size: 48, speed: -0.25, phase: 0,                     emoji: "👑", label: "Princess Bubblegum",sublabel: "Research",        color: "#ec4899",  glowColor: "#ec4899" },
-  { id: "jake",      orbitRadius: 195, size: 48, speed: -0.25, phase: (2 * Math.PI) / 3,     emoji: "🐕", label: "Jake",              sublabel: "Builder",         color: "#eab308",  glowColor: "#eab308" },
-  { id: "finn",      orbitRadius: 195, size: 46, speed: -0.25, phase: (4 * Math.PI) / 3,     emoji: "⚔️", label: "Finn",              sublabel: "Health",          color: "#06b6d4",  glowColor: "#06b6d4" },
+  { id: "pb",        orbitRadius: 195, size: 48, speed: -0.25, phase: Math.PI / 6,          emoji: "👑", label: "Princess Bubblegum", sublabel: "Research",    color: "#ec4899", glowColor: "#ec4899" },
+  { id: "jake",      orbitRadius: 195, size: 48, speed: -0.25, phase: Math.PI / 6 + Math.PI,emoji: "🐕", label: "Jake",               sublabel: "Builder",     color: "#eab308", glowColor: "#eab308" },
 ];
 
 const OrbitPath = memo(({ radius, color, delay = 0 }) => (
@@ -117,19 +117,18 @@ export default function OrbitingAgents({ onAgentClick }) {
       <OrbitPath radius={110} />
       <OrbitPath radius={195} />
 
-      {/* Centre — Sammy's AI OS core */}
+      {/* Centre — BMO, Chief of Staff */}
       <div style={{
-        width: 72, height: 72, borderRadius: "50%", zIndex: 5,
-        background: "#0D0D0D",
-        border: `1.5px solid rgba(196,240,0,0.25)`,
-        boxShadow: `0 0 32px rgba(196,240,0,0.15), 0 0 64px rgba(196,240,0,0.06)`,
+        width: 80, height: 80, borderRadius: "50%", zIndex: 5,
+        background: "#111",
+        border: `1.5px solid rgba(196,240,0,0.3)`,
+        boxShadow: `0 0 36px rgba(196,240,0,0.18), 0 0 72px rgba(196,240,0,0.07)`,
         display: "flex", alignItems: "center", justifyContent: "center",
-        flexDirection: "column", gap: 1,
+        flexDirection: "column", gap: 2,
+        cursor: "pointer",
       }}>
-        <div style={{ width: 28, height: 28, borderRadius: 6, background: GREEN, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 900, fontSize: 14, color: "#0D0D0D", lineHeight: 1 }}>S</span>
-        </div>
-        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 6, color: "rgba(196,240,0,0.5)", letterSpacing: "0.1em" }}>AI OS</span>
+        <span style={{ fontSize: 34, lineHeight: 1 }}>🤖</span>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 6, color: "rgba(196,240,0,0.55)", letterSpacing: "0.12em" }}>BMO</span>
       </div>
 
       {/* Agents */}
