@@ -43,10 +43,10 @@ function CountUp({ value, duration = 1.4 }) {
   return <span ref={ref}>{display}</span>;
 }
 
-function ColourCard({ rgb, children, style = {} }) {
+function ColourCard({ rgb, hue = 73, children, style = {} }) {
   const [hov, setHov] = useState(false);
   return (
-    <GlowCard style={style}
+    <GlowCard style={{ "--base": hue, "--spread": 0, ...style }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}>
       <div style={{ position: "absolute", inset: 0, borderRadius: "inherit", background: `radial-gradient(ellipse at 50% 100%, rgba(${rgb},0.1) 0%, transparent 60%)`, opacity: hov ? 1 : 0, transition: "opacity 0.3s", pointerEvents: "none", zIndex: 0 }} />
@@ -66,26 +66,26 @@ const stages = [
 ];
 
 const pipeline = [
-  { key: "prospect", stage: "Prospect", color: "#64748b", rgb: "100,116,139", deals: [
+  { key: "prospect", stage: "Prospect", color: "#64748b", rgb: "100,116,139", hue: 215, deals: [
     { co: "Alo Yoga", contact: "Lisa Chen", value: "$5.2k/mo", days: 8, note: "Warm intro via mutual contact" },
     { co: "Graza Olive Oil", contact: "Tom R.", value: "$2.8k/mo", days: 3, note: "Inbound — found via podcast" },
     { co: "Starface", contact: "Megan K.", value: "$4.5k/mo", days: 12, note: "Discovery call booked" },
   ]},
-  { key: "qualified", stage: "Qualified", color: "#3b82f6", rgb: "59,130,246", deals: [
+  { key: "qualified", stage: "Qualified", color: "#3b82f6", rgb: "59,130,246", hue: 217, deals: [
     { co: "Ritual Beauty", contact: "James Walsh", value: "$6k/mo", days: 5, note: "Strong fit — Klaviyo + SMS setup needed" },
     { co: "Fly By Jing", contact: "Sarah T.", value: "$3.2k/mo", days: 9, note: "Qualification call scheduled" },
     { co: "Jolie Skin", contact: "Alex M.", value: "$4.1k/mo", days: 14, note: "Budget confirmed, awaiting proposal" },
     { co: "Brightland", contact: "Rachel S.", value: "$2.6k/mo", days: 2, note: "Initial call completed" },
   ]},
-  { key: "proposal", stage: "Proposal", color: "#8b5cf6", rgb: "139,92,246", deals: [
+  { key: "proposal", stage: "Proposal", color: "#8b5cf6", rgb: "139,92,246", hue: 263, deals: [
     { co: "Centr Fitness", contact: "Mike D.", value: "$4.2k/mo", days: 6, note: "Proposal sent — awaiting review" },
     { co: "Our Place", contact: "Luz R.", value: "$5.5k/mo", days: 11, note: "Deck reviewed, verbal yes — contract pending" },
   ]},
-  { key: "negotiation", stage: "Negotiation", color: "#f59e0b", rgb: "245,158,11", deals: [
+  { key: "negotiation", stage: "Negotiation", color: "#f59e0b", rgb: "245,158,11", hue: 38, deals: [
     { co: "MoonBrew", contact: "Dan S.", value: "$3.8k/mo", days: 18, note: "Contract revision sent — no response" },
     { co: "Strands Haircare", contact: "Eric D.", value: "$7.2k/mo", days: 22, note: "22 days stalled — needs direct call" },
   ]},
-  { key: "closed", stage: "Closed Won", color: "#10b981", rgb: "16,185,129", deals: [
+  { key: "closed", stage: "Closed Won", color: "#10b981", rgb: "16,185,129", hue: 160, deals: [
     { co: "LA Clippers", contact: "Charisse S.", value: "$8.5k/mo", days: 0, note: "Active — onboarding complete" },
     { co: "Travel Pro", contact: "Andy S.", value: "$4k/mo", days: 0, note: "Active — Month 2" },
     { co: "Allegiance Flag", contact: "Katie L.", value: "$2.2k/mo", days: 0, note: "Active — Month 1" },
@@ -226,7 +226,7 @@ export default function SalesPage() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                       {col.deals.map((d, di) => (
-                        <ColourCard key={di} rgb={col.rgb} style={{ padding: "14px 16px", borderLeft: `2px solid rgba(${col.rgb},0.4)` }}>
+                        <ColourCard key={di} rgb={col.rgb} hue={col.hue} style={{ padding: "14px 16px", borderLeft: `2px solid rgba(${col.rgb},0.4)` }}>
                           <div style={{ fontSize: 14, fontWeight: 600, color: "#e0e0e8", marginBottom: 4 }}>{d.co}</div>
                           <div style={{ ...MO, fontSize: 10, color: "#555", marginBottom: 8 }}>{d.contact}</div>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -252,7 +252,7 @@ export default function SalesPage() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14 }}>
                 {stageData.deals.map((d, i) => (
                   <Reveal key={i} delay={i * 0.06}>
-                    <ColourCard rgb={stageData.rgb} style={{ padding: "24px 26px", borderLeft: `3px solid rgba(${stageData.rgb},0.5)` }}>
+                    <ColourCard rgb={stageData.rgb} hue={stageData.hue} style={{ padding: "24px 26px", borderLeft: `3px solid rgba(${stageData.rgb},0.5)` }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                         <div>
                           <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{d.co}</div>
@@ -280,7 +280,7 @@ export default function SalesPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {followUps.map((f, i) => (
                 <Reveal key={i} delay={i * 0.05}>
-                  <ColourCard rgb={f.rgb} style={{ padding: "20px 24px" }}>
+                  <ColourCard rgb={f.rgb} hue={f.overdue >= 5 ? 0 : 38} style={{ padding: "20px 24px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                       <div style={{ width: 3, height: 40, borderRadius: 2, background: f.color, flexShrink: 0 }} />
                       <div style={{ flex: 1 }}>
@@ -310,3 +310,4 @@ export default function SalesPage() {
     </div>
   );
 }
+
