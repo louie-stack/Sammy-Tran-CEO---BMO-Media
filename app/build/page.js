@@ -1,19 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Nav from "../../components/Nav";
+import GlowCard from "../../components/GlowCard";
 
 const mo = { fontFamily: "'Space Mono', monospace" };
 const jk = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
-const COLOR = "234,179,8";
-const HEX = "#eab308";
 
-function glowCard(rgb, h) {
-  return {
-    background: "rgba(6,10,18,0.97)",
-    border: `1px solid rgba(${rgb},${h ? 0.35 : 0.14})`,
-    boxShadow: h ? `0 0 28px rgba(${rgb},0.2), 0 12px 32px rgba(0,0,0,0.45)` : `0 0 14px rgba(${rgb},0.07), 0 8px 24px rgba(0,0,0,0.4)`,
-    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-  };
+function Reveal({ children, delay = 0, y = 30 }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.12 });
+  return (
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}>
+      {children}
+    </motion.div>
+  );
 }
 
 const integrations = [
@@ -22,7 +23,7 @@ const integrations = [
   { name: "Shopify", icon: "🛒", status: "connected", detail: "3 stores", color: "#10b981", rgb: "16,185,129" },
   { name: "Postscript", icon: "📱", status: "connected", detail: "SMS flows live", color: "#10b981", rgb: "16,185,129" },
   { name: "Attentive", icon: "💬", status: "connected", detail: "2 clients", color: "#10b981", rgb: "16,185,129" },
-  { name: "Gorgias", icon: "🎧", status: "warning", detail: "Auth expiring", color: "#f59e0b", rgb: "245,158,11" },
+  { name: "Gorgias", icon: "🎧", status: "warning", detail: "Auth expiring soon", color: "#f59e0b", rgb: "245,158,11" },
   { name: "Recharge", icon: "🔄", status: "connected", detail: "Subscriptions OK", color: "#10b981", rgb: "16,185,129" },
   { name: "Yotpo", icon: "⭐", status: "inactive", detail: "Not configured", color: "#475569", rgb: "71,85,105" },
 ];
@@ -30,7 +31,7 @@ const integrations = [
 const workflows = [
   { name: "Lead → CRM Sync", trigger: "Typeform webhook", last: "2 min ago", status: "active" },
   { name: "Klaviyo Tag → HubSpot Deal", trigger: "Klaviyo event", last: "14 min ago", status: "active" },
-  { name: "Weekly Client Report", trigger: "Mon 8am", last: "3 days ago", status: "active" },
+  { name: "Weekly Client Report", trigger: "Mon 8am cron", last: "3 days ago", status: "active" },
   { name: "BMO Draft → Approval Queue", trigger: "BMO agent output", last: "1 hour ago", status: "active" },
   { name: "MoonBrew Churn Alert", trigger: "Segment change", last: "Yesterday", status: "paused" },
   { name: "New Client Onboarding", trigger: "CRM deal closed", last: "Apr 28", status: "active" },
@@ -44,125 +45,128 @@ const deployments = [
 ];
 
 const apiHealth = [
-  { name: "Klaviyo API", ms: "142ms", ok: "healthy" },
-  { name: "Shopify Admin API", ms: "218ms", ok: "healthy" },
-  { name: "Postscript API", ms: "89ms", ok: "healthy" },
-  { name: "Gorgias API", ms: "—", ok: "error" },
-  { name: "HubSpot API", ms: "305ms", ok: "degraded" },
+  { name: "Klaviyo API", ms: "142ms", status: "healthy" },
+  { name: "Shopify Admin API", ms: "218ms", status: "healthy" },
+  { name: "Postscript API", ms: "89ms", status: "healthy" },
+  { name: "Gorgias API", ms: "—", status: "error" },
+  { name: "HubSpot API", ms: "305ms", status: "degraded" },
 ];
 
 export default function BuildPage() {
-  const [hovInt, setHovInt] = useState(null);
-
   return (
-    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0", position: "relative" }}>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.015, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-      <div style={{ position: "fixed", top: "-20%", right: "-10%", width: "50%", height: "70%", borderRadius: "50%", background: `radial-gradient(circle, rgba(${COLOR},0.04) 0%, transparent 55%)`, filter: "blur(80px)", pointerEvents: "none", zIndex: 0 }} />
+    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0" }}>
+      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
+      <div style={{ position: "fixed", top: "-30%", right: "-20%", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(234,179,8,0.05) 0%, transparent 60%)", filter: "blur(60px)", pointerEvents: "none", zIndex: 0 }} />
       <Nav />
 
-      <div style={{ paddingTop: 54, maxWidth: 1440, margin: "0 auto", padding: "108px 60px 0", position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-          <span style={{ fontSize: 22 }}>🐕</span>
-          <span style={{ ...mo, fontSize: 9, color: HEX, letterSpacing: "0.15em" }}>JAKE — BUILDER</span>
+      {/* Hero */}
+      <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "70px 60px 0" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <span style={{ fontSize: 20 }}>🐕</span>
+              <span style={{ ...mo, fontSize: 9, color: "rgba(234,179,8,0.7)", letterSpacing: "0.18em" }}>JAKE — BUILDER</span>
+            </div>
+            <h1 style={{ ...jk, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Build & Integrations</h1>
+            <p style={{ ...mo, fontSize: 11, color: "#2a3040" }}>Klaviyo flows · n8n automation · integrations · API health</p>
+          </motion.div>
         </div>
-        <h1 style={{ ...jk, fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 4 }}>Build & Integrations</h1>
-        <p style={{ ...mo, fontSize: 11, color: "#445", marginBottom: 32 }}>Klaviyo flows, n8n automation, integrations and API health</p>
       </div>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px 80px", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "56px 60px 100px", position: "relative", zIndex: 1 }}>
 
         {/* Integration Grid */}
-        <div style={{ marginBottom: 32 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-            <span style={{ ...mo, fontSize: 9, color: HEX }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#445", letterSpacing: "0.12em" }}>INTEGRATION STATUS</span>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+            <span style={{ ...mo, fontSize: 9, color: "#eab308" }}>✦</span>
+            <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>INTEGRATION STATUS</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
-            {integrations.map((int, i) => (
-              <div key={int.name}
-                onMouseEnter={() => setHovInt(i)}
-                onMouseLeave={() => setHovInt(null)}
-                style={{
-                  ...glowCard(int.rgb, hovInt === i),
-                  borderRadius: 10, padding: "14px 16px", borderTop: `2px solid rgba(${int.rgb},0.5)`,
-                }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 18 }}>{int.icon}</span>
-                  <span style={{ ...jk, fontSize: 13, fontWeight: 600, color: "#C8CDD8" }}>{int.name}</span>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 48 }}>
+            {integrations.map((int) => (
+              <GlowCard key={int.name} style={{ padding: "16px 18px", borderTop: `1px solid rgba(${int.rgb},0.2)` }}>
+                {/* Subtle top back-light */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(180deg, rgba(${int.rgb},0.04) 0%, transparent 100%)`, borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
+                <div style={{ position: "relative" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                    <span style={{ fontSize: 18 }}>{int.icon}</span>
+                    <span style={{ ...jk, fontSize: 13, fontWeight: 600, color: "#C0C5D2" }}>{int.name}</span>
+                  </div>
+                  <div style={{ ...mo, fontSize: 9, color: "#2a3040", marginBottom: 6 }}>{int.detail}</div>
+                  <span style={{ ...mo, fontSize: 8, fontWeight: 700, color: int.color, background: `rgba(${int.rgb},0.08)`, padding: "2px 7px", borderRadius: 3 }}>{int.status.toUpperCase()}</span>
                 </div>
-                <div style={{ ...mo, fontSize: 9, color: "#445", marginBottom: 5 }}>{int.detail}</div>
-                <span style={{ ...mo, fontSize: 8, fontWeight: 700, color: int.color, background: `rgba(${int.rgb},0.1)`, padding: "2px 6px", borderRadius: 3 }}>{int.status.toUpperCase()}</span>
-              </div>
+              </GlowCard>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
 
           {/* Workflows */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-              <span style={{ ...mo, fontSize: 9, color: HEX }}>✦</span>
-              <span style={{ ...mo, fontSize: 10, color: "#445", letterSpacing: "0.12em" }}>N8N WORKFLOWS</span>
-            </div>
-            {workflows.map((w, i) => (
-              <div key={i} style={{
-                ...glowCard(w.status === "active" ? "16,185,129" : "245,158,11", false),
-                borderRadius: 8, padding: "12px 16px", marginBottom: 6,
-                display: "flex", alignItems: "center", gap: 12,
-                borderLeft: `3px solid ${w.status === "active" ? "#10b981" : "#f59e0b"}`,
-              }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ ...jk, fontSize: 12, fontWeight: 600, color: "#C8CDD8", marginBottom: 2 }}>{w.name}</div>
-                  <div style={{ ...mo, fontSize: 9, color: "#445" }}>{w.trigger}</div>
-                </div>
-                <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div style={{ ...mo, fontSize: 9, color: "#334", marginBottom: 2 }}>{w.last}</div>
-                  <span style={{ ...mo, fontSize: 8, color: w.status === "active" ? "#10b981" : "#f59e0b" }}>{w.status.toUpperCase()}</span>
-                </div>
+            <Reveal>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                <span style={{ ...mo, fontSize: 9, color: "#eab308" }}>✦</span>
+                <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>N8N WORKFLOWS</span>
               </div>
-            ))}
-          </div>
-
-          {/* Deployments + API Health */}
-          <div>
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                <span style={{ ...mo, fontSize: 9, color: HEX }}>✦</span>
-                <span style={{ ...mo, fontSize: 10, color: "#445", letterSpacing: "0.12em" }}>RECENT DEPLOYMENTS</span>
-              </div>
-              {deployments.map((d, i) => (
-                <div key={i} style={{
-                  ...glowCard(d.ok ? "16,185,129" : "239,68,68", false),
-                  borderRadius: 8, padding: "10px 14px", marginBottom: 6,
-                  display: "flex", alignItems: "center", gap: 10,
-                }}>
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: d.ok ? "#10b981" : "#ef4444", boxShadow: `0 0 6px ${d.ok ? "rgba(16,185,129,0.5)" : "rgba(239,68,68,0.5)"}` }} />
+            </Reveal>
+            <GlowCard style={{ padding: "22px 24px" }}>
+              {workflows.map((w, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, paddingBottom: i < workflows.length - 1 ? 14 : 0, marginBottom: i < workflows.length - 1 ? 14 : 0, borderBottom: i < workflows.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", borderLeft: `2px solid ${w.status === "active" ? "#10b981" : "#f59e0b"}`, paddingLeft: 12 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 12, color: "#C8CDD8", marginBottom: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.desc}</div>
-                    <div style={{ ...mo, fontSize: 9, color: "#445" }}>{d.env} · {d.date}</div>
+                    <div style={{ ...jk, fontSize: 12, fontWeight: 600, color: "#C0C5D2", marginBottom: 2 }}>{w.name}</div>
+                    <div style={{ ...mo, fontSize: 9, color: "#2a3040" }}>{w.trigger}</div>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <div style={{ ...mo, fontSize: 9, color: "#2a3040", marginBottom: 2 }}>{w.last}</div>
+                    <span style={{ ...mo, fontSize: 8, color: w.status === "active" ? "#10b981" : "#f59e0b" }}>{w.status.toUpperCase()}</span>
                   </div>
                 </div>
               ))}
+            </GlowCard>
+          </div>
+
+          {/* Deployments + API Health */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div>
+              <Reveal>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <span style={{ ...mo, fontSize: 9, color: "#eab308" }}>✦</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>RECENT DEPLOYMENTS</span>
+                </div>
+              </Reveal>
+              <GlowCard style={{ padding: "20px 22px" }}>
+                {deployments.map((d, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, paddingBottom: i < deployments.length - 1 ? 12 : 0, marginBottom: i < deployments.length - 1 ? 12 : 0, borderBottom: i < deployments.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: d.ok ? "#10b981" : "#ef4444", boxShadow: `0 0 6px ${d.ok ? "rgba(16,185,129,0.5)" : "rgba(239,68,68,0.5)"}` }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 12, color: "#B0B5C2", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 1 }}>{d.desc}</div>
+                      <div style={{ ...mo, fontSize: 9, color: "#2a3040" }}>{d.env} · {d.date}</div>
+                    </div>
+                  </div>
+                ))}
+              </GlowCard>
             </div>
 
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                <span style={{ ...mo, fontSize: 9, color: HEX }}>✦</span>
-                <span style={{ ...mo, fontSize: 10, color: "#445", letterSpacing: "0.12em" }}>API HEALTH</span>
-              </div>
-              {apiHealth.map((api, i) => (
-                <div key={i} style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  padding: "8px 14px", background: "rgba(6,10,18,0.7)",
-                  borderRadius: 6, marginBottom: 4, border: "1px solid rgba(255,255,255,0.04)",
-                }}>
-                  <div style={{ width: 5, height: 5, borderRadius: "50%", flexShrink: 0, background: api.ok === "healthy" ? "#10b981" : api.ok === "degraded" ? "#f59e0b" : "#ef4444" }} />
-                  <span style={{ fontSize: 12, color: "#778", flex: 1 }}>{api.name}</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#445" }}>{api.ms}</span>
-                  <span style={{ ...mo, fontSize: 8, color: api.ok === "healthy" ? "#10b981" : api.ok === "degraded" ? "#f59e0b" : "#ef4444" }}>{api.ok.toUpperCase()}</span>
+              <Reveal>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <span style={{ ...mo, fontSize: 9, color: "#eab308" }}>✦</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#334", letterSpacing: "0.15em" }}>API HEALTH</span>
                 </div>
-              ))}
+              </Reveal>
+              <GlowCard style={{ padding: "20px 22px" }}>
+                {apiHealth.map((api, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: i < apiHealth.length - 1 ? 10 : 0, marginBottom: i < apiHealth.length - 1 ? 10 : 0, borderBottom: i < apiHealth.length - 1 ? "1px solid rgba(255,255,255,0.03)" : "none" }}>
+                    <div style={{ width: 5, height: 5, borderRadius: "50%", flexShrink: 0, background: api.status === "healthy" ? "#10b981" : api.status === "degraded" ? "#f59e0b" : "#ef4444" }} />
+                    <span style={{ fontSize: 12, color: "#5a6480", flex: 1 }}>{api.name}</span>
+                    <span style={{ ...mo, fontSize: 10, color: "#2a3040" }}>{api.ms}</span>
+                    <span style={{ ...mo, fontSize: 8, color: api.status === "healthy" ? "#10b981" : api.status === "degraded" ? "#f59e0b" : "#ef4444" }}>{api.status.toUpperCase()}</span>
+                  </div>
+                ))}
+              </GlowCard>
             </div>
           </div>
         </div>

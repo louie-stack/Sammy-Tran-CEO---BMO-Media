@@ -1,34 +1,25 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Nav from "../../components/Nav";
+import GlowCard from "../../components/GlowCard";
 
 const mo = { fontFamily: "'Space Mono', monospace" };
 const jk = { fontFamily: "'Plus Jakarta Sans', sans-serif" };
-
-function glowCard(rgb, h) {
-  return {
-    background: "rgba(6,10,18,0.97)",
-    border: `1px solid rgba(${rgb},${h ? 0.4 : 0.18})`,
-    boxShadow: h
-      ? `0 0 30px rgba(${rgb},0.28), 0 0 80px rgba(${rgb},0.12), 0 16px 40px rgba(0,0,0,0.55), inset 0 0 40px rgba(${rgb},0.06)`
-      : `0 0 18px rgba(${rgb},0.12), 0 12px 32px rgba(0,0,0,0.45)`,
-    transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-  };
-}
 
 const agents = [
   {
     id: "bmo", name: "BMO", role: "Chief of Staff", rank: "01",
     color: "#3b82f6", rgb: "59,130,246", status: "active", emoji: "🤖",
     headline: "The one who keeps the whole operation running.",
-    desc: "Your main agent. Handles morning briefs, email triage, task delegation, and keeps every other agent coordinated. The one you talk to first.",
+    desc: "Your main agent. Handles morning briefs, email triage, task delegation, and keeps every other agent coordinated. The one you talk to first — and last.",
     model: "Claude Sonnet", uptime: "99.4%", tasksToday: 18, tasksWeek: 102,
-    capabilities: ["Morning brief compilation", "Email draft & triage", "Task delegation", "Calendar coordination", "End-of-day debrief"],
+    capabilities: ["Morning brief compilation", "Email drafting & triage", "Task delegation to agents", "Calendar coordination", "End-of-day debrief"],
     integrations: ["Gmail", "Google Calendar", "Slack", "Notion"],
     queue: [
       { task: "Compile morning brief", project: "All agents", pct: 100 },
       { task: "Draft reply — Ritual Beauty", project: "Inbox", pct: 80 },
-      { task: "Route research request to PB", project: "Centr Fitness", pct: null },
+      { task: "Route research to PB", project: "Centr Fitness", pct: null },
     ],
   },
   {
@@ -40,7 +31,7 @@ const agents = [
     capabilities: ["Lead triage & scoring", "Proposal drafting", "Pipeline tracking", "Follow-up sequences", "CRM updates"],
     integrations: ["HubSpot CRM", "Gmail", "Typeform", "Calendly"],
     queue: [
-      { task: "Follow-up — Jolie Skin (3 days)", project: "Pipeline", pct: null },
+      { task: "Follow-up — Jolie Skin (3d)", project: "Pipeline", pct: null },
       { task: "Draft proposal — Centr Fitness", project: "Sales", pct: 60 },
       { task: "Pipeline report — weekly", project: "All deals", pct: 100 },
     ],
@@ -68,7 +59,7 @@ const agents = [
     capabilities: ["Klaviyo flow builds", "n8n workflow automation", "Shopify integrations", "API pipeline setup", "Dashboard builds"],
     integrations: ["Klaviyo API", "n8n", "Shopify Admin", "Vercel", "Postscript"],
     queue: [
-      { task: "MoonBrew abandoned cart flow v3", project: "Klaviyo", pct: 100 },
+      { task: "MoonBrew cart flow v3", project: "Klaviyo", pct: 100 },
       { task: "Fix Gorgias webhook auth", project: "n8n", pct: 40 },
       { task: "Weekly metrics dashboard", project: "Reporting", pct: 100 },
     ],
@@ -90,14 +81,9 @@ const agents = [
 ];
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  return isMobile;
+  const [v, setV] = useState(false);
+  useEffect(() => { const c = () => setV(window.innerWidth < 768); c(); window.addEventListener("resize", c); return () => window.removeEventListener("resize", c); }, []);
+  return v;
 }
 
 export default function AgentsPage() {
@@ -109,71 +95,63 @@ export default function AgentsPage() {
   function pick(i) {
     if (i === sel) return;
     setTrans(true);
-    setTimeout(() => { setSel(i); setTrans(false); }, 220);
+    setTimeout(() => { setSel(i); setTrans(false); }, 200);
   }
 
-  const activeCount = agents.filter(ag => ag.status === "active").length;
-
   return (
-    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0", position: "relative" }}>
+    <div style={{ background: "#080B12", minHeight: "100vh", color: "#E8E8F0" }}>
       <style>{`@keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}} @keyframes slowZoom{0%{transform:scale(1)}100%{transform:scale(1.04)}}`}</style>
-
-      {/* Noise */}
-      <div style={{ position: "fixed", inset: 0, opacity: 0.015, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-      {/* Atmosphere */}
-      <div style={{ position: "fixed", top: "-15%", right: "-5%", width: "45%", height: "70%", borderRadius: "50%", background: `radial-gradient(circle, rgba(${a.rgb},0.04) 0%, transparent 55%)`, filter: "blur(80px)", pointerEvents: "none", zIndex: 0, transition: "background 0.5s" }} />
+      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
+      <div style={{ position: "fixed", top: "-25%", right: "-15%", width: "800px", height: "800px", borderRadius: "50%", background: `radial-gradient(circle, rgba(${a.rgb},0.055) 0%, transparent 60%)`, filter: "blur(60px)", pointerEvents: "none", zIndex: 0, transition: "background 0.6s" }} />
 
       <Nav />
 
-      {/* Hero Banner */}
-      <div style={{ position: "relative", width: "100%", height: isMobile ? 180 : 260, overflow: "hidden", marginTop: 54, background: `linear-gradient(135deg, rgba(${a.rgb},0.08) 0%, rgba(6,10,18,0.95) 60%)` }}>
-        {/* Decorative grid */}
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)", backgroundSize: "40px 40px", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #080B12 0%, rgba(8,11,18,0.3) 60%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #080B12 0%, transparent 15%, transparent 85%, #080B12 100%)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2, maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 16px" : "0 60px 24px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
+      {/* Hero */}
+      <div style={{ position: "relative", width: "100%", overflow: "hidden", marginTop: 54, paddingTop: 70, paddingBottom: 48, zIndex: 1 }}>
+        {/* Grid overlay */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)", backgroundSize: "48px 48px", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #080B12 0%, rgba(8,11,18,0.2) 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #080B12 0%, transparent 12%, transparent 88%, #080B12 100%)", pointerEvents: "none" }} />
+
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1440, margin: "0 auto", padding: "0 60px" }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}
+            style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
                 <span style={{ ...mo, fontSize: 9, color: "#3b82f6" }}>✦</span>
-                <span style={{ ...mo, fontSize: 10, color: "#3b82f6", letterSpacing: "0.12em" }}>AGENT ROSTER</span>
+                <span style={{ ...mo, fontSize: 10, color: "rgba(59,130,246,0.6)", letterSpacing: "0.15em" }}>AGENT ROSTER</span>
               </div>
-              <h1 style={{ ...jk, fontSize: isMobile ? 22 : 30, fontWeight: 800, letterSpacing: "-0.02em" }}>Your AI Team</h1>
+              <h1 style={{ ...jk, fontSize: isMobile ? 24 : 34, fontWeight: 800, letterSpacing: "-0.02em" }}>Your AI Team</h1>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               {[0, 0.3, 0.6].map((d, i) => (
                 <span key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "#3b82f6", boxShadow: "0 0 6px rgba(59,130,246,0.5)", animation: `gPulse 2s ease-in-out ${d}s infinite` }} />
               ))}
-              <span style={{ ...mo, fontSize: 10, color: "#445", marginLeft: 4 }}>{activeCount} of 5 online</span>
+              <span style={{ ...mo, fontSize: 10, color: "#334", marginLeft: 4 }}>3 of 5 online</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 60px" : "0 60px 80px", position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 16px 80px" : "0 60px 100px", position: "relative", zIndex: 2 }}>
 
-        {/* Agent Selector Tabs */}
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(5, 1fr)", borderBottom: "1px dashed rgba(255,255,255,0.05)" }}>
+        {/* Agent Tabs */}
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(5, 1fr)", borderBottom: "1px solid rgba(255,255,255,0.05)", marginBottom: 40 }}>
           {agents.map((ag, i) => {
             const on = i === sel;
             return (
-              <div
-                key={ag.id}
-                onClick={() => pick(i)}
-                style={{
-                  padding: "14px 0", cursor: "pointer", position: "relative",
-                  borderBottom: on ? `2px solid ${ag.color}` : "2px solid transparent",
-                  borderRight: i < agents.length - 1 ? "1px dashed rgba(255,255,255,0.04)" : "none",
-                  boxShadow: on ? `0 2px 20px rgba(${ag.rgb},0.15), inset 0 -4px 20px rgba(${ag.rgb},0.05)` : "none",
-                  transition: "all 0.25s",
-                }}
-              >
-                {on && <div style={{ position: "absolute", inset: 0, background: `linear-gradient(0deg, rgba(${ag.rgb},0.05) 0%, transparent 100%)`, pointerEvents: "none" }} />}
-                <div style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 16, position: "relative" }}>
-                  <span style={{ fontSize: 16 }}>{ag.emoji}</span>
+              <div key={ag.id} onClick={() => pick(i)} style={{
+                padding: "16px 0", cursor: "pointer", position: "relative",
+                borderBottom: on ? `2px solid ${ag.color}` : "2px solid transparent",
+                borderRight: i < agents.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                background: on ? `linear-gradient(0deg, rgba(${ag.rgb},0.04) 0%, transparent 100%)` : "transparent",
+                transition: "all 0.25s",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: 16 }}>
+                  <span style={{ fontSize: 18 }}>{ag.emoji}</span>
                   <div>
-                    <span style={{ ...jk, fontSize: 12, fontWeight: 800, color: on ? "#E8E8F0" : "#445" }}>{ag.name}</span>
-                    {!isMobile && <div style={{ ...mo, fontSize: 9, color: on ? `rgba(${ag.rgb},0.7)` : "#334" }}>{ag.role}</div>}
+                    <div style={{ ...jk, fontSize: 12, fontWeight: 700, color: on ? "#E8E8F0" : "#3a4555" }}>{ag.name}</div>
+                    {!isMobile && <div style={{ ...mo, fontSize: 9, color: on ? `rgba(${ag.rgb},0.6)` : "#222d3a", marginTop: 1 }}>{ag.role}</div>}
                   </div>
                 </div>
               </div>
@@ -182,101 +160,107 @@ export default function AgentsPage() {
         </div>
 
         {/* Agent Detail */}
-        <div style={{ opacity: trans ? 0 : 1, transform: trans ? "translateY(6px)" : "translateY(0)", transition: "all 0.22s", paddingTop: 32 }}>
+        <motion.div
+          key={sel}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 20 }}>
 
-            {/* Left — Identity + Video placeholder */}
-            <div>
-              <div style={{ ...glowCard(a.rgb, false), borderRadius: 14, padding: "28px", marginBottom: 16 }}>
-                {/* Video placeholder area */}
+            {/* Left */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* Identity + Video */}
+              <GlowCard style={{ padding: 28 }}>
+                {/* Video placeholder */}
                 <div style={{
-                  width: "100%", aspectRatio: "16/9", borderRadius: 10, marginBottom: 20,
-                  background: `linear-gradient(135deg, rgba(${a.rgb},0.12), rgba(${a.rgb},0.04))`,
-                  border: `1px solid rgba(${a.rgb},0.2)`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  flexDirection: "column", gap: 8,
+                  width: "100%", aspectRatio: "16/9", borderRadius: 10, marginBottom: 24,
+                  background: `linear-gradient(135deg, rgba(${a.rgb},0.1) 0%, rgba(8,12,22,0.8) 100%)`,
+                  border: `1px solid rgba(${a.rgb},0.18)`,
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10,
+                  overflow: "hidden", position: "relative",
                 }}>
-                  <span style={{ fontSize: 48 }}>{a.emoji}</span>
-                  <span style={{ ...mo, fontSize: 9, color: `rgba(${a.rgb},0.5)`, letterSpacing: "0.1em" }}>CHARACTER VIDEO</span>
-                  <span style={{ ...mo, fontSize: 8, color: "#334" }}>COMING SOON</span>
+                  {/* Back-light */}
+                  <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 50% 120%, rgba(${a.rgb},0.18) 0%, transparent 60%)`, pointerEvents: "none" }} />
+                  <span style={{ fontSize: 52, position: "relative", zIndex: 1, filter: "drop-shadow(0 0 20px rgba(255,255,255,0.1))" }}>{a.emoji}</span>
+                  <span style={{ ...mo, fontSize: 9, color: `rgba(${a.rgb},0.4)`, letterSpacing: "0.15em", position: "relative", zIndex: 1 }}>CHARACTER VIDEO</span>
+                  <span style={{ ...mo, fontSize: 8, color: "#222d3a", position: "relative", zIndex: 1 }}>COMING SOON</span>
                 </div>
 
-                <div style={{ marginBottom: 6 }}>
-                  <span style={{ ...mo, fontSize: 9, color: `rgba(${a.rgb},0.6)`, letterSpacing: "0.15em" }}>AGENT {a.rank}</span>
-                </div>
-                <h2 style={{ ...jk, fontSize: 26, fontWeight: 800, letterSpacing: "-0.01em", marginBottom: 4, color: "#E8E8F0" }}>{a.name}</h2>
-                <div style={{ ...mo, fontSize: 11, color: a.color, marginBottom: 12 }}>{a.role}</div>
-                <p style={{ ...jk, fontSize: 13, color: "#667", lineHeight: 1.6, marginBottom: 20 }}>{a.headline}</p>
-                <p style={{ fontSize: 13, color: "#556", lineHeight: 1.7 }}>{a.desc}</p>
-              </div>
+                <div style={{ ...mo, fontSize: 9, color: `rgba(${a.rgb},0.5)`, letterSpacing: "0.2em", marginBottom: 4 }}>AGENT {a.rank}</div>
+                <h2 style={{ ...jk, fontSize: 28, fontWeight: 800, letterSpacing: "-0.01em", color: "#E8E8F0", marginBottom: 4 }}>{a.name}</h2>
+                <div style={{ ...mo, fontSize: 10, color: a.color, letterSpacing: "0.08em", marginBottom: 14 }}>{a.role}</div>
+                <p style={{ ...jk, fontSize: 13, fontStyle: "italic", color: "#4a5570", lineHeight: 1.5, marginBottom: 14 }}>{a.headline}</p>
+                <p style={{ fontSize: 13, color: "#4a5570", lineHeight: 1.75 }}>{a.desc}</p>
+              </GlowCard>
 
               {/* Capabilities */}
-              <div style={{ ...glowCard(a.rgb, false), borderRadius: 12, padding: "20px 22px" }}>
-                <div style={{ ...mo, fontSize: 9, color: "#334", letterSpacing: "0.12em", marginBottom: 12 }}>CAPABILITIES</div>
+              <GlowCard style={{ padding: "22px 24px" }}>
+                <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 14 }}>CAPABILITIES</div>
                 {a.capabilities.map((c, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 8 }}>
-                    <span style={{ color: a.color, fontSize: 10, marginTop: 2 }}>▸</span>
-                    <span style={{ fontSize: 13, color: "#889", lineHeight: 1.4 }}>{c}</span>
+                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", paddingBottom: 10, borderBottom: i < a.capabilities.length - 1 ? "1px solid rgba(255,255,255,0.03)" : "none", marginBottom: i < a.capabilities.length - 1 ? 10 : 0 }}>
+                    <span style={{ color: a.color, fontSize: 9, marginTop: 3, opacity: 0.7 }}>▸</span>
+                    <span style={{ fontSize: 13, color: "#5a6480", lineHeight: 1.4 }}>{c}</span>
                   </div>
                 ))}
-              </div>
+              </GlowCard>
             </div>
 
-            {/* Right — Stats + Queue */}
-            <div>
-              {/* Stats */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
+            {/* Right */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* Stats bento */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                 {[
-                  { label: "STATUS", value: a.status === "active" ? "ONLINE" : "STANDBY", color: a.status === "active" ? "#10b981" : "#f59e0b" },
-                  { label: "TASKS TODAY", value: a.tasksToday },
-                  { label: "THIS WEEK", value: a.tasksWeek },
-                ].map((s, i) => (
-                  <div key={i} style={{ ...glowCard(a.rgb, false), borderRadius: 10, padding: "14px 16px" }}>
-                    <div style={{ ...mo, fontSize: 8, color: "#334", letterSpacing: "0.1em", marginBottom: 6 }}>{s.label}</div>
-                    <div style={{ ...jk, fontSize: 20, fontWeight: 800, color: s.color || "#E8E8F0" }}>{s.value}</div>
-                  </div>
+                  { label: "STATUS", value: a.status === "active" ? "ONLINE" : "STANDBY", valueColor: a.status === "active" ? "#10b981" : "#f59e0b" },
+                  { label: "TASKS TODAY", value: String(a.tasksToday), valueColor: "#E8E8F0" },
+                  { label: "THIS WEEK", value: String(a.tasksWeek), valueColor: "#E8E8F0" },
+                ].map((s) => (
+                  <GlowCard key={s.label} style={{ padding: "16px 18px", textAlign: "center" }}>
+                    <div style={{ ...mo, fontSize: 8, color: "#2a3040", letterSpacing: "0.12em", marginBottom: 8 }}>{s.label}</div>
+                    <div style={{ ...jk, fontSize: s.label === "STATUS" ? 13 : 22, fontWeight: 800, color: s.valueColor }}>{s.value}</div>
+                  </GlowCard>
                 ))}
               </div>
 
               {/* Task Queue */}
-              <div style={{ ...glowCard(a.rgb, false), borderRadius: 12, padding: "20px 22px", marginBottom: 16 }}>
-                <div style={{ ...mo, fontSize: 9, color: "#334", letterSpacing: "0.12em", marginBottom: 16 }}>ACTIVE QUEUE</div>
+              <GlowCard style={{ padding: "22px 24px", flex: 1 }}>
+                <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 18 }}>ACTIVE QUEUE</div>
                 {a.queue.map((q, i) => (
-                  <div key={i} style={{ marginBottom: 14 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                      <span style={{ fontSize: 13, color: "#889" }}>{q.task}</span>
-                      <span style={{ ...mo, fontSize: 9, color: "#445" }}>{q.project}</span>
+                  <div key={i} style={{ paddingBottom: 16, borderBottom: i < a.queue.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", marginBottom: i < a.queue.length - 1 ? 16 : 0 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ fontSize: 13, color: "#5a6480" }}>{q.task}</span>
+                      <span style={{ ...mo, fontSize: 9, color: "#2a3040", flexShrink: 0, marginLeft: 8 }}>{q.project}</span>
                     </div>
                     {q.pct !== null ? (
                       <div>
                         <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 3, height: 3 }}>
-                          <div style={{ width: `${q.pct}%`, height: 3, borderRadius: 3, background: q.pct === 100 ? "#10b981" : a.color, transition: "width 0.5s" }} />
+                          <div style={{ width: `${q.pct}%`, height: 3, borderRadius: 3, background: q.pct === 100 ? "#10b981" : a.color }} />
                         </div>
-                        <div style={{ ...mo, fontSize: 9, color: "#334", marginTop: 3 }}>{q.pct}%</div>
+                        <div style={{ ...mo, fontSize: 9, color: "#2a3040", marginTop: 4 }}>{q.pct === 100 ? "Complete" : `${q.pct}%`}</div>
                       </div>
                     ) : (
-                      <div style={{ ...mo, fontSize: 9, color: "#334" }}>QUEUED</div>
+                      <div style={{ ...mo, fontSize: 9, color: "#2a3040" }}>QUEUED</div>
                     )}
                   </div>
                 ))}
-              </div>
+              </GlowCard>
 
               {/* Integrations */}
-              <div style={{ ...glowCard(a.rgb, false), borderRadius: 12, padding: "20px 22px" }}>
-                <div style={{ ...mo, fontSize: 9, color: "#334", letterSpacing: "0.12em", marginBottom: 12 }}>INTEGRATIONS</div>
+              <GlowCard style={{ padding: "22px 24px" }}>
+                <div style={{ ...mo, fontSize: 9, color: "#2a3040", letterSpacing: "0.15em", marginBottom: 14 }}>INTEGRATIONS</div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {a.integrations.map((int) => (
                     <span key={int} style={{
-                      ...mo, fontSize: 10, padding: "4px 10px", borderRadius: 4,
-                      background: `rgba(${a.rgb},0.06)`, border: `1px solid rgba(${a.rgb},0.15)`,
-                      color: `rgba(${a.rgb},0.8)`,
+                      ...mo, fontSize: 10, padding: "5px 12px", borderRadius: 5,
+                      background: `rgba(${a.rgb},0.06)`, border: `1px solid rgba(${a.rgb},0.14)`,
+                      color: `rgba(${a.rgb},0.7)`,
                     }}>{int}</span>
                   ))}
                 </div>
-              </div>
+              </GlowCard>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
