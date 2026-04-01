@@ -143,7 +143,7 @@ export default function Home() {
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "100px 60px 72px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, position: "relative", zIndex: 1 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
-              style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14, marginLeft: 12 }}>
+              style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14, marginLeft: 6 }}>
               BMO MEDIA — COMMAND CENTRE
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 1.2, delay: 0.1 }}
