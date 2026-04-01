@@ -329,8 +329,10 @@ function AgentsPageInner() {
             {a.video ? (
               <>
                 <video key={a.video} src={a.video} autoPlay loop muted playsInline style={{ height: a.id === "jake" ? "62%" : a.id === "bmo" ? "76%" : "82%", width: "auto", display: "block", position: "relative", zIndex: 1 }} />
-                <div style={{ position: "absolute", top: 0, left: 0, width: "25%", height: "100%", background: "linear-gradient(90deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "25%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: 0, left: 0, width: "30%", height: "100%", background: "linear-gradient(90deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: 0, right: 0, width: "30%", height: "100%", background: "linear-gradient(270deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "20%", background: "linear-gradient(180deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(0deg, #000 0%, transparent 100%)", zIndex: 2, pointerEvents: "none" }} />
 
               </>
             ) : (
