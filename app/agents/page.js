@@ -271,7 +271,7 @@ function AgentsPageInner() {
               </div>
 
               {/* Name */}
-              <h2 style={{ fontSize: isMobile ? 22 : 34, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 0.96, marginBottom: 12 }}>{a.name}</h2>
+              <h2 style={{ fontSize: isMobile ? 22 : 34, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 0.96, marginBottom: 12 }}>{a.name.charAt(0).toUpperCase() + a.name.slice(1).toLowerCase()}</h2>
               <p style={{ fontSize: 14, fontWeight: 600, color: a.color, marginBottom: 18, opacity: 0.9 }}>{a.headline}</p>
               <p style={{ fontSize: 13, color: "#888", lineHeight: 1.75, marginBottom: 28, maxWidth: 420 }}>{a.desc}</p>
 
