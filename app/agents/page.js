@@ -189,10 +189,12 @@ function AgentsPageInner() {
 
       {/* ── HERO BANNER ── */}
       <div style={{ position: "relative", width: "100%", height: isMobile ? 180 : 280, overflow: "hidden", marginTop: 54 }}>
-        {/* Grid pattern bg instead of image */}
-        <div style={{ position: "absolute", inset: 0, background: "#080808", backgroundImage: "linear-gradient(rgba(196,240,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(196,240,0,0.03) 1px, transparent 1px)", backgroundSize: "48px 48px", animation: "slowZoom 25s ease-in-out infinite alternate" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, transparent 60%)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 15%, transparent 85%, #0D0D0D 100%)" }} />
+        {/* Hero background image */}
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "url('/hero-banner-agents.png')", backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat", opacity: 0.35 }} />
+        {/* Fade to page bg at bottom */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, #0D0D0D 0%, rgba(13,13,13,0.6) 40%, rgba(13,13,13,0.2) 100%)", pointerEvents: "none" }} />
+        {/* Fade edges left/right */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, #0D0D0D 0%, transparent 20%, transparent 80%, #0D0D0D 100%)", pointerEvents: "none" }} />
         {/* Agent PFP row in the banner */}
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: isMobile ? 20 : 40 }}>
           {agents.map((ag, i) => (
