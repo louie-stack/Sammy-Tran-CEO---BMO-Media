@@ -27,11 +27,11 @@ function SectionHeader({ label, title, href, linkLabel }) {
   return (
     <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 24 }}>
       <div>
-        <div style={{ ...MO, fontSize: 9, color: GREEN, letterSpacing: "0.18em", marginBottom: 8 }}>{label}</div>
+        <div style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 8 }}>{label}</div>
         <h2 style={{ ...IN, fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", color: "#fff" }}>{title}</h2>
       </div>
       {href && (
-        <Link href={href} style={{ ...MO, fontSize: 9, color: "#444", textDecoration: "none", display: "flex", alignItems: "center", gap: 5, transition: "color 0.2s" }}
+        <Link href={href} style={{ ...MO, fontSize: 11, color: "#777", textDecoration: "none", display: "flex", alignItems: "center", gap: 5, transition: "color 0.2s" }}
           onMouseEnter={e => e.currentTarget.style.color = GREEN}
           onMouseLeave={e => e.currentTarget.style.color = "#444"}>
           {linkLabel || "VIEW ALL"} <span style={{ color: GREEN }}>→</span>
@@ -45,7 +45,13 @@ function SectionHeader({ label, title, href, linkLabel }) {
 
 const MORNING_BRIEF = {
   date: "Wednesday, April 1 2026",
-  summary: "3 emails need your sign-off. Ritual Beauty discovery call at 2pm. MoonBrew Klaviyo flow is live. Nexmail strategy review is overdue by 2 days.",
+  bullets: [
+    { text: "3 emails need your sign-off before 12pm", urgent: true },
+    { text: "Ritual Beauty discovery call at 2:00 PM today", urgent: false },
+    { text: "MoonBrew Klaviyo cart flow v3 is live", urgent: false },
+    { text: "Nexmail strategy review is overdue by 2 days", urgent: true },
+    { text: "Jolie Skin follow-up is 3 days overdue — Marceline is on it", urgent: false },
+  ],
   emails: [
     { from: "Ritual Beauty", subject: "Re: Partnership proposal — ready to move forward", urgent: true, time: "8:14am" },
     { from: "Jolie Skin", subject: "Following up on our intro call last week", urgent: false, time: "9:02am" },
@@ -125,7 +131,7 @@ export default function Home() {
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 60px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24 }}>
           <div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.05 }}
-              style={{ ...MO, fontSize: 9, color: GREEN, letterSpacing: "0.18em", marginBottom: 14 }}>
+              style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em", marginBottom: 14 }}>
               BMO MEDIA — COMMAND CENTRE
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", bounce: 0, duration: 1.2, delay: 0.1 }}
@@ -137,7 +143,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
             style={{ textAlign: "right" }}>
             <div style={{ ...MO, fontSize: 40, fontWeight: 700, color: GREEN, letterSpacing: "0.02em", lineHeight: 1 }}>{time}</div>
-            <div style={{ ...MO, fontSize: 9, color: "#333", marginTop: 6 }}>{MORNING_BRIEF.date}</div>
+            <div style={{ ...MO, fontSize: 11, color: "#777", marginTop: 6 }}>{MORNING_BRIEF.date}</div>
           </motion.div>
         </div>
       </section>
@@ -152,8 +158,8 @@ export default function Home() {
                   <div style={{ fontSize: "clamp(1.8rem, 2.5vw, 2.6rem)", fontWeight: 800, color: s.color, letterSpacing: "-0.03em", lineHeight: 1 }}>
                     {s.value}<span style={{ color: GREEN, fontSize: "0.7em" }}>{s.suffix}</span>
                   </div>
-                  <div style={{ ...MO, fontSize: 9, color: "#333", letterSpacing: "0.14em", marginTop: 5 }}>{s.label}</div>
-                  <div style={{ fontSize: 12, color: "#444", marginTop: 3 }}>{s.sub}</div>
+                  <div style={{ ...MO, fontSize: 11, color: "#777", letterSpacing: "0.14em", marginTop: 5 }}>{s.label}</div>
+                  <div style={{ fontSize: 12, color: "#777", marginTop: 3 }}>{s.sub}</div>
                 </div>
               </Reveal>
             ))}
@@ -173,13 +179,21 @@ export default function Home() {
             {/* Summary */}
             <Reveal delay={0.06}>
               <GlowCard style={{ padding: "22px 24px", height: "100%" }}>
-                <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 14 }}>BMO SAYS</div>
-                <p style={{ fontSize: 14, lineHeight: 1.75, color: "#888" }}>{MORNING_BRIEF.summary}</p>
-                <div style={{ marginTop: 18, paddingTop: 14, borderTop: "1px solid #1a1a1a" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: "gPulse 2s ease-in-out infinite", display: "block" }} />
-                    <span style={{ ...MO, fontSize: 8, color: "#444" }}>UPDATED 8:00 AM</span>
-                  </div>
+                <div style={{ ...MO, fontSize: 10, color: "#666", letterSpacing: "0.14em", marginBottom: 16 }}>BMO SAYS</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }}>
+                  {MORNING_BRIEF.bullets.map((b, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <span style={{ width: 5, height: 5, borderRadius: "50%", flexShrink: 0, marginTop: 6,
+                        background: b.urgent ? "#ef4444" : GREEN,
+                        boxShadow: b.urgent ? "0 0 5px rgba(239,68,68,0.6)" : `0 0 5px ${GREEN}80`,
+                      }} />
+                      <span style={{ fontSize: 14, color: b.urgent ? "#ddd" : "#aaa", lineHeight: 1.55 }}>{b.text}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ paddingTop: 14, borderTop: "1px solid #1a1a1a", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: "gPulse 2s ease-in-out infinite", display: "block" }} />
+                  <span style={{ ...MO, fontSize: 10, color: "#666" }}>UPDATED 8:00 AM</span>
                 </div>
               </GlowCard>
             </Reveal>
@@ -187,18 +201,18 @@ export default function Home() {
             {/* Inbox */}
             <Reveal delay={0.1}>
               <GlowCard style={{ padding: "22px 24px" }}>
-                <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 14 }}>INBOX — {MORNING_BRIEF.emails.length} UNREAD</div>
+                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>INBOX — {MORNING_BRIEF.emails.length} UNREAD</div>
                 {MORNING_BRIEF.emails.map((e, i) => (
                   <div key={i} style={{ paddingBottom: i < MORNING_BRIEF.emails.length - 1 ? 12 : 0, marginBottom: i < MORNING_BRIEF.emails.length - 1 ? 12 : 0, borderBottom: i < MORNING_BRIEF.emails.length - 1 ? "1px solid #111" : "none" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
                       <span style={{ fontSize: 13, fontWeight: 600, color: "#ccc" }}>{e.from}</span>
-                      <span style={{ ...MO, fontSize: 8, color: "#333" }}>{e.time}</span>
+                      <span style={{ ...MO, fontSize: 10, color: "#777" }}>{e.time}</span>
                     </div>
-                    <div style={{ fontSize: 12, color: "#555", marginBottom: 5 }}>{e.subject}</div>
-                    {e.urgent && <span style={{ ...MO, fontSize: 8, color: "#ef4444", background: "rgba(239,68,68,0.08)", padding: "2px 7px", borderRadius: 70, border: "1px solid rgba(239,68,68,0.2)" }}>URGENT</span>}
+                    <div style={{ fontSize: 12, color: "#888", marginBottom: 5 }}>{e.subject}</div>
+                    {e.urgent && <span style={{ ...MO, fontSize: 10, color: "#ef4444", background: "rgba(239,68,68,0.08)", padding: "2px 7px", borderRadius: 70, border: "1px solid rgba(239,68,68,0.2)" }}>URGENT</span>}
                   </div>
                 ))}
-                <Link href="/sales" style={{ ...MO, fontSize: 9, color: "#444", textDecoration: "none", display: "block", marginTop: 14, paddingTop: 12, borderTop: "1px solid #1a1a1a", transition: "color 0.2s" }}
+                <Link href="/sales" style={{ ...MO, fontSize: 11, color: "#777", textDecoration: "none", display: "block", marginTop: 14, paddingTop: 12, borderTop: "1px solid #1a1a1a", transition: "color 0.2s" }}
                   onMouseEnter={e => e.currentTarget.style.color = GREEN}
                   onMouseLeave={e => e.currentTarget.style.color = "#444"}>
                   OPEN ALL EMAILS →
@@ -209,13 +223,13 @@ export default function Home() {
             {/* Calendar */}
             <Reveal delay={0.14}>
               <GlowCard style={{ padding: "22px 24px" }}>
-                <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 14 }}>TODAY'S SCHEDULE</div>
+                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>TODAY'S SCHEDULE</div>
                 {MORNING_BRIEF.calendar.map((c, i) => (
                   <div key={i} style={{ display: "flex", gap: 14, paddingBottom: i < MORNING_BRIEF.calendar.length - 1 ? 14 : 0, marginBottom: i < MORNING_BRIEF.calendar.length - 1 ? 14 : 0, borderBottom: i < MORNING_BRIEF.calendar.length - 1 ? "1px solid #111" : "none" }}>
                     <div style={{ ...MO, fontSize: 10, color: GREEN, width: 42, flexShrink: 0, paddingTop: 1 }}>{c.time}</div>
                     <div>
                       <div style={{ fontSize: 13, color: "#ccc", marginBottom: 5 }}>{c.title}</div>
-                      <span style={{ ...MO, fontSize: 8, color: "#555", background: "#111", padding: "2px 7px", borderRadius: 70, border: "1px solid #1f1f1f" }}>{c.tag}</span>
+                      <span style={{ ...MO, fontSize: 10, color: "#888", background: "#1a1a1a", padding: "2px 7px", borderRadius: 70, border: "1px solid #1f1f1f" }}>{c.tag}</span>
                     </div>
                   </div>
                 ))}
@@ -236,20 +250,20 @@ export default function Home() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 3 }}>{p.client}</div>
-                      <span style={{ ...MO, fontSize: 8, padding: "2px 8px", borderRadius: 70, border: "1px solid #2a2a2a", color: "#555" }}>{p.type}</span>
+                      <span style={{ ...MO, fontSize: 10, padding: "2px 8px", borderRadius: 70, border: "1px solid #2a2a2a", color: "#888" }}>{p.type}</span>
                     </div>
                     <div style={{ textAlign: "right" }}>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>{p.mrr}</div>
-                      <span style={{ ...MO, fontSize: 8, color: p.statusColor }}>{p.status}</span>
+                      <span style={{ ...MO, fontSize: 10, color: p.statusColor }}>{p.status}</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: 12, color: "#555", lineHeight: 1.6, marginBottom: 14 }}>{p.focus}</div>
+                  <div style={{ fontSize: 12, color: "#888", lineHeight: 1.6, marginBottom: 14 }}>{p.focus}</div>
                   {p.progress > 0 && (
                     <div>
-                      <div style={{ background: "#111", borderRadius: 3, height: 2 }}>
+                      <div style={{ background: "#1a1a1a", borderRadius: 3, height: 2 }}>
                         <div style={{ width: `${p.progress}%`, height: 2, borderRadius: 3, background: p.color }} />
                       </div>
-                      <div style={{ ...MO, fontSize: 8, color: "#333", marginTop: 4 }}>{p.progress}% this month</div>
+                      <div style={{ ...MO, fontSize: 10, color: "#777", marginTop: 4 }}>{p.progress}% this month</div>
                     </div>
                   )}
                 </GlowCard>
@@ -272,7 +286,7 @@ export default function Home() {
 
                 {/* Agent list */}
                 <div>
-                  <div style={{ ...MO, fontSize: 9, color: "#333", letterSpacing: "0.15em", marginBottom: 20 }}>HOVER ORBIT TO PAUSE · CLICK TO VIEW</div>
+                  <div style={{ ...MO, fontSize: 11, color: "#777", letterSpacing: "0.15em", marginBottom: 20 }}>HOVER ORBIT TO PAUSE · CLICK TO VIEW</div>
                   {AGENTS.map((a, i) => (
                     <Link key={a.name} href={a.href} style={{ textDecoration: "none", display: "block" }}>
                       <div
@@ -283,7 +297,7 @@ export default function Home() {
                         <span style={{ fontSize: 22, flexShrink: 0 }}>{a.emoji}</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", marginBottom: 2 }}>{a.name}</div>
-                          <div style={{ fontSize: 12, color: "#555", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.lastAction}</div>
+                          <div style={{ fontSize: 12, color: "#888", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.lastAction}</div>
                         </div>
                         <div style={{ textAlign: "right", flexShrink: 0 }}>
                           <div style={{ display: "flex", alignItems: "baseline", gap: 2, justifyContent: "flex-end", marginBottom: 3 }}>
@@ -292,7 +306,7 @@ export default function Home() {
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
                             <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.status === "active" ? GREEN : "#333", boxShadow: a.status === "active" ? `0 0 4px ${GREEN}80` : "none", display: "block", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none" }} />
-                            <span style={{ ...MO, fontSize: 7, color: "#444" }}>{a.status.toUpperCase()}</span>
+                            <span style={{ ...MO, fontSize: 7, color: "#777" }}>{a.status.toUpperCase()}</span>
                           </div>
                         </div>
                       </div>
@@ -319,16 +333,16 @@ export default function Home() {
                     <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < PIPELINE_SNAPSHOT.length - 1 ? "1px solid #111" : "none" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{d.co}</div>
-                        <div style={{ fontSize: 12, color: "#555" }}>{d.stage}</div>
+                        <div style={{ fontSize: 12, color: "#888" }}>{d.stage}</div>
                       </div>
                       <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{d.value}</div>
                       {d.days > 0 && (
-                        <span style={{ ...MO, fontSize: 8, color: d.urgent ? "#ef4444" : "#555", background: d.urgent ? "rgba(239,68,68,0.08)" : "#111", padding: "2px 7px", borderRadius: 70, border: `1px solid ${d.urgent ? "rgba(239,68,68,0.2)" : "#1f1f1f"}`, flexShrink: 0 }}>
+                        <span style={{ ...MO, fontSize: 10, color: d.urgent ? "#ef4444" : "#555", background: d.urgent ? "rgba(239,68,68,0.08)" : "#1e1e1e", padding: "2px 7px", borderRadius: 70, border: `1px solid ${d.urgent ? "rgba(239,68,68,0.2)" : "#1f1f1f"}`, flexShrink: 0 }}>
                           {d.days}d
                         </span>
                       )}
                       {d.days === 0 && (
-                        <span style={{ ...MO, fontSize: 8, color: GREEN, background: `${GREEN}10`, padding: "2px 7px", borderRadius: 70, border: `1px solid ${GREEN}25`, flexShrink: 0 }}>NEW</span>
+                        <span style={{ ...MO, fontSize: 10, color: GREEN, background: `${GREEN}10`, padding: "2px 7px", borderRadius: 70, border: `1px solid ${GREEN}25`, flexShrink: 0 }}>NEW</span>
                       )}
                     </div>
                   </Reveal>
@@ -348,9 +362,9 @@ export default function Home() {
                       <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: b.ok ? GREEN : "#ef4444", boxShadow: b.ok ? `0 0 5px ${GREEN}60` : "0 0 5px rgba(239,68,68,0.5)" }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, color: "#ccc", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>{b.desc}</div>
-                        <div style={{ ...MO, fontSize: 9, color: "#444" }}>{b.env} · {b.date}</div>
+                        <div style={{ ...MO, fontSize: 11, color: "#777" }}>{b.env} · {b.date}</div>
                       </div>
-                      <span style={{ ...MO, fontSize: 8, color: b.ok ? GREEN : "#ef4444" }}>{b.ok ? "OK" : "FAIL"}</span>
+                      <span style={{ ...MO, fontSize: 10, color: b.ok ? GREEN : "#ef4444" }}>{b.ok ? "OK" : "FAIL"}</span>
                     </div>
                   </Reveal>
                 ))}
@@ -362,12 +376,12 @@ export default function Home() {
                   <GlowCard style={{ padding: "18px 22px", cursor: "pointer", marginTop: 12 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>
-                        <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 8 }}>WELLNESS — FINN</div>
+                        <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 8 }}>WELLNESS — FINN</div>
                         <div style={{ display: "flex", gap: 20 }}>
                           {[{ l: "SCORE", v: "7.8", s: "/10" }, { l: "BP TODAY", v: "121/79" }, { l: "TIRZEPATIDE", v: "WK 8" }].map((s) => (
                             <div key={s.l}>
                               <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{s.v}<span style={{ color: GREEN, fontSize: 12 }}>{s.s || ""}</span></div>
-                              <div style={{ ...MO, fontSize: 8, color: "#333", marginTop: 2 }}>{s.l}</div>
+                              <div style={{ ...MO, fontSize: 10, color: "#777", marginTop: 2 }}>{s.l}</div>
                             </div>
                           ))}
                         </div>
@@ -391,17 +405,17 @@ export default function Home() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
                 <div>
                   <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>Nexmail v2 — Positioning & Pricing</div>
-                  <p style={{ fontSize: 14, color: "#555", lineHeight: 1.75, marginBottom: 20 }}>
+                  <p style={{ fontSize: 14, color: "#888", lineHeight: 1.75, marginBottom: 20 }}>
                     A high-touch lifecycle intelligence layer built above Klaviyo. Human-verified AI strategy + execution — not a pure SaaS play. Internal strategy review due this week.
                   </p>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     {["AI send-time optimisation", "Predictive churn scoring", "White-glove onboarding", "BMO strategy layer"].map((tag) => (
-                      <span key={tag} style={{ ...MO, fontSize: 8, padding: "4px 10px", borderRadius: 70, border: "1px solid #2a2a2a", color: "#555" }}>{tag}</span>
+                      <span key={tag} style={{ ...MO, fontSize: 10, padding: "4px 10px", borderRadius: 70, border: "1px solid #2a2a2a", color: "#888" }}>{tag}</span>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", marginBottom: 14 }}>STRATEGY PROGRESS</div>
+                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 14 }}>STRATEGY PROGRESS</div>
                   {[
                     { label: "Market positioning", pct: 80 },
                     { label: "Pricing model", pct: 45 },
@@ -410,10 +424,10 @@ export default function Home() {
                   ].map((item) => (
                     <div key={item.label} style={{ marginBottom: 12 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        <span style={{ fontSize: 12, color: "#555" }}>{item.label}</span>
-                        <span style={{ ...MO, fontSize: 9, color: item.pct === 100 ? GREEN : "#444" }}>{item.pct}%</span>
+                        <span style={{ fontSize: 12, color: "#888" }}>{item.label}</span>
+                        <span style={{ ...MO, fontSize: 11, color: item.pct === 100 ? GREEN : "#444" }}>{item.pct}%</span>
                       </div>
-                      <div style={{ background: "#111", borderRadius: 3, height: 2 }}>
+                      <div style={{ background: "#1a1a1a", borderRadius: 3, height: 2 }}>
                         <div style={{ width: `${item.pct}%`, height: 2, borderRadius: 3, background: item.pct === 100 ? GREEN : "#333" }} />
                       </div>
                     </div>
@@ -427,3 +441,5 @@ export default function Home() {
     </div>
   );
 }
+
+

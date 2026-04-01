@@ -67,12 +67,12 @@ export default function SalesPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <span style={{ fontSize: 20 }}>🎸</span>
-              <span style={{ ...mo, fontSize: 9, color: "rgba(168,85,247,0.7)", letterSpacing: "0.18em" }}>MARCELINE — SALES & BD</span>
+              <span style={{ ...mo, fontSize: 11, color: "rgba(168,85,247,0.7)", letterSpacing: "0.18em" }}>MARCELINE — SALES & BD</span>
             </div>
             <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>
               <span style={{ color: "#fff" }}>Pipeline</span>
             </h1>
-            <p style={{ ...mo, fontSize: 11, color: "#333", marginBottom: 0 }}>Lead triage · proposals · CRM · follow-up sequences</p>
+            <p style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 0 }}>Lead triage · proposals · CRM · follow-up sequences</p>
           </motion.div>
         </div>
       </div>
@@ -90,8 +90,8 @@ export default function SalesPage() {
               <Reveal key={s.label} delay={i * 0.08}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 0", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
                   <div style={{ ...IN, fontSize: "clamp(1.8rem, 2.5vw, 2.5rem)", fontWeight: 800, color: s.color, lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ ...mo, fontSize: 9, color: "#444", letterSpacing: "0.15em", marginTop: 6 }}>{s.label}</div>
-                  <div style={{ ...mo, fontSize: 9, color: "#333", marginTop: 3 }}>{s.sub}</div>
+                  <div style={{ ...mo, fontSize: 11, color: "#777", letterSpacing: "0.15em", marginTop: 6 }}>{s.label}</div>
+                  <div style={{ ...mo, fontSize: 11, color: "#777", marginTop: 3 }}>{s.sub}</div>
                 </div>
               </Reveal>
             ))}
@@ -104,8 +104,8 @@ export default function SalesPage() {
         {/* Pipeline */}
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-            <span style={{ ...mo, fontSize: 9, color: "#a855f7" }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>DEAL PIPELINE</span>
+            <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>✦</span>
+            <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>DEAL PIPELINE</span>
           </div>
         </Reveal>
 
@@ -114,15 +114,15 @@ export default function SalesPage() {
             {pipeline.map((col) => (
               <div key={col.stage}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 0 8px", marginBottom: 10, borderBottom: `1px solid rgba(${col.rgb},0.2)` }}>
-                  <span style={{ ...mo, fontSize: 8, color: `rgba(${col.rgb},0.8)`, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
-                  <span style={{ ...mo, fontSize: 8, color: `rgba(${col.rgb},0.6)`, background: `rgba(${col.rgb},0.08)`, padding: "1px 5px", borderRadius: 3 }}>{col.deals.length}</span>
+                  <span style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.8)`, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
+                  <span style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.6)`, background: `rgba(${col.rgb},0.08)`, padding: "1px 5px", borderRadius: 3 }}>{col.deals.length}</span>
                 </div>
                 {col.deals.map((d, i) => (
                   <GlowCard key={i} style={{ padding: "10px 12px", marginBottom: 7, borderLeft: `2px solid rgba(${col.rgb},0.35)` }}>
                     <div style={{ ...IN, fontSize: 12, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{d.co}</div>
-                    <div style={{ ...mo, fontSize: 9, color: "#333", marginBottom: 4 }}>{d.contact}</div>
+                    <div style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 4 }}>{d.contact}</div>
                     <div style={{ ...mo, fontSize: 10, color: `rgba(${col.rgb},0.85)` }}>{d.value}</div>
-                    {d.days > 0 && <div style={{ ...mo, fontSize: 8, color: d.days > 12 ? "#f59e0b" : "#2a3040", marginTop: 3 }}>{d.days}d in stage</div>}
+                    {d.days > 0 && <div style={{ ...mo, fontSize: 10, color: d.days > 12 ? "#f59e0b" : "#2a3040", marginTop: 3 }}>{d.days}d in stage</div>}
                   </GlowCard>
                 ))}
               </div>
@@ -133,8 +133,8 @@ export default function SalesPage() {
         {/* Follow-ups */}
         <Reveal>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-            <span style={{ ...mo, fontSize: 9, color: "#a855f7" }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>OVERDUE FOLLOW-UPS</span>
+            <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>✦</span>
+            <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>OVERDUE FOLLOW-UPS</span>
           </div>
         </Reveal>
         {followUps.map((f, i) => (
@@ -142,9 +142,9 @@ export default function SalesPage() {
             <GlowCard style={{ padding: "14px 20px", marginBottom: 8, display: "flex", alignItems: "center", gap: 16, borderLeft: `2px solid ${f.overdue >= 5 ? "#ef4444" : "#f59e0b"}` }}>
               <div style={{ flex: 1 }}>
                 <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#ccc" }}>{f.co}</span>
-                <span style={{ ...mo, fontSize: 10, color: "#333", marginLeft: 10 }}>{f.contact}</span>
+                <span style={{ ...mo, fontSize: 10, color: "#777", marginLeft: 10 }}>{f.contact}</span>
               </div>
-              <span style={{ ...mo, fontSize: 10, color: "#444" }}>{f.note}</span>
+              <span style={{ ...mo, fontSize: 10, color: "#777" }}>{f.note}</span>
               <span style={{ ...mo, fontSize: 10, fontWeight: 700, color: f.overdue >= 5 ? "#ef4444" : "#f59e0b", background: f.overdue >= 5 ? "rgba(239,68,68,0.08)" : "rgba(245,158,11,0.08)", padding: "3px 9px", borderRadius: 4 }}>{f.overdue}d overdue</span>
               <button style={{ ...mo, padding: "5px 14px", borderRadius: 5, fontSize: 10, background: "rgba(168,85,247,0.06)", border: "1px solid rgba(168,85,247,0.15)", color: "rgba(168,85,247,0.7)", cursor: "pointer" }}>Follow Up</button>
             </GlowCard>
@@ -154,6 +154,8 @@ export default function SalesPage() {
     </div>
   );
 }
+
+
 
 
 

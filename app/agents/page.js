@@ -112,16 +112,16 @@ function QueueRow({ task: t, agent: a, isLast }) {
     }}>
       <span style={{ fontSize: 12, color: "#666" }}>{t.task}</span>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span style={{ ...MO, fontSize: 9, color: "#333" }}>{t.project}</span>
+        <span style={{ ...MO, fontSize: 11, color: "#777" }}>{t.project}</span>
         {t.pct != null && (
           <>
-            <div style={{ width: 40, height: 2, background: "#1a1a1a", borderRadius: 1 }}>
+            <div style={{ width: 40, height: 2, background: "#111", borderRadius: 1 }}>
               <div style={{ width: `${t.pct}%`, height: "100%", background: a.color, borderRadius: 1 }} />
             </div>
-            <span style={{ ...MO, fontSize: 9, color: a.color, minWidth: 24, textAlign: "right" }}>{t.pct}%</span>
+            <span style={{ ...MO, fontSize: 11, color: a.color, minWidth: 24, textAlign: "right" }}>{t.pct}%</span>
           </>
         )}
-        {t.pct == null && <span style={{ ...MO, fontSize: 9, color: "#333" }}>•</span>}
+        {t.pct == null && <span style={{ ...MO, fontSize: 11, color: "#777" }}>•</span>}
       </div>
     </div>
   );
@@ -196,13 +196,13 @@ function AgentsPageInner() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 8 }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                <span style={{ ...MO, fontSize: 9, color: GREEN, letterSpacing: "0.18em" }}>AGENT ROSTER</span>
+                <span style={{ ...MO, fontSize: 11, color: GREEN, letterSpacing: "0.18em" }}>AGENT ROSTER</span>
               </div>
               <h1 style={{ fontSize: isMobile ? 22 : 30, fontWeight: 800, letterSpacing: "-0.02em" }}>Your AI Team</h1>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
               {[0, 0.3, 0.6].map((d, i) => <span key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: `gPulse 2s ease-in-out ${d}s infinite`, display: "block" }} />)}
-              <span style={{ ...MO, fontSize: 9, color: "#444", marginLeft: 4 }}>3 of 5 online</span>
+              <span style={{ ...MO, fontSize: 11, color: "#777", marginLeft: 4 }}>3 of 5 online</span>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ function AgentsPageInner() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 16 }}>
                   <span style={{ width: 5, height: 5, borderRadius: "50%", background: ag.color, opacity: on ? 1 : 0.25, boxShadow: on ? `0 0 6px rgba(${ag.rgb},0.5)` : "none", animation: on && ag.status === "active" ? "gPulse 2s ease-in-out infinite" : "none", display: "block" }} />
                   <span style={{ fontSize: 13, fontWeight: 700, color: on ? "#fff" : "#3a3a3a" }}>{ag.name}</span>
-                  {!isMobile && <span style={{ ...MO, fontSize: 8, color: on ? `rgba(${ag.rgb},0.6)` : "#2a2a2a" }}>{ag.role}</span>}
+                  {!isMobile && <span style={{ ...MO, fontSize: 10, color: on ? `rgba(${ag.rgb},0.6)` : "#2a2a2a" }}>{ag.role}</span>}
                 </div>
               </div>
             );
@@ -261,15 +261,15 @@ function AgentsPageInner() {
               {/* Role + status */}
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
                 <span style={{ width: 5, height: 5, borderRadius: "50%", background: a.color, boxShadow: `0 0 6px rgba(${a.rgb},0.5)`, display: "block", animation: a.status === "active" ? "gPulse 2s ease-in-out infinite" : "none" }} />
-                <span style={{ ...MO, fontSize: 9, color: a.color, letterSpacing: "0.1em" }}>{a.role.toUpperCase()}</span>
-                <span style={{ width: 1, height: 10, background: "#222", display: "block" }} />
-                <span style={{ ...MO, fontSize: 9, color: "#444" }}>{statusLabel}</span>
+                <span style={{ ...MO, fontSize: 11, color: a.color, letterSpacing: "0.1em" }}>{a.role.toUpperCase()}</span>
+                <span style={{ width: 1, height: 10, background: "#111", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: "#777" }}>{statusLabel}</span>
               </div>
 
               {/* Name */}
               <h2 style={{ fontSize: isMobile ? 28 : 46, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 0.96, marginBottom: 12 }}>{a.name}</h2>
               <p style={{ fontSize: 14, fontWeight: 600, color: a.color, marginBottom: 18, opacity: 0.9 }}>{a.headline}</p>
-              <p style={{ fontSize: 13, color: "#555", lineHeight: 1.75, marginBottom: 28, maxWidth: 420 }}>{a.desc}</p>
+              <p style={{ fontSize: 13, color: "#888", lineHeight: 1.75, marginBottom: 28, maxWidth: 420 }}>{a.desc}</p>
 
               {/* Stats */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginBottom: 28 }}>
@@ -281,7 +281,7 @@ function AgentsPageInner() {
                 ].map((s, i) => (
                   <div key={i}>
                     <div style={{ fontSize: 20, fontWeight: 800, color: s.accent ? a.color : "#fff", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 4 }}>{s.v}</div>
-                    <div style={{ ...MO, fontSize: 9, color: "#444" }}>{s.l}</div>
+                    <div style={{ ...MO, fontSize: 11, color: "#777" }}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -290,20 +290,20 @@ function AgentsPageInner() {
 
               {/* Capabilities */}
               <div style={{ marginBottom: 22 }}>
-                <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.12em", marginBottom: 10 }}>CAPABILITIES</div>
+                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 10 }}>CAPABILITIES</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {a.capabilities.map((c, i) => (
-                    <span key={i} style={{ ...MO, fontSize: 9, color: `rgba(${a.rgb},0.8)`, padding: "4px 10px", borderRadius: 70, background: `rgba(${a.rgb},0.05)`, border: `1px solid rgba(${a.rgb},0.12)` }}>{c}</span>
+                    <span key={i} style={{ ...MO, fontSize: 11, color: `rgba(${a.rgb},0.8)`, padding: "4px 10px", borderRadius: 70, background: `rgba(${a.rgb},0.05)`, border: `1px solid rgba(${a.rgb},0.12)` }}>{c}</span>
                   ))}
                 </div>
               </div>
 
               {/* APIs */}
               <div style={{ marginBottom: 22 }}>
-                <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.12em", marginBottom: 10 }}>INTEGRATIONS</div>
+                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 10 }}>INTEGRATIONS</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {a.apis.map((api, i) => (
-                    <span key={i} style={{ ...MO, fontSize: 9, color: "#444", padding: "4px 10px", borderRadius: 70, background: "#111", border: "1px solid #1f1f1f" }}>{api}</span>
+                    <span key={i} style={{ ...MO, fontSize: 11, color: "#777", padding: "4px 10px", borderRadius: 70, background: "#1a1a1a", border: "1px solid #1f1f1f" }}>{api}</span>
                   ))}
                 </div>
               </div>
@@ -311,7 +311,7 @@ function AgentsPageInner() {
               {/* Queue */}
               {a.queue.length > 0 && (
                 <div>
-                  <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.12em", marginBottom: 10 }}>ACTIVE QUEUE</div>
+                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 10 }}>ACTIVE QUEUE</div>
                   {a.queue.map((t, i) => <QueueRow key={i} task={t} agent={a} isLast={i === a.queue.length - 1} />)}
                 </div>
               )}
@@ -333,9 +333,9 @@ function AgentsPageInner() {
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, position: "relative", zIndex: 1 }}>
                   <span style={{ fontSize: isMobile ? 72 : 100, filter: `drop-shadow(0 0 40px rgba(${a.rgb},0.3))`, animation: "slowFloat 4s ease-in-out infinite" }}>{a.emoji}</span>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ ...MO, fontSize: 9, color: `rgba(${a.rgb},0.5)`, letterSpacing: "0.15em", marginBottom: 6 }}>AGENT {a.rank}</div>
+                    <div style={{ ...MO, fontSize: 11, color: `rgba(${a.rgb},0.5)`, letterSpacing: "0.15em", marginBottom: 6 }}>AGENT {a.rank}</div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{a.name}</div>
-                    <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.1em" }}>CHARACTER VIDEO COMING SOON</div>
+                    <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.1em" }}>CHARACTER VIDEO COMING SOON</div>
                   </div>
                 </div>
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(0deg, #0D0D0D 0%, transparent 100%)", pointerEvents: "none" }} />
@@ -378,9 +378,9 @@ function AgentsPageInner() {
           <div style={{ width: 28, height: 28, borderRadius: 8, background: `rgba(${ca.color},0.08)`, border: `1px solid rgba(${ca.color},0.18)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: ca.hex }}>{ca.label}</div>
           <div>
             <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{ca.name}</div>
-            <div style={{ ...MO, fontSize: 8, color: `rgba(${ca.color},0.6)` }}>ONLINE · READY</div>
+            <div style={{ ...MO, fontSize: 10, color: `rgba(${ca.color},0.6)` }}>ONLINE · READY</div>
           </div>
-          <button onClick={() => setChatMsgs([{ role: "assistant", agentKey: sel, text: "Chat cleared. What do you need?" }])} style={{ marginLeft: "auto", background: "none", border: "none", color: "#444", cursor: "pointer", fontSize: 14 }}>↺</button>
+          <button onClick={() => setChatMsgs([{ role: "assistant", agentKey: sel, text: "Chat cleared. What do you need?" }])} style={{ marginLeft: "auto", background: "none", border: "none", color: "#777", cursor: "pointer", fontSize: 14 }}>↺</button>
         </div>
 
         {/* Agent tabs */}
@@ -389,7 +389,7 @@ function AgentsPageInner() {
             <button key={i} onClick={() => pick(i)} style={{
               flex: 1, padding: "7px 4px", background: sel === i ? `rgba(${ag.color},0.07)` : "transparent",
               border: "none", borderBottom: sel === i ? `1px solid ${ag.hex}` : "1px solid transparent",
-              cursor: "pointer", ...MO, fontSize: 9, color: sel === i ? ag.hex : "#333",
+              cursor: "pointer", ...MO, fontSize: 11, color: sel === i ? ag.hex : "#333",
               transition: "all 0.2s", marginBottom: -1,
             }}>{ag.label}</button>
           ))}
@@ -445,3 +445,5 @@ function AgentsPageInner() {
 export default function AgentsPage() {
   return <Suspense fallback={null}><AgentsPageInner /></Suspense>;
 }
+
+

@@ -51,10 +51,10 @@ export default function ResearchPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <span style={{ fontSize: 20 }}>👑</span>
-              <span style={{ ...mo, fontSize: 9, color: "rgba(236,72,153,0.7)", letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
+              <span style={{ ...mo, fontSize: 11, color: "rgba(236,72,153,0.7)", letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
             </div>
             <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Research & Strategy</h1>
-            <p style={{ ...mo, fontSize: 11, color: "#333" }}>Market intelligence · competitor tracking · client research · Nexmail product strategy</p>
+            <p style={{ ...mo, fontSize: 11, color: "#777" }}>Market intelligence · competitor tracking · client research · Nexmail product strategy</p>
           </motion.div>
         </div>
       </div>
@@ -69,8 +69,8 @@ export default function ResearchPage() {
             <div>
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ ...mo, fontSize: 9, color: "#ec4899" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>ACTIVE BRIEFS</span>
+                  <span style={{ ...mo, fontSize: 11, color: "#ec4899" }}>✦</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>ACTIVE BRIEFS</span>
                 </div>
               </Reveal>
               {briefs.map((b, i) => (
@@ -79,11 +79,11 @@ export default function ResearchPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                       <div>
                         <div style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#ccc", marginBottom: 6 }}>{b.title}</div>
-                        <span style={{ ...mo, fontSize: 8, color: b.color, background: `${b.color}10`, padding: "2px 8px", borderRadius: 3, border: `1px solid ${b.color}20` }}>{b.tag}</span>
+                        <span style={{ ...mo, fontSize: 10, color: b.color, background: `${b.color}10`, padding: "2px 8px", borderRadius: 3, border: `1px solid ${b.color}20` }}>{b.tag}</span>
                       </div>
                       <span style={{ ...mo, fontSize: 12, color: b.pct === 100 ? "#10b981" : "#f59e0b", flexShrink: 0, marginLeft: 12 }}>{b.pct}%</span>
                     </div>
-                    <div style={{ background: "#111", borderRadius: 4, height: 3 }}>
+                    <div style={{ background: "#1a1a1a", borderRadius: 4, height: 3 }}>
                       <div style={{ width: `${b.pct}%`, height: 3, borderRadius: 4, background: b.color, transition: "width 0.6s ease" }} />
                     </div>
                   </GlowCard>
@@ -94,15 +94,15 @@ export default function ResearchPage() {
             {/* Nexmail Strategy */}
             <Reveal delay={0.2}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                <span style={{ ...mo, fontSize: 9, color: "#a855f7" }}>✦</span>
-                <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>NEXMAIL PRODUCT STRATEGY</span>
+                <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>✦</span>
+                <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>NEXMAIL PRODUCT STRATEGY</span>
               </div>
               <GlowCard style={{ padding: "24px", borderTop: "1px solid rgba(168,85,247,0.2)" }}>
                 {/* Back-light accent */}
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 80, background: "linear-gradient(180deg, rgba(168,85,247,0.05) 0%, transparent 100%)", borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
                 <div style={{ position: "relative" }}>
                   <div style={{ ...IN, fontSize: 15, fontWeight: 700, color: "#D0D5E2", marginBottom: 10 }}>Nexmail v2 — Strategy Brief</div>
-                  <p style={{ fontSize: 13, color: "#555", lineHeight: 1.7, marginBottom: 16 }}>
+                  <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7, marginBottom: 16 }}>
                     Positioned as a high-touch lifecycle intelligence layer sitting above Klaviyo. Core differentiator: human-verified AI strategy + execution, not just automation.
                   </p>
                   {[
@@ -112,13 +112,13 @@ export default function ResearchPage() {
                     "BMO strategy layer — not a pure SaaS play",
                   ].map((p, i) => (
                     <div key={i} style={{ display: "flex", gap: 10, marginBottom: 8, paddingBottom: 8, borderBottom: i < 3 ? "1px solid rgba(255,255,255,0.03)" : "none" }}>
-                      <span style={{ color: "#a855f7", fontSize: 9, marginTop: 3, opacity: 0.6 }}>▸</span>
-                      <span style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>{p}</span>
+                      <span style={{ color: "#a855f7", fontSize: 11, marginTop: 3, opacity: 0.6 }}>▸</span>
+                      <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>{p}</span>
                     </div>
                   ))}
                   <div style={{ marginTop: 16, padding: "10px 14px", background: "rgba(168,85,247,0.05)", borderRadius: 7, border: "1px solid rgba(168,85,247,0.1)" }}>
-                    <span style={{ ...mo, fontSize: 9, color: "#a855f7" }}>NEXT → </span>
-                    <span style={{ fontSize: 12, color: "#555" }}>Pricing model validation — internal review Apr 7</span>
+                    <span style={{ ...mo, fontSize: 11, color: "#a855f7" }}>NEXT → </span>
+                    <span style={{ fontSize: 12, color: "#888" }}>Pricing model validation — internal review Apr 7</span>
                   </div>
                 </div>
               </GlowCard>
@@ -132,8 +132,8 @@ export default function ResearchPage() {
             <div>
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ ...mo, fontSize: 9, color: "#ec4899" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>COMPETITOR INTEL</span>
+                  <span style={{ ...mo, fontSize: 11, color: "#ec4899" }}>✦</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>COMPETITOR INTEL</span>
                 </div>
               </Reveal>
               {competitors.map((c, i) => (
@@ -145,14 +145,14 @@ export default function ResearchPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: expandedComp === c.name ? 12 : 0 }}>
                       <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#ccc" }}>{c.name}</span>
                       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                        <span style={{ ...mo, fontSize: 8, fontWeight: 700, color: c.color, background: `rgba(${c.rgb},0.08)`, padding: "2px 7px", borderRadius: 3 }}>{c.threat.toUpperCase()} THREAT</span>
-                        <span style={{ color: "#333", fontSize: 10 }}>{expandedComp === c.name ? "▲" : "▼"}</span>
+                        <span style={{ ...mo, fontSize: 10, fontWeight: 700, color: c.color, background: `rgba(${c.rgb},0.08)`, padding: "2px 7px", borderRadius: 3 }}>{c.threat.toUpperCase()} THREAT</span>
+                        <span style={{ color: "#777", fontSize: 10 }}>{expandedComp === c.name ? "▲" : "▼"}</span>
                       </div>
                     </div>
                     {expandedComp === c.name && (
                       <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                        <p style={{ fontSize: 12, color: "#555", lineHeight: 1.65, marginBottom: 6 }}>{c.notes}</p>
-                        <span style={{ ...mo, fontSize: 9, color: "#333" }}>Updated: {c.updated}</span>
+                        <p style={{ fontSize: 12, color: "#888", lineHeight: 1.65, marginBottom: 6 }}>{c.notes}</p>
+                        <span style={{ ...mo, fontSize: 11, color: "#777" }}>Updated: {c.updated}</span>
                       </motion.div>
                     )}
                   </GlowCard>
@@ -164,8 +164,8 @@ export default function ResearchPage() {
             <div>
               <Reveal>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ ...mo, fontSize: 9, color: "#ec4899" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#444", letterSpacing: "0.15em" }}>MARKET INSIGHTS</span>
+                  <span style={{ ...mo, fontSize: 11, color: "#ec4899" }}>✦</span>
+                  <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>MARKET INSIGHTS</span>
                 </div>
               </Reveal>
               <GlowCard style={{ padding: "22px 24px" }}>
@@ -173,10 +173,10 @@ export default function ResearchPage() {
                   <div key={i} style={{ display: "flex", gap: 14, paddingBottom: i < insights.length - 1 ? 16 : 0, marginBottom: i < insights.length - 1 ? 16 : 0, borderBottom: i < insights.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
                     <div style={{ width: 2, background: "rgba(236,72,153,0.35)", borderRadius: 2, flexShrink: 0, alignSelf: "stretch" }} />
                     <div>
-                      <p style={{ fontSize: 12, color: "#555", lineHeight: 1.65, marginBottom: 6 }}>{ins.text}</p>
+                      <p style={{ fontSize: 12, color: "#888", lineHeight: 1.65, marginBottom: 6 }}>{ins.text}</p>
                       <div style={{ display: "flex", gap: 10 }}>
-                        <span style={{ ...mo, fontSize: 9, color: "rgba(236,72,153,0.6)" }}>{ins.source}</span>
-                        <span style={{ ...mo, fontSize: 9, color: "#333" }}>{ins.date}</span>
+                        <span style={{ ...mo, fontSize: 11, color: "rgba(236,72,153,0.6)" }}>{ins.source}</span>
+                        <span style={{ ...mo, fontSize: 11, color: "#777" }}>{ins.date}</span>
                       </div>
                     </div>
                   </div>
@@ -189,6 +189,8 @@ export default function ResearchPage() {
     </div>
   );
 }
+
+
 
 
 
