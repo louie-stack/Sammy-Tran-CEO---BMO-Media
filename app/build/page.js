@@ -147,6 +147,8 @@ const stats = [
 
 export default function BuildPage() {
   const [openBuild, setOpenBuild] = useState(null);
+  const [activeSection, setActiveSection] = useState("builds");
+  const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
 
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
@@ -271,7 +273,7 @@ export default function BuildPage() {
         </div>
 
         {/* Row 2: Active builds */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 12 }}>
+        <div id="integrations" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
           {activeBuilds.map((b, i) => (
             <Reveal key={b.title} delay={i * 0.07}>
               <ColourCard rgb={b.rgb} hue={b.hue} style={{ padding: "22px 24px", borderLeft: `3px solid rgba(${b.rgb},0.5)`, cursor: "pointer" }}
@@ -396,3 +398,4 @@ export default function BuildPage() {
     </div>
   );
 }
+

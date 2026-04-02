@@ -235,6 +235,8 @@ export default function HealthPage() {
   const avgBP = Math.round(BP_DATA.reduce((s, d) => s + d.sys, 0) / BP_DATA.length);
   const avgSleep = (SLEEP_DATA.reduce((s, d) => s + d.hrs, 0) / SLEEP_DATA.length).toFixed(1);
   const weightLost = (WEIGHT_DATA[0].weight - WEIGHT_DATA[WEIGHT_DATA.length - 1].weight).toFixed(1);
+  const [activeSection, setActiveSection] = useState("vitals");
+  const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
 
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
@@ -312,11 +314,11 @@ export default function HealthPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "52px 60px 100px" }}>
+      <div style={{ padding: "40px 48px 100px" }}>
 
         {/* ── ROW 1: Wellness Score + BP ── */}
         <Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 16, marginBottom: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 16, marginBottom: 20 }}>
 
             {/* Wellness score */}
             <GlowCard style={{ padding: "32px 28px" }}>
@@ -375,7 +377,7 @@ export default function HealthPage() {
 
         {/* ── ROW 2: Tirzepatide + Sleep ── */}
         <Reveal delay={0.05}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+          <div id="medications" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
 
             {/* Tirzepatide */}
             <GlowCard style={{ padding: "28px" }}>
@@ -504,7 +506,7 @@ export default function HealthPage() {
 
         {/* ── ROW 3: Weight trend + Sciatica ── */}
         <Reveal delay={0.05}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div id="sciatica" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
 
             {/* Weight */}
             <GlowCard style={{ padding: "28px" }}>
@@ -586,3 +588,4 @@ export default function HealthPage() {
   </div>
   );
 }
+
