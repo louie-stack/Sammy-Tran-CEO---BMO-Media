@@ -241,10 +241,12 @@ export default function HealthPage() {
       <style>{`@keyframes gPulse{0%,100%{opacity:0.5}50%{opacity:1}} @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}`}</style>
       <Nav />
 
-      {/* ── HERO ── */}
-      <div style={{ paddingTop: 54 }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "64px 60px 48px" }}>
-          <Reveal>
+      <div style={{ display: "flex", flex: 1, paddingTop: 54 }}>
+
+        {/* ── SIDEBAR ── */}
+        <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid #1a1a1a", display: "flex", flexDirection: "column", position: "sticky", top: 54, height: "calc(100vh - 54px)", overflowY: "auto" }}>
+          {/* Agent header */}
+          <div style={{ padding: "24px 20px 18px", borderBottom: "1px solid #1a1a1a" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
               <AgentSquarePFP src="/agents/finn-pfp.png" accent="#06b6d4" size={52} />
               <div>
@@ -256,11 +258,41 @@ export default function HealthPage() {
               <span style={{ width: 5, height: 5, borderRadius: "50%", background: CYAN, boxShadow: `0 0 5px ${CYAN}80`, animation: "gPulse 2s infinite", display: "block" }} />
               <span style={{ ...MO, fontSize: 9, color: "#555" }}>ACTIVE</span>
             </div>
-          </Reveal>
-        </div>
-        <div style={{ borderBottom: "1px solid #1a1a1a" }} />
-      </div>
+          </div>
 
+          {/* Section labels */}
+          <div style={{ padding: "14px 10px", flex: 1 }}>
+            <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", padding: "0 10px", marginBottom: 8 }}>SECTIONS</div>
+            {[
+              { label: "Vitals", active: true },
+              { label: "Medications", active: false },
+              { label: "Workouts", active: false },
+              { label: "Sciatica", active: false },
+              { label: "Sleep", active: false },
+            ].map((s, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, borderLeft: s.active ? `2px solid ${CYAN}` : "2px solid transparent", background: s.active ? "rgba(6,182,212,0.05)" : "transparent", marginBottom: 2 }}>
+                <span style={{ ...IN, fontSize: 13, fontWeight: s.active ? 600 : 400, color: s.active ? "#fff" : "#666" }}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom stats */}
+          <div style={{ padding: "20px 20px 24px", borderTop: "1px solid #1a1a1a" }}>
+            <div style={{ ...MO, fontSize: 9, color: "#444", letterSpacing: "0.14em", marginBottom: 16 }}>CURRENT</div>
+            {[
+              { label: "Weight", value: "207 lbs", color: CYAN },
+              { label: "BP", value: "122/80", color: "#10b981" },
+            ].map(s => (
+              <div key={s.label} style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: s.color, letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
+                <div style={{ ...MO, fontSize: 9, color: "#555", letterSpacing: "0.1em" }}>{s.label.toUpperCase()}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── MAIN CONTENT ── */}
+        <div style={{ flex: 1, overflowY: "auto", minWidth: 0 }}>
       {/* ── VITALS STRIP ── */}
       <div style={{ borderBottom: "1px solid #1a1a1a" }}>
         <div style={{ maxWidth: 1440, margin: "0 auto" }}>
@@ -548,7 +580,9 @@ export default function HealthPage() {
             </GlowCard>
           </div>
         </Reveal>
+        </div>
       </div>
     </div>
+  </div>
   );
 }

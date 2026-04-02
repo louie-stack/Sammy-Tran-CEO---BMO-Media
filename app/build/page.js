@@ -153,10 +153,12 @@ export default function BuildPage() {
       <style>{`@keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}`}</style>
       <Nav />
 
-      {/* ── HERO ── */}
-      <section style={{ paddingTop: 54, overflow: "hidden" }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "60px 60px 0" }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} style={{ marginBottom: 40 }}>
+      <div style={{ display: "flex", flex: 1, paddingTop: 54 }}>
+
+        {/* ── SIDEBAR ── */}
+        <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid #111", display: "flex", flexDirection: "column", position: "sticky", top: 54, height: "calc(100vh - 54px)", overflowY: "auto" }}>
+          {/* Agent header */}
+          <div style={{ padding: "24px 20px 18px", borderBottom: "1px solid #111" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
               <AgentSquarePFP src="/agents/jake-pfp.png" accent="#eab308" size={52} />
               <div>
@@ -165,31 +167,43 @@ export default function BuildPage() {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#eab308", boxShadow: "0 0 5px rgba(234,179,8,0.6)", animation: "gPulse 2s infinite", display: "block" }} />
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: YELLOW, boxShadow: `0 0 5px ${YELLOW}80`, animation: "gPulse 2s infinite", display: "block" }} />
               <span style={{ ...MO, fontSize: 9, color: "#555" }}>ACTIVE</span>
             </div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-            <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>Build</h1>
-            <p style={{ ...MO, fontSize: 11, color: "#555" }}>Active builds · deployments · integrations · automation</p>
-          </motion.div>
-        </div>
-      </section>
+          </div>
 
-      {/* ── STATS STRIP ── */}
-      <div style={{ maxWidth: 1440, margin: "48px auto 0", padding: "0 60px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-          {stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 0.06}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", padding: "28px 0" }}>
-                <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 11, color: GREEN, marginTop: 6, fontWeight: 400 }}>{s.label}</div>
+          {/* Section labels */}
+          <div style={{ padding: "14px 10px", flex: 1 }}>
+            <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", padding: "0 10px", marginBottom: 8 }}>SECTIONS</div>
+            {[
+              { label: "Active Builds", count: activeBuilds.length + 1 },
+              { label: "Deployments", count: recentDeploys.length },
+              { label: "Integrations", count: integrations.length },
+            ].map((s, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, borderLeft: i === 0 ? `2px solid ${YELLOW}` : "2px solid transparent", background: i === 0 ? "rgba(234,179,8,0.05)" : "transparent", marginBottom: 2 }}>
+                <span style={{ ...IN, fontSize: 13, fontWeight: i === 0 ? 600 : 400, color: i === 0 ? "#fff" : "#666" }}>{s.label}</span>
+                <span style={{ ...MO, fontSize: 9, color: i === 0 ? YELLOW : "#333", background: i === 0 ? "rgba(234,179,8,0.1)" : "transparent", padding: "1px 7px", borderRadius: 4 }}>{s.count}</span>
               </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
 
+          {/* Bottom stats */}
+          <div style={{ padding: "20px 20px 24px", borderTop: "1px solid #111" }}>
+            <div style={{ ...MO, fontSize: 9, color: "#444", letterSpacing: "0.14em", marginBottom: 16 }}>THIS MONTH</div>
+            {[
+              { label: "Flows Live", value: "31", color: GREEN },
+              { label: "Deployed", value: "12", color: YELLOW },
+            ].map(s => (
+              <div key={s.label} style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: s.color, letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 4 }}>{s.value}</div>
+                <div style={{ ...MO, fontSize: 9, color: "#555", letterSpacing: "0.1em" }}>{s.label.toUpperCase()}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── MAIN CONTENT ── */}
+        <div style={{ flex: 1, overflowY: "auto", minWidth: 0 }}>
       {/* ── BENTO GRID ── */}
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px 100px" }}>
 
@@ -315,6 +329,8 @@ export default function BuildPage() {
       </div>
 
       {/* ── BUILD MODAL ── */}
+        </div>
+      </div>
       <AnimatePresence>
         {openBuild && (
           <>
