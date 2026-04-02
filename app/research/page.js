@@ -169,12 +169,7 @@ export default function ResearchPage() {
   const [openBrief, setOpenBrief] = useState(null);
   const [openCompetitor, setOpenCompetitor] = useState(null);
   const [intelFilter, setIntelFilter] = useState("all");
-  const [scanActive, setScanActive] = useState(true);
 
-  useEffect(() => {
-    const id = setTimeout(() => setScanActive(false), 3000);
-    return () => clearTimeout(id);
-  }, []);
 
   const filteredInsights = intelFilter === "all" ? insights : insights.filter(i => i.category === intelFilter);
   const showBriefs = activeCategory === "all" || ["market", "client", "product"].includes(activeCategory);
@@ -259,10 +254,7 @@ export default function ResearchPage() {
 
           {/* Hero */}
           <div style={{ position: "relative", padding: "60px 56px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
-            {scanActive && (
-              <motion.div initial={{ top: 0, opacity: 0.6 }} animate={{ top: "100%", opacity: 0 }} transition={{ duration: 2.5, ease: "linear" }}
-                style={{ position: "absolute", left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent 0%, ${PINK}80 40%, ${PINK} 50%, ${PINK}80 60%, transparent 100%)`, zIndex: 10, pointerEvents: "none" }} />
-            )}
+
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
                 <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, boxShadow: `0 0 8px ${PINK}80`, animation: "gPulse 2s infinite", display: "block" }} />
