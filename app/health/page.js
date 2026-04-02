@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useInView, useMotionValue, useSpring, animate } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
-import AgentHero from "../../components/AgentHero";
+import AgentSquarePFP from "../../components/AgentSquarePFP";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -245,7 +245,17 @@ export default function HealthPage() {
       <div style={{ paddingTop: 54 }}>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "64px 60px 48px" }}>
           <Reveal>
-            <AgentHero name="Finn" pfp="/agents/finn-pfp.png" accent="#06b6d4" />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+              <AgentSquarePFP src="/agents/finn-pfp.png" accent="#06b6d4" size={52} />
+              <div>
+                <div style={{ ...IN, fontSize: 13, fontWeight: 700, color: "#e0e0e8" }}>Finn</div>
+                <div style={{ ...MO, fontSize: 9, color: "#555" }}>Health</div>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <span style={{ width: 5, height: 5, borderRadius: "50%", background: CYAN, boxShadow: `0 0 5px ${CYAN}80`, animation: "gPulse 2s infinite", display: "block" }} />
+              <span style={{ ...MO, fontSize: 9, color: "#555" }}>ACTIVE</span>
+            </div>
           </Reveal>
         </div>
         <div style={{ borderBottom: "1px solid #1a1a1a" }} />
