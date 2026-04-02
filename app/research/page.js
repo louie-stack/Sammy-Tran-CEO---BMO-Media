@@ -254,10 +254,7 @@ export default function ResearchPage() {
           <div style={{ position: "relative", padding: "60px 56px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: GREEN, boxShadow: `0 0 8px ${GREEN}80`, animation: "gPulse 2s infinite", display: "block" }} />
-                <span style={{ ...MO, fontSize: 11, color: `${GREEN}99`, letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
-              </div>
+
               <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
                 Research & Strategy
               </h1>
