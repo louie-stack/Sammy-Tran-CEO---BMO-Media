@@ -199,7 +199,7 @@ export default function ResearchPage() {
   const filteredCompetitors = competitors;
 
   return (
-    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff", overflow: "hidden" }}>
+    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
       <style>{`
         @keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}
         @keyframes scanLine{0%{top:-2px;opacity:0.7}100%{top:100%;opacity:0}}
@@ -464,9 +464,10 @@ export default function ResearchPage() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setOpenBrief(null)}
               style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", zIndex: 100 }} />
-            <motion.div initial={{ opacity: 0, scale: 0.94, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 20 }}
+            <div style={{ position: "fixed", inset: 0, zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", pointerEvents: "none" }}>
+            <motion.div initial={{ opacity: 0, scale: 0.94, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 16 }}
               transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-              style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "min(680px, 92vw)", maxHeight: "80vh", overflowY: "auto", zIndex: 101, background: "#111", borderRadius: 18, border: `1px solid rgba(${openBrief.rgb},0.2)`, boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(${openBrief.rgb},0.05)` }}>
+              style={{ width: "min(680px, 92vw)", maxHeight: "80vh", overflowY: "auto", background: "#111", borderRadius: 18, border: `1px solid rgba(${openBrief.rgb},0.2)`, boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 40px rgba(${openBrief.rgb},0.05)`, pointerEvents: "all" }}>
               {/* Modal header */}
               <div style={{ padding: "28px 32px 20px", borderBottom: "1px solid #1a1a1a", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${openBrief.color}, transparent)` }} />
@@ -512,6 +513,7 @@ export default function ResearchPage() {
                 </div>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
@@ -523,9 +525,10 @@ export default function ResearchPage() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setOpenCompetitor(null)}
               style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)", zIndex: 100 }} />
-            <motion.div initial={{ opacity: 0, scale: 0.94, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 20 }}
+            <div style={{ position: "fixed", inset: 0, zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", pointerEvents: "none" }}>
+            <motion.div initial={{ opacity: 0, scale: 0.94, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 16 }}
               transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-              style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "min(620px, 92vw)", maxHeight: "80vh", overflowY: "auto", zIndex: 101, background: "#111", borderRadius: 18, border: `1px solid rgba(${openCompetitor.rgb},0.2)`, boxShadow: `0 30px 80px rgba(0,0,0,0.6)` }}>
+              style={{ width: "min(620px, 92vw)", maxHeight: "80vh", overflowY: "auto", background: "#111", borderRadius: 18, border: `1px solid rgba(${openCompetitor.rgb},0.2)`, boxShadow: `0 30px 80px rgba(0,0,0,0.6)`, pointerEvents: "all" }}>
               <div style={{ padding: "28px 32px 20px", borderBottom: "1px solid #1a1a1a", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${openCompetitor.color}, transparent)` }} />
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -558,9 +561,12 @@ export default function ResearchPage() {
                 </div>
               </div>
             </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>
     </div>
   );
 }
+
+
