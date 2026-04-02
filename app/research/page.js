@@ -200,9 +200,7 @@ export default function ResearchPage() {
         <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid #111", display: "flex", flexDirection: "column", position: "sticky", top: 54, height: "calc(100vh - 54px)", overflowY: "auto" }}>
           {/* PB Agent */}
           <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #111", position: "relative", overflow: "hidden" }}>
-            {scanActive && (
-              <div style={{ position: "absolute", left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${PINK}, transparent)`, animation: "scanLine 2s ease-in forwards", pointerEvents: "none", zIndex: 2 }} />
-            )}
+
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
               <div style={{ width: 34, height: 34, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${PINK}50`, flexShrink: 0, animation: "float 4s ease-in-out infinite" }}>
                 <img src="/agents/pb.png" alt="PB" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 10%" }} />
