@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
+import AgentSquarePFP from "../../components/AgentSquarePFP";
 
 const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
@@ -130,19 +131,17 @@ export default function SalesPage() {
         {/* ── SIDEBAR ── */}
         <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid #111", display: "flex", flexDirection: "column", position: "sticky", top: 54, height: "calc(100vh - 54px)", overflowY: "auto" }}>
           {/* Agent header */}
-          <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #111" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(196,240,0,0.08)", border: "1.5px solid rgba(196,240,0,0.2)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ ...MO, fontSize: 9, color: GREEN }}>M</span>
-              </div>
+          <div style={{ padding: "24px 20px 18px", borderBottom: "1px solid #111" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+              <AgentSquarePFP src="/agents/marceline-pfp.png" accent="#a855f7" size={52} />
               <div>
-                <div style={{ ...IN, fontSize: 12, fontWeight: 700, color: "#e0e0e8" }}>Marceline</div>
-                <div style={{ ...MO, fontSize: 11, color: "#555" }}>Sales & BD</div>
+                <div style={{ ...IN, fontSize: 13, fontWeight: 700, color: "#e0e0e8" }}>Marceline</div>
+                <div style={{ ...MO, fontSize: 9, color: "#555" }}>Sales & BD</div>
               </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
               <span style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: "gPulse 2s infinite", display: "block" }} />
-              <span style={{ ...MO, fontSize: 11, color: "#555" }}>ACTIVE</span>
+              <span style={{ ...MO, fontSize: 9, color: "#555" }}>ACTIVE</span>
             </div>
           </div>
 

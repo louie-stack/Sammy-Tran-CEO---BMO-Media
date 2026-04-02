@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
+import AgentSquarePFP from "../../components/AgentSquarePFP";
 
 const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
@@ -199,12 +200,9 @@ export default function ResearchPage() {
         {/* ── LEFT SIDEBAR ── */}
         <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid #111", display: "flex", flexDirection: "column", position: "sticky", top: 54, height: "calc(100vh - 54px)", overflowY: "auto" }}>
           {/* PB Agent */}
-          <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #111", position: "relative", overflow: "hidden" }}>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(196,240,0,0.08)", border: "1.5px solid rgba(196,240,0,0.2)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ ...MO, fontSize: 10, color: GREEN }}>PB</span>
-              </div>
+          <div style={{ padding: "24px 20px 18px", borderBottom: "1px solid #111", position: "relative", overflow: "hidden" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+              <AgentSquarePFP src="/agents/pb-pfp.png" accent="#ec4899" size={52} />
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#e0e0e8" }}>Princess Bubblegum</div>
                 <div style={{ ...MO, fontSize: 9, color: "#555" }}>Research & Strategy</div>

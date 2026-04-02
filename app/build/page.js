@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
+import AgentHero from "../../components/AgentHero";
 
 const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
@@ -155,6 +156,9 @@ export default function BuildPage() {
       {/* ── HERO ── */}
       <section style={{ paddingTop: 54, overflow: "hidden" }}>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "60px 60px 0" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} style={{ marginBottom: 40 }}>
+            <AgentHero name="Jake" pfp="/agents/jake-pfp.png" accent="#eab308" />
+          </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
             <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>Build</h1>
             <p style={{ ...MO, fontSize: 11, color: "#555" }}>Active builds · deployments · integrations · automation</p>

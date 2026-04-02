@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, useMotionValue, useSpring, animate } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
+import AgentHero from "../../components/AgentHero";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -244,15 +245,8 @@ export default function HealthPage() {
       <div style={{ paddingTop: 54 }}>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: "64px 60px 48px" }}>
           <Reveal>
-            <div style={{ ...MO, fontSize: 11, color: CYAN, letterSpacing: "0.18em", marginBottom: 14 }}>FINN — HEALTH & WELLNESS</div>
+            <AgentHero name="Finn" pfp="/agents/finn-pfp.png" accent="#06b6d4" />
           </Reveal>
-          <Reveal delay={0.08}>
-            <h1 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 10 }}>Health Dashboard</h1>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <p style={{ fontSize: 15, color: "#777", maxWidth: 520, lineHeight: 1.6 }}>BP · weight · sleep · tirzepatide cycle · workouts · sciatica management. All tracked. All in one place.</p>
-          </Reveal>
-        </div>
         <div style={{ borderBottom: "1px solid #1a1a1a" }} />
       </div>
 
