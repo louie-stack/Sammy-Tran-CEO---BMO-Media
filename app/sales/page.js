@@ -137,12 +137,12 @@ export default function SalesPage() {
               </div>
               <div>
                 <div style={{ ...IN, fontSize: 12, fontWeight: 700, color: "#e0e0e8" }}>Marceline</div>
-                <div style={{ ...MO, fontSize: 8, color: "#555" }}>Sales & BD</div>
+                <div style={{ ...MO, fontSize: 11, color: "#555" }}>Sales & BD</div>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 10 }}>
               <span style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, boxShadow: `0 0 5px ${GREEN}80`, animation: "gPulse 2s infinite", display: "block" }} />
-              <span style={{ ...MO, fontSize: 8, color: "#555" }}>ACTIVE</span>
+              <span style={{ ...MO, fontSize: 11, color: "#555" }}>ACTIVE</span>
             </div>
           </div>
 
@@ -166,7 +166,7 @@ export default function SalesPage() {
 
           {/* Stats strip */}
           <div style={{ padding: "20px 20px 24px", borderTop: "1px solid #111" }}>
-            <div style={{ ...MO, fontSize: 8, color: "#444", letterSpacing: "0.14em", marginBottom: 16 }}>MONTH TOTALS</div>
+            <div style={{ ...MO, fontSize: 8, color: "#444", letterSpacing: "0.14em", marginBottom: 16, fontSize: 11 }}>MONTH TOTALS</div>
             {[
               { label: "Closed MRR", value: `$${closedTotal.toFixed(0)}k`, color: "#10b981" },
               { label: "Active deals", value: String(activeDeals), color: PURPLE },
@@ -175,7 +175,7 @@ export default function SalesPage() {
                 <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 4 }}>
                   {s.value}
                 </div>
-                <div style={{ ...MO, fontSize: 9, color: "#555", letterSpacing: "0.1em" }}>{s.label.toUpperCase()}</div>
+                <div style={{ ...MO, fontSize: 11, color: "#555", letterSpacing: "0.1em" }}>{s.label.toUpperCase()}</div>
               </div>
             ))}
           </div>
@@ -221,17 +221,17 @@ export default function SalesPage() {
                 <Reveal key={col.stage} delay={ci * 0.06}>
                   <div>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 10, marginBottom: 10, borderBottom: `1px solid rgba(${col.rgb},0.2)` }}>
-                      <span style={{ ...MO, fontSize: 9, color: col.color, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
-                      <span style={{ ...MO, fontSize: 9, color: col.color, background: `rgba(${col.rgb},0.1)`, padding: "2px 7px", borderRadius: 4 }}>{col.deals.length}</span>
+                      <span style={{ ...MO, fontSize: 12, color: col.color, letterSpacing: "0.1em" }}>{col.stage.toUpperCase()}</span>
+                      <span style={{ ...MO, fontSize: 11, color: col.color, background: `rgba(${col.rgb},0.1)`, padding: "2px 7px", borderRadius: 4 }}>{col.deals.length}</span>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                       {col.deals.map((d, di) => (
                         <ColourCard key={di} rgb={col.rgb} hue={col.hue} style={{ padding: "14px 16px", borderLeft: `2px solid rgba(${col.rgb},0.4)` }}>
                           <div style={{ fontSize: 14, fontWeight: 600, color: "#e0e0e8", marginBottom: 4 }}>{d.co}</div>
-                          <div style={{ ...MO, fontSize: 10, color: "#555", marginBottom: 8 }}>{d.contact}</div>
+                          <div style={{ ...MO, fontSize: 12, color: "#555", marginBottom: 8 }}>{d.contact}</div>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <span style={{ ...MO, fontSize: 12, fontWeight: 700, color: col.color }}>{d.value}</span>
-                            {d.days > 0 && <span style={{ ...MO, fontSize: 10, color: d.days > 12 ? "#f59e0b" : "#444", background: d.days > 12 ? "rgba(245,158,11,0.08)" : "#111", padding: "2px 7px", borderRadius: 3 }}>{d.days}d</span>}
+                            {d.days > 0 && <span style={{ ...MO, fontSize: 11, color: d.days > 12 ? "#f59e0b" : "#444", background: d.days > 12 ? "rgba(245,158,11,0.08)" : "#111", padding: "2px 7px", borderRadius: 3 }}>{d.days}d</span>}
                             {col.key === "closed" && <span style={{ ...MO, fontSize: 10, color: "#10b981" }}>ACTIVE</span>}
                           </div>
                         </ColourCard>
@@ -263,7 +263,7 @@ export default function SalesPage() {
                       <p style={{ fontSize: 12, color: "#666", lineHeight: 1.6, marginBottom: 16 }}>{d.note}</p>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 14, borderTop: "1px solid #1a1a1a" }}>
                         {d.days > 0
-                          ? <span style={{ ...MO, fontSize: 10, color: d.days > 12 ? "#f59e0b" : "#555" }}>{d.days}d in stage</span>
+                          ? <span style={{ ...MO, fontSize: 11, color: d.days > 12 ? "#f59e0b" : "#555" }}>{d.days}d in stage</span>
                           : <span style={{ ...MO, fontSize: 10, color: stageData.color }}>ACTIVE CLIENT</span>
                         }
                         {d.days > 12 && <span style={{ ...MO, fontSize: 9, color: "#ef4444", background: "rgba(239,68,68,0.08)", padding: "3px 10px", borderRadius: 70, border: "1px solid rgba(239,68,68,0.2)" }}>NEEDS ATTENTION</span>}
@@ -292,7 +292,7 @@ export default function SalesPage() {
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
                         <div style={{ textAlign: "right" }}>
-                          <div style={{ ...MO, fontSize: 8, color: "#333", marginBottom: 2 }}>ASSIGNED</div>
+                          <div style={{ ...MO, fontSize: 10, color: "#333", marginBottom: 2 }}>ASSIGNED</div>
                           <div style={{ ...MO, fontSize: 10, color: PURPLE }}>{f.assignee}</div>
                         </div>
                         <span style={{ ...MO, fontSize: 10, fontWeight: 700, color: f.color, background: `rgba(${f.rgb},0.08)`, padding: "5px 12px", borderRadius: 6, border: `1px solid rgba(${f.rgb},0.2)` }}>{f.overdue}d overdue</span>
@@ -310,4 +310,5 @@ export default function SalesPage() {
     </div>
   );
 }
+
 
