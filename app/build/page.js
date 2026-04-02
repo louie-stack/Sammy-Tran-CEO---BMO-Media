@@ -1,184 +1,368 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 
-const mo = { fontFamily: "'Space Mono', monospace" };
-const GREEN = "#C4F000";
+const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
+const GREEN = "#C4F000";
+const YELLOW = "#eab308";
 
-function Reveal({ children, delay = 0, y = 30 }) {
+function Reveal({ children, delay = 0 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.12 });
+  const inView = useInView(ref, { once: true, amount: 0.08 });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
+    <motion.div ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
       {children}
     </motion.div>
   );
 }
 
-const integrations = [
-  { name: "Klaviyo", icon: "📧", status: "connected", detail: "7 active flows", color: "#10b981", rgb: "16,185,129" },
-  { name: "n8n", icon: "⚙️", status: "active", detail: "12 workflows", color: "#10b981", rgb: "16,185,129" },
-  { name: "Shopify", icon: "🛒", status: "connected", detail: "3 stores", color: "#10b981", rgb: "16,185,129" },
-  { name: "Postscript", icon: "📱", status: "connected", detail: "SMS flows live", color: "#10b981", rgb: "16,185,129" },
-  { name: "Attentive", icon: "💬", status: "connected", detail: "2 clients", color: "#10b981", rgb: "16,185,129" },
-  { name: "Gorgias", icon: "🎧", status: "warning", detail: "Auth expiring soon", color: "#f59e0b", rgb: "245,158,11" },
-  { name: "Recharge", icon: "🔄", status: "connected", detail: "Subscriptions OK", color: "#10b981", rgb: "16,185,129" },
-  { name: "Yotpo", icon: "⭐", status: "inactive", detail: "Not configured", color: "#475569", rgb: "71,85,105" },
-];
-
-const workflows = [
-  { name: "Lead → CRM Sync", trigger: "Typeform webhook", last: "2 min ago", status: "active" },
-  { name: "Klaviyo Tag → HubSpot Deal", trigger: "Klaviyo event", last: "14 min ago", status: "active" },
-  { name: "Weekly Client Report", trigger: "Mon 8am cron", last: "3 days ago", status: "active" },
-  { name: "BMO Draft → Approval Queue", trigger: "BMO agent output", last: "1 hour ago", status: "active" },
-  { name: "MoonBrew Churn Alert", trigger: "Segment change", last: "Yesterday", status: "paused" },
-  { name: "New Client Onboarding", trigger: "CRM deal closed", last: "Apr 28", status: "active" },
-];
-
-const deployments = [
-  { desc: "MoonBrew abandoned cart flow v3", env: "Klaviyo", date: "Today 09:31", ok: true },
-  { desc: "Weekly metrics dashboard", env: "Vercel", date: "Today 11:15", ok: true },
-  { desc: "Centr Fitness welcome series", env: "Klaviyo", date: "Yesterday", ok: true },
-  { desc: "CRM webhook patch — Gorgias", env: "n8n", date: "Mar 31", ok: false },
-];
-
-const apiHealth = [
-  { name: "Klaviyo API", ms: "142ms", status: "healthy" },
-  { name: "Shopify Admin API", ms: "218ms", status: "healthy" },
-  { name: "Postscript API", ms: "89ms", status: "healthy" },
-  { name: "Gorgias API", ms: "—", status: "error" },
-  { name: "HubSpot API", ms: "305ms", status: "degraded" },
-];
-
-export default function BuildPage() {
+function ColourCard({ rgb, hue = 73, children, style = {} }) {
+  const [hov, setHov] = useState(false);
   return (
-    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
-      <div style={{ position: "fixed", inset: 0, opacity: 0.016, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} /><Nav />
+    <GlowCard style={{ "--base": hue, ...style }}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}>
+      <div style={{ position: "absolute", inset: 0, borderRadius: "inherit", background: `radial-gradient(ellipse at 50% 100%, rgba(${rgb},0.1) 0%, transparent 60%)`, opacity: hov ? 1 : 0, transition: "opacity 0.3s", pointerEvents: "none", zIndex: 0 }} />
+      <div style={{ position: "relative", zIndex: 1, height: "100%" }}>{children}</div>
+    </GlowCard>
+  );
+}
 
-      {/* Hero */}
-      <div style={{ paddingTop: 54, position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "70px 60px 0" }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <span style={{ fontSize: 20 }}>🐕</span>
-              <span style={{ ...mo, fontSize: 11, color: "rgba(234,179,8,0.7)", letterSpacing: "0.18em" }}>JAKE — BUILDER</span>
-            </div>
-            <h1 style={{ ...IN, fontSize: "clamp(2.2rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 6 }}>Build & Integrations</h1>
-            <p style={{ ...mo, fontSize: 11, color: "#777" }}>Klaviyo flows · n8n automation · integrations · API health</p>
-          </motion.div>
-        </div>
-      </div>
-
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "56px 60px 100px", position: "relative", zIndex: 1 }}>
-
-        {/* Integration Grid */}
-        <Reveal>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-            <span style={{ ...mo, fontSize: 11, color: "#eab308" }}>✦</span>
-            <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>INTEGRATION STATUS</span>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.08}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 48 }}>
-            {integrations.map((int) => (
-              <GlowCard key={int.name} style={{ padding: "16px 18px", borderTop: `1px solid rgba(${int.rgb},0.2)` }}>
-                {/* Subtle top back-light */}
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(180deg, rgba(${int.rgb},0.04) 0%, transparent 100%)`, borderRadius: "14px 14px 0 0", pointerEvents: "none" }} />
-                <div style={{ position: "relative" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 18 }}>{int.icon}</span>
-                    <span style={{ ...IN, fontSize: 13, fontWeight: 600, color: "#ccc" }}>{int.name}</span>
-                  </div>
-                  <div style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 6 }}>{int.detail}</div>
-                  <span style={{ ...mo, fontSize: 10, fontWeight: 700, color: int.color, background: `rgba(${int.rgb},0.08)`, padding: "2px 7px", borderRadius: 3 }}>{int.status.toUpperCase()}</span>
-                </div>
-              </GlowCard>
-            ))}
-          </div>
-        </Reveal>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-
-          {/* Workflows */}
-          <div>
-            <Reveal>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                <span style={{ ...mo, fontSize: 11, color: "#eab308" }}>✦</span>
-                <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>N8N WORKFLOWS</span>
-              </div>
-            </Reveal>
-            <GlowCard style={{ padding: "22px 24px" }}>
-              {workflows.map((w, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, paddingBottom: i < workflows.length - 1 ? 14 : 0, marginBottom: i < workflows.length - 1 ? 14 : 0, borderBottom: i < workflows.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", borderLeft: `2px solid ${w.status === "active" ? "#10b981" : "#f59e0b"}`, paddingLeft: 12 }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ ...IN, fontSize: 12, fontWeight: 600, color: "#ccc", marginBottom: 2 }}>{w.name}</div>
-                    <div style={{ ...mo, fontSize: 11, color: "#777" }}>{w.trigger}</div>
-                  </div>
-                  <div style={{ textAlign: "right", flexShrink: 0 }}>
-                    <div style={{ ...mo, fontSize: 11, color: "#777", marginBottom: 2 }}>{w.last}</div>
-                    <span style={{ ...mo, fontSize: 10, color: w.status === "active" ? "#10b981" : "#f59e0b" }}>{w.status.toUpperCase()}</span>
-                  </div>
-                </div>
-              ))}
-            </GlowCard>
-          </div>
-
-          {/* Deployments + API Health */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div>
-              <Reveal>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ ...mo, fontSize: 11, color: "#eab308" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>RECENT DEPLOYMENTS</span>
-                </div>
-              </Reveal>
-              <GlowCard style={{ padding: "20px 22px" }}>
-                {deployments.map((d, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, paddingBottom: i < deployments.length - 1 ? 12 : 0, marginBottom: i < deployments.length - 1 ? 12 : 0, borderBottom: i < deployments.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", flexShrink: 0, background: d.ok ? "#10b981" : "#ef4444",  }} />
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 12, color: "#aaa", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 1 }}>{d.desc}</div>
-                      <div style={{ ...mo, fontSize: 11, color: "#777" }}>{d.env} · {d.date}</div>
-                    </div>
-                  </div>
-                ))}
-              </GlowCard>
-            </div>
-
-            <div>
-              <Reveal>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                  <span style={{ ...mo, fontSize: 11, color: "#eab308" }}>✦</span>
-                  <span style={{ ...mo, fontSize: 10, color: "#777", letterSpacing: "0.15em" }}>API HEALTH</span>
-                </div>
-              </Reveal>
-              <GlowCard style={{ padding: "20px 22px" }}>
-                {apiHealth.map((api, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: i < apiHealth.length - 1 ? 10 : 0, marginBottom: i < apiHealth.length - 1 ? 10 : 0, borderBottom: i < apiHealth.length - 1 ? "1px solid rgba(255,255,255,0.03)" : "none" }}>
-                    <div style={{ width: 5, height: 5, borderRadius: "50%", flexShrink: 0, background: api.status === "healthy" ? "#10b981" : api.status === "degraded" ? "#f59e0b" : "#ef4444" }} />
-                    <span style={{ fontSize: 12, color: "#888", flex: 1 }}>{api.name}</span>
-                    <span style={{ ...mo, fontSize: 10, color: "#777" }}>{api.ms}</span>
-                    <span style={{ ...mo, fontSize: 10, color: api.status === "healthy" ? "#10b981" : api.status === "degraded" ? "#f59e0b" : "#ef4444" }}>{api.status.toUpperCase()}</span>
-                  </div>
-                ))}
-              </GlowCard>
-            </div>
-          </div>
-        </div>
-      </div>
+function ProgressBar({ pct, color, animated = true }) {
+  return (
+    <div style={{ background: "rgba(255,255,255,0.06)", borderRadius: 3, height: 3, overflow: "hidden" }}>
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${pct}%` }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+        style={{ height: "100%", background: color, borderRadius: 3, boxShadow: `0 0 6px ${color}60` }} />
     </div>
   );
 }
 
+function StatusDot({ status }) {
+  const map = {
+    live: { color: GREEN, label: "LIVE" },
+    "in progress": { color: "#3b82f6", label: "IN PROGRESS" },
+    testing: { color: "#f59e0b", label: "TESTING" },
+    queued: { color: "#555", label: "QUEUED" },
+    failed: { color: "#ef4444", label: "FAILED" },
+  };
+  const s = map[status.toLowerCase()] || map.queued;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: s.color, boxShadow: `0 0 5px ${s.color}80`, display: "block", animation: status === "in progress" ? "gPulse 1.5s infinite" : "none" }} />
+      <span style={{ ...MO, fontSize: 9, color: s.color, letterSpacing: "0.06em" }}>{s.label}</span>
+    </div>
+  );
+}
 
+function TechBadge({ label, color = "#333", textColor = "#777" }) {
+  return (
+    <span style={{ ...MO, fontSize: 9, padding: "3px 9px", borderRadius: 4, background: color, color: textColor, letterSpacing: "0.04em" }}>{label}</span>
+  );
+}
 
+/* ── Data ── */
+const featuredBuild = {
+  title: "MoonBrew — Full Lifecycle Email System",
+  client: "MoonBrew",
+  status: "In Progress",
+  pct: 78,
+  color: "#3b82f6", rgb: "59,130,246", hue: 217,
+  description: "Complete Klaviyo lifecycle build — welcome series, post-purchase, win-back, cart abandon, and browse abandon. 7 flows, 34 emails total. Currently building win-back sequence.",
+  tech: [
+    { label: "Klaviyo", color: "rgba(34,197,94,0.1)", textColor: "#22c55e" },
+    { label: "Figma", color: "rgba(168,85,247,0.1)", textColor: "#a855f7" },
+    { label: "n8n", color: "rgba(234,179,8,0.1)", textColor: "#eab308" },
+    { label: "Postman", color: "rgba(239,68,68,0.1)", textColor: "#ef4444" },
+  ],
+  tasks: [
+    { label: "Welcome series (5 emails)", done: true },
+    { label: "Post-purchase flow (4 emails)", done: true },
+    { label: "Cart abandonment (3 emails)", done: true },
+    { label: "Browse abandonment (2 emails)", done: true },
+    { label: "Win-back sequence (6 emails)", done: false },
+    { label: "SMS layer integration", done: false },
+    { label: "QA + send-time optimisation", done: false },
+  ],
+  due: "Apr 5",
+};
 
+const activeBuilds = [
+  {
+    title: "Centr Fitness — Welcome Series",
+    client: "Centr Fitness", status: "Testing",
+    pct: 90, color: "#f59e0b", rgb: "245,158,11", hue: 38,
+    tech: ["Klaviyo", "Figma"],
+    due: "Apr 3", note: "QA in progress — 2 emails left to review",
+  },
+  {
+    title: "LA Clippers — Loyalty Flow Rebuild",
+    client: "LA Clippers", status: "In Progress",
+    pct: 45, color: "#8b5cf6", rgb: "139,92,246", hue: 263,
+    tech: ["Klaviyo", "Gorgias"],
+    due: "Apr 10", note: "Segment logic being rebuilt from scratch",
+  },
+  {
+    title: "Nexmail — Onboarding Automation",
+    client: "Nexmail", status: "In Progress",
+    pct: 30, color: YELLOW, rgb: "234,179,8", hue: 48,
+    tech: ["n8n", "Vercel", "Supabase"],
+    due: "Apr 14", note: "Webhook triggers mapped, building sequences",
+  },
+];
 
+const recentDeploys = [
+  { title: "MoonBrew cart abandon flow v3", env: "Klaviyo", time: "Today 09:31", status: "live", color: "#22c55e" },
+  { title: "Centr Fitness SMS welcome trigger", env: "Klaviyo", time: "Today 11:15", status: "live", color: "#22c55e" },
+  { title: "Weekly metrics dashboard", env: "Vercel", time: "Today 14:02", status: "live", color: "#22c55e" },
+  { title: "Gorgias webhook patch", env: "n8n", time: "Yesterday 18:44", status: "failed", color: "#ef4444" },
+  { title: "Allegiance Flag post-purchase v2", env: "Klaviyo", time: "Mar 31", status: "live", color: "#22c55e" },
+  { title: "Jolie Skin browse abandon", env: "Klaviyo", time: "Mar 30", status: "live", color: "#22c55e" },
+];
 
+const integrations = [
+  { name: "Klaviyo", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "All flows active" },
+  { name: "n8n", status: "in progress", color: "#f59e0b", rgb: "245,158,11", hue: 38, note: "1 workflow failing" },
+  { name: "Vercel", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "3 projects deployed" },
+  { name: "Gorgias", status: "testing", color: "#f59e0b", rgb: "245,158,11", hue: 38, note: "Webhook under review" },
+  { name: "Supabase", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "DB healthy" },
+  { name: "Postman", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "API tests passing" },
+];
 
+const stats = [
+  { label: "ACTIVE BUILDS", value: "4" },
+  { label: "DEPLOYED THIS MONTH", value: "12" },
+  { label: "FLOWS LIVE", value: "31" },
+  { label: "FAILED DEPLOYS", value: "1" },
+];
 
+export default function BuildPage() {
+  const [openBuild, setOpenBuild] = useState(null);
 
+  return (
+    <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
+      <style>{`@keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}`}</style>
+      <Nav />
+
+      {/* ── HERO ── */}
+      <section style={{ paddingTop: 54, overflow: "hidden" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "60px 60px 0" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>Build</h1>
+            <p style={{ ...MO, fontSize: 11, color: "#555" }}>Active builds · deployments · integrations · automation</p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── STATS STRIP ── */}
+      <div style={{ maxWidth: 1440, margin: "48px auto 0", padding: "0 60px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 0.06}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", padding: "28px 0" }}>
+                <div style={{ fontSize: "clamp(1.6rem, 2vw, 2.2rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontSize: 11, color: GREEN, marginTop: 6, fontWeight: 400 }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* ── BENTO GRID ── */}
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px 100px" }}>
+
+        {/* Row 1: Featured build + integrations */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 12, marginBottom: 12 }}>
+
+          {/* Featured build */}
+          <Reveal delay={0}>
+            <ColourCard rgb={featuredBuild.rgb} hue={featuredBuild.hue} style={{ padding: "32px 36px", borderLeft: `3px solid rgba(${featuredBuild.rgb},0.5)`, cursor: "pointer" }}
+              onClick={() => setOpenBuild(featuredBuild)}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <StatusDot status={featuredBuild.status} />
+                    <span style={{ ...MO, fontSize: 9, color: "#444" }}>FEATURED BUILD · DUE {featuredBuild.due.toUpperCase()}</span>
+                  </div>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>{featuredBuild.title}</h2>
+                  <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, maxWidth: 520 }}>{featuredBuild.description}</p>
+                </div>
+                <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 32 }}>
+                  <div style={{ fontSize: 52, fontWeight: 800, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>{featuredBuild.pct}<span style={{ fontSize: 20, color: featuredBuild.color }}>%</span></div>
+                  <div style={{ ...MO, fontSize: 9, color: "#444", marginTop: 4 }}>COMPLETE</div>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: 20 }}>
+                <ProgressBar pct={featuredBuild.pct} color={featuredBuild.color} />
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
+                {featuredBuild.tasks.map((t, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 14, height: 14, borderRadius: 3, border: `1px solid ${t.done ? featuredBuild.color : "#222"}`, background: t.done ? `rgba(${featuredBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      {t.done && <span style={{ color: featuredBuild.color, fontSize: 9 }}>✓</span>}
+                    </div>
+                    <span style={{ fontSize: 12, color: t.done ? "#888" : "#555", textDecoration: t.done ? "line-through" : "none" }}>{t.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", gap: 6 }}>
+                {featuredBuild.tech.map(t => <TechBadge key={t.label} {...t} />)}
+              </div>
+            </ColourCard>
+          </Reveal>
+
+          {/* Integrations */}
+          <Reveal delay={0.08}>
+            <GlowCard style={{ padding: "24px 24px", height: "100%" }}>
+              <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>INTEGRATIONS</div>
+              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Stack Status</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {integrations.map((int, i) => (
+                  <div key={int.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 0", borderBottom: i < integrations.length - 1 ? "1px solid #111" : "none" }}>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "#d0d0d8", marginBottom: 2 }}>{int.name}</div>
+                      <div style={{ ...MO, fontSize: 9, color: "#444" }}>{int.note}</div>
+                    </div>
+                    <StatusDot status={int.status} />
+                  </div>
+                ))}
+              </div>
+            </GlowCard>
+          </Reveal>
+        </div>
+
+        {/* Row 2: Active builds */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 12 }}>
+          {activeBuilds.map((b, i) => (
+            <Reveal key={b.title} delay={i * 0.07}>
+              <ColourCard rgb={b.rgb} hue={b.hue} style={{ padding: "22px 24px", borderLeft: `3px solid rgba(${b.rgb},0.5)`, cursor: "pointer" }}
+                onClick={() => setOpenBuild(b)}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ marginBottom: 8 }}><StatusDot status={b.status} /></div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#e0e0e8", marginBottom: 4 }}>{b.title}</div>
+                    <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>{b.note}</div>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 16 }}>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{b.pct}<span style={{ fontSize: 11, color: b.color }}>%</span></div>
+                    <div style={{ ...MO, fontSize: 8, color: "#444", marginTop: 2 }}>DUE {b.due.toUpperCase()}</div>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <ProgressBar pct={b.pct} color={b.color} />
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {b.tech.map(t => <TechBadge key={t} label={t} color="rgba(255,255,255,0.04)" textColor="#555" />)}
+                </div>
+              </ColourCard>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* Row 3: Recent deploys */}
+        <Reveal delay={0.1}>
+          <GlowCard style={{ padding: "24px 28px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <div>
+                <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>DEPLOYMENT LOG</div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em" }}>Recent Deploys</h3>
+              </div>
+              <span style={{ ...MO, fontSize: 10, color: "#444" }}>{recentDeploys.filter(d => d.status === "live").length} SUCCESSFUL</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
+              {recentDeploys.map((d, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 16px", borderRight: i % 3 < 2 ? "1px solid #111" : "none", borderBottom: i < 3 ? "1px solid #111" : "none" }}>
+                  <div style={{ width: 2, height: 36, borderRadius: 2, background: d.color, flexShrink: 0, opacity: 0.6 }} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#d0d0d8", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.title}</div>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <span style={{ ...MO, fontSize: 9, color: "#444", background: "#111", padding: "1px 7px", borderRadius: 3 }}>{d.env}</span>
+                      <span style={{ ...MO, fontSize: 9, color: "#333" }}>{d.time}</span>
+                    </div>
+                  </div>
+                  <StatusDot status={d.status} />
+                </div>
+              ))}
+            </div>
+          </GlowCard>
+        </Reveal>
+
+      </div>
+
+      {/* ── BUILD MODAL ── */}
+      <AnimatePresence>
+        {openBuild && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setOpenBuild(null)}
+              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", zIndex: 100 }} />
+            <div style={{ position: "fixed", inset: 0, zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", pointerEvents: "none" }}>
+              <motion.div initial={{ opacity: 0, scale: 0.94, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                style={{ width: "min(660px, 92vw)", maxHeight: "80vh", overflowY: "auto", background: "#111", borderRadius: 18, border: `1px solid rgba(${openBuild.rgb},0.2)`, boxShadow: `0 30px 80px rgba(0,0,0,0.6)`, pointerEvents: "all" }}>
+                <div style={{ padding: "28px 32px 20px", borderBottom: "1px solid #1a1a1a", position: "relative", overflow: "hidden" }}>
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${openBuild.color}, transparent)` }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                        <StatusDot status={openBuild.status} />
+                        <span style={{ ...MO, fontSize: 9, color: "#444" }}>DUE {openBuild.due?.toUpperCase()}</span>
+                      </div>
+                      <h2 style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>{openBuild.title}</h2>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0, marginLeft: 20 }}>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: 36, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{openBuild.pct}<span style={{ fontSize: 14, color: openBuild.color }}>%</span></div>
+                      </div>
+                      <button onClick={() => setOpenBuild(null)} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.06)", border: "1px solid #222", color: "#777", cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ padding: "24px 32px 32px" }}>
+                  <ProgressBar pct={openBuild.pct} color={openBuild.color} />
+                  {openBuild.description && <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7, margin: "20px 0" }}>{openBuild.description}</p>}
+                  {openBuild.tasks && (
+                    <>
+                      <div style={{ ...MO, fontSize: 10, color: "#444", letterSpacing: "0.12em", marginBottom: 12, marginTop: 4 }}>TASK CHECKLIST</div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                        {openBuild.tasks.map((t, i) => (
+                          <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 + i * 0.06 }}
+                            style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < openBuild.tasks.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+                            <div style={{ width: 16, height: 16, borderRadius: 4, border: `1px solid ${t.done ? openBuild.color : "#222"}`, background: t.done ? `rgba(${openBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              {t.done && <span style={{ color: openBuild.color, fontSize: 10 }}>✓</span>}
+                            </div>
+                            <span style={{ fontSize: 13, color: t.done ? "#666" : "#bbb", textDecoration: t.done ? "line-through" : "none" }}>{t.label}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {openBuild.note && !openBuild.tasks && (
+                    <div style={{ padding: "14px 16px", background: `rgba(${openBuild.rgb},0.04)`, borderRadius: 10, border: `1px solid rgba(${openBuild.rgb},0.12)`, marginTop: 16 }}>
+                      <p style={{ fontSize: 13, color: "#888" }}>{openBuild.note}</p>
+                    </div>
+                  )}
+                  <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
+                    <button style={{ ...MO, flex: 1, padding: "11px 0", borderRadius: 8, background: `rgba(${openBuild.rgb},0.08)`, border: `1px solid rgba(${openBuild.rgb},0.2)`, color: openBuild.color, cursor: "pointer", fontSize: 10, letterSpacing: "0.08em" }}>VIEW IN KLAVIYO</button>
+                    <button onClick={() => setOpenBuild(null)} style={{ ...MO, flex: 1, padding: "11px 0", borderRadius: 8, background: "transparent", border: "1px solid #222", color: "#666", cursor: "pointer", fontSize: 10, letterSpacing: "0.08em" }}>CLOSE</button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
