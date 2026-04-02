@@ -16,9 +16,9 @@ function Reveal({ children, delay = 0 }) {
   const inView = useInView(ref, { once: true, amount: 0.08 });
   return (
     <motion.div ref={ref}
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ type: "spring", bounce: 0, duration: 1.1, delay }}>
+      transition={{ type: "spring", bounce: 0, duration: 1.2, delay }}>
       {children}
     </motion.div>
   );
@@ -42,21 +42,6 @@ function ProgressRing({ pct, color, size = 56 }) {
   );
 }
 
-function Typewriter({ text, speed = 28 }) {
-  const [displayed, setDisplayed] = useState("");
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
-  useEffect(() => {
-    if (!inView) return;
-    let i = 0;
-    const id = setInterval(() => {
-      setDisplayed(text.slice(0, ++i));
-      if (i >= text.length) clearInterval(id);
-    }, speed);
-    return () => clearInterval(id);
-  }, [inView, text, speed]);
-  return <span ref={ref}>{displayed}<span style={{ opacity: displayed.length < text.length ? 1 : 0, color: PINK }}>|</span></span>;
-}
 
 function ThreatMeter({ threat, color, rgb }) {
   const levels = { Low: 1, Medium: 2, High: 3 };
@@ -202,10 +187,7 @@ export default function ResearchPage() {
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
       <style>{`
         @keyframes gPulse{0%,100%{opacity:0.4}50%{opacity:1}}
-        @keyframes scanLine{0%{top:-2px;opacity:0.7}100%{top:100%;opacity:0}}
-        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-        @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-        @keyframes breathe{0%,100%{opacity:0.03}50%{opacity:0.07}}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
         .brief-card:hover { transform: translateY(-2px); }
         .brief-card { transition: transform 0.25s; cursor: pointer; }
         .intel-row:hover { background: rgba(255,255,255,0.025) !important; }
@@ -214,13 +196,6 @@ export default function ResearchPage() {
         .comp-card { transition: transform 0.2s; cursor: pointer; }
         .cat-btn:hover { background: rgba(255,255,255,0.05) !important; }
       `}</style>
-
-      {/* Noise texture */}
-      <div style={{ position: "fixed", inset: 0, opacity: 0.018, pointerEvents: "none", zIndex: 0, backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")", backgroundRepeat: "repeat", backgroundSize: "256px 256px" }} />
-
-      {/* Ambient glow */}
-      <div style={{ position: "fixed", top: "10%", right: "5%", width: 500, height: 400, background: "radial-gradient(ellipse, rgba(236,72,153,0.04) 0%, transparent 65%)", filter: "blur(40px)", pointerEvents: "none", zIndex: 0, animation: "breathe 8s ease-in-out infinite" }} />
-      <div style={{ position: "fixed", bottom: "10%", left: "5%", width: 400, height: 350, background: "radial-gradient(ellipse, rgba(168,85,247,0.04) 0%, transparent 65%)", filter: "blur(40px)", pointerEvents: "none", zIndex: 0, animation: "breathe 10s ease-in-out 2s infinite" }} />
 
       <Nav />
 
@@ -283,32 +258,21 @@ export default function ResearchPage() {
         <div style={{ flex: 1, overflowY: "auto", maxHeight: "calc(100vh - 54px)" }}>
 
           {/* Hero */}
-          <div style={{ position: "relative", padding: "48px 56px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
-            {/* Scan line on load */}
+          <div style={{ position: "relative", padding: "60px 56px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
             {scanActive && (
               <motion.div initial={{ top: 0, opacity: 0.6 }} animate={{ top: "100%", opacity: 0 }} transition={{ duration: 2.5, ease: "linear" }}
                 style={{ position: "absolute", left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent 0%, ${PINK}80 40%, ${PINK} 50%, ${PINK}80 60%, transparent 100%)`, zIndex: 10, pointerEvents: "none" }} />
             )}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 24 }}>
-              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, boxShadow: `0 0 8px ${PINK}80`, animation: "gPulse 2s infinite", display: "block" }} />
-                  <span style={{ ...MO, fontSize: 11, color: `${PINK}99`, letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
-                </div>
-                <h1 style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 8 }}>
-                  <Typewriter text="Intelligence Briefing" speed={45} />
-                </h1>
-                <p style={{ ...MO, fontSize: 11, color: "#555" }}>Market intelligence · competitor tracking · client research · Nexmail strategy</p>
-              </motion.div>
-              {/* Live status badge */}
-              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.6 }}>
-                <div style={{ padding: "12px 18px", borderRadius: 10, border: `1px solid ${PINK}20`, background: `rgba(236,72,153,0.05)`, textAlign: "center" }}>
-                  <div style={{ ...MO, fontSize: 9, color: "#444", marginBottom: 6, letterSpacing: "0.1em" }}>LAST UPDATED</div>
-                  <div style={{ ...MO, fontSize: 12, color: PINK }}>Apr 2, 2026</div>
-                  <div style={{ ...MO, fontSize: 9, color: "#333", marginTop: 4 }}>AUTO · 06:00 GMT</div>
-                </div>
-              </motion.div>
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, boxShadow: `0 0 8px ${PINK}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${PINK}99`, letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
+              </div>
+              <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
+                Research & Strategy
+              </h1>
+              <p style={{ ...MO, fontSize: 11, color: "#555" }}>Market intelligence · competitor tracking · client research · Nexmail strategy</p>
+            </motion.div>
           </div>
 
           {/* Content area */}
