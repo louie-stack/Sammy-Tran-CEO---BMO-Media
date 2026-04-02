@@ -202,8 +202,8 @@ export default function ResearchPage() {
           <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #111", position: "relative", overflow: "hidden" }}>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 34, height: 34, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${PINK}50`, flexShrink: 0, animation: "float 4s ease-in-out infinite" }}>
-                <img src="/agents/pb.png" alt="PB" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 10%" }} />
+              <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(196,240,0,0.08)", border: "1.5px solid rgba(196,240,0,0.2)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ ...MO, fontSize: 10, color: GREEN }}>PB</span>
               </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#e0e0e8" }}>Princess Bubblegum</div>
@@ -386,12 +386,12 @@ export default function ResearchPage() {
                           transition={{ delay: i * 0.05, duration: 0.3 }}
                           style={{ padding: "14px 18px", borderBottom: i < filteredInsights.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", background: "transparent" }}>
                           <div style={{ display: "flex", gap: 12 }}>
-                            <div style={{ width: 2, background: ins.urgent ? `rgba(236,72,153,0.5)` : "rgba(255,255,255,0.06)", borderRadius: 2, flexShrink: 0 }} />
+                            <div style={{ width: 2, background: ins.urgent ? `rgba(196,240,0,0.4)` : "rgba(255,255,255,0.06)", borderRadius: 2, flexShrink: 0 }} />
                             <div style={{ flex: 1 }}>
                               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 6 }}>
                                 <p style={{ fontSize: 12, color: "#aaa", lineHeight: 1.55, flex: 1 }}>{ins.text}</p>
                                 {ins.urgent && (
-                                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, flexShrink: 0, marginTop: 5, animation: "gPulse 1.5s infinite" }} />
+                                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: GREEN, flexShrink: 0, marginTop: 5, animation: "gPulse 1.5s infinite" }} />
                                 )}
                               </div>
                               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -522,6 +522,7 @@ export default function ResearchPage() {
     </div>
   );
 }
+
 
 
 

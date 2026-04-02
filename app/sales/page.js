@@ -132,8 +132,8 @@ export default function SalesPage() {
           {/* Agent header */}
           <div style={{ padding: "28px 20px 20px", borderBottom: "1px solid #111" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-              <div style={{ width: 28, height: 28, borderRadius: "50%", overflow: "hidden", border: `1.5px solid ${PURPLE}40`, flexShrink: 0 }}>
-                <img src="/agents/marceline.png" alt="Marceline" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 10%" }} />
+              <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(196,240,0,0.08)", border: "1.5px solid rgba(196,240,0,0.2)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ ...MO, fontSize: 9, color: GREEN }}>M</span>
               </div>
               <div>
                 <div style={{ ...IN, fontSize: 12, fontWeight: 700, color: "#e0e0e8" }}>Marceline</div>
@@ -310,6 +310,7 @@ export default function SalesPage() {
     </div>
   );
 }
+
 
 
 
