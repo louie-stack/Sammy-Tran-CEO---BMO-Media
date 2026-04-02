@@ -156,9 +156,9 @@ export default function SalesPage() {
               const isActive = active === s.key;
               return (
                 <div key={s.key} onClick={() => setActive(s.key)}
-                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${s.color}` : "2px solid transparent", background: isActive ? `rgba(${s.rgb},0.06)` : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${s.color}` : "2px solid transparent", background: isActive ? `rgba(196,240,0,0.05)` : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
                   <span style={{ ...IN, fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{s.label}</span>
-                  <span style={{ ...MO, fontSize: 9, color: isActive ? s.color : "#333", background: isActive ? `rgba(${s.rgb},0.12)` : "transparent", padding: "1px 7px", borderRadius: 4 }}>{count}</span>
+                  <span style={{ ...MO, fontSize: 9, color: isActive ? GREEN : "#333", background: isActive ? "rgba(196,240,0,0.1)" : "transparent", padding: "1px 7px", borderRadius: 4 }}>{count}</span>
                 </div>
               );
             })}
@@ -188,8 +188,8 @@ export default function SalesPage() {
           <Reveal>
             <div style={{ marginBottom: 40 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: activeStage?.color || PURPLE, boxShadow: `0 0 8px ${activeStage?.color || PURPLE}80`, animation: "gPulse 2s infinite", display: "block" }} />
-                <span style={{ ...MO, fontSize: 11, color: `${activeStage?.color || PURPLE}99`, letterSpacing: "0.18em" }}>SALES & BD</span>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: GREEN, boxShadow: `0 0 8px ${GREEN}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${GREEN}99`, letterSpacing: "0.18em" }}>SALES & BD</span>
               </div>
               <h1 style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 8 }}>
                 {active === "all" ? "Pipeline Overview" : active === "followups" ? "Overdue Follow-ups" : `${activeStage?.label}`}
@@ -310,5 +310,6 @@ export default function SalesPage() {
     </div>
   );
 }
+
 
 

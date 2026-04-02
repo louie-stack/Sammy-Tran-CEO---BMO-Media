@@ -223,9 +223,9 @@ export default function ResearchPage() {
               const isActive = activeCategory === cat.key;
               return (
                 <div key={cat.key} className="cat-btn" onClick={() => setActiveCategory(cat.key)}
-                  style={{ padding: "9px 12px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${PINK}` : "2px solid transparent", background: isActive ? `rgba(236,72,153,0.06)` : "transparent", marginBottom: 2, transition: "all 0.2s", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  style={{ padding: "9px 12px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${GREEN}` : "2px solid transparent", background: isActive ? `rgba(196,240,0,0.05)` : "transparent", marginBottom: 2, transition: "all 0.2s", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{cat.label}</span>
-                  {isActive && <span style={{ width: 5, height: 5, borderRadius: "50%", background: PINK, animation: "gPulse 2s infinite", display: "block" }} />}
+                  {isActive && <span style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN, animation: "gPulse 2s infinite", display: "block" }} />}
                 </div>
               );
             })}
@@ -255,8 +255,8 @@ export default function ResearchPage() {
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, boxShadow: `0 0 8px ${PINK}80`, animation: "gPulse 2s infinite", display: "block" }} />
-                <span style={{ ...MO, fontSize: 11, color: `${PINK}99`, letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: GREEN, boxShadow: `0 0 8px ${GREEN}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${GREEN}99`, letterSpacing: "0.18em" }}>PRINCESS BUBBLEGUM — RESEARCH & STRATEGY</span>
               </div>
               <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
                 Research & Strategy
@@ -278,7 +278,7 @@ export default function ResearchPage() {
                     <Reveal>
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
                         <div>
-                          <div style={{ ...MO, fontSize: 10, color: PINK, letterSpacing: "0.18em", marginBottom: 6 }}>ACTIVE BRIEFS</div>
+                          <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>ACTIVE BRIEFS</div>
                           <h2 style={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em" }}>Research Briefs</h2>
                         </div>
                         <span style={{ ...MO, fontSize: 10, color: "#444" }}>{filteredBriefs.length} BRIEFS</span>
@@ -356,7 +356,7 @@ export default function ResearchPage() {
                   <Reveal>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
                       <div>
-                        <div style={{ ...MO, fontSize: 10, color: PURPLE, letterSpacing: "0.18em", marginBottom: 6 }}>LIVE FEED</div>
+                        <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>LIVE FEED</div>
                         <h2 style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.02em" }}>Market Intel</h2>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
@@ -371,7 +371,7 @@ export default function ResearchPage() {
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
                       {[{ k: "all", label: "All" }, { k: "market", label: "Market" }, { k: "client", label: "Client" }, { k: "competitor", label: "Competitor" }].map(f => (
                         <button key={f.k} onClick={() => setIntelFilter(f.k)}
-                          style={{ ...MO, fontSize: 9, padding: "4px 11px", borderRadius: 70, cursor: "pointer", transition: "all 0.2s", background: intelFilter === f.k ? `rgba(168,85,247,0.12)` : "transparent", border: intelFilter === f.k ? `1px solid ${PURPLE}40` : "1px solid #1a1a1a", color: intelFilter === f.k ? PURPLE : "#444", letterSpacing: "0.06em" }}>
+                          style={{ ...MO, fontSize: 9, padding: "4px 11px", borderRadius: 70, cursor: "pointer", transition: "all 0.2s", background: intelFilter === f.k ? `rgba(196,240,0,0.08)` : "transparent", border: intelFilter === f.k ? `1px solid ${GREEN}40` : "1px solid #1a1a1a", color: intelFilter === f.k ? GREEN : "#444", letterSpacing: "0.06em" }}>
                           {f.label.toUpperCase()}
                         </button>
                       ))}
@@ -395,7 +395,7 @@ export default function ResearchPage() {
                                 )}
                               </div>
                               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                                <span style={{ ...MO, fontSize: 9, color: "rgba(168,85,247,0.7)", background: "rgba(168,85,247,0.06)", padding: "2px 6px", borderRadius: 3 }}>{ins.source}</span>
+                                <span style={{ ...MO, fontSize: 9, color: "rgba(196,240,0,0.6)", background: "rgba(196,240,0,0.06)", padding: "2px 6px", borderRadius: 3 }}>{ins.source}</span>
                                 <span style={{ ...MO, fontSize: 9, color: "#333" }}>{ins.date}</span>
                               </div>
                             </div>
@@ -456,7 +456,7 @@ export default function ResearchPage() {
                   <div style={{ ...MO, fontSize: 9, color: "#444", marginBottom: 6, letterSpacing: "0.1em" }}>SOURCES</div>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     {openBrief.sources.map(s => (
-                      <span key={s} style={{ ...MO, fontSize: 10, color: PURPLE, background: "rgba(168,85,247,0.06)", padding: "3px 10px", borderRadius: 4, border: "1px solid rgba(168,85,247,0.15)" }}>{s}</span>
+                      <span key={s} style={{ ...MO, fontSize: 10, color: PURPLE, background: "rgba(196,240,0,0.06)", padding: "3px 10px", borderRadius: 4, border: "1px solid rgba(168,85,247,0.15)" }}>{s}</span>
                     ))}
                   </div>
                 </div>
@@ -522,5 +522,6 @@ export default function ResearchPage() {
     </div>
   );
 }
+
 
 
