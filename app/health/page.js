@@ -247,6 +247,7 @@ export default function HealthPage() {
           <Reveal>
             <AgentHero name="Finn" pfp="/agents/finn-pfp.png" accent="#06b6d4" />
           </Reveal>
+        </div>
         <div style={{ borderBottom: "1px solid #1a1a1a" }} />
       </div>
 
