@@ -253,6 +253,10 @@ export default function ResearchPage() {
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
 
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: PINK, boxShadow: `0 0 8px ${PINK}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${PINK}99`, letterSpacing: "0.18em" }}>RESEARCH & STRATEGY</span>
+              </div>
               <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
                 Research & Strategy
               </h1>
