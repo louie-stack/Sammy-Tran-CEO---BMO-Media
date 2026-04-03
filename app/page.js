@@ -432,7 +432,7 @@ export default function Home() {
 
               {/* Health snapshot */}
               <Reveal delay={0.1}>
-                <Link href="/health" style={{ textDecoration: "none', display: 'block', marginTop: '12px" }}>
+                <Link href="/health" style={{ textDecoration: "none", display: "block", marginTop: "12px" }}>
                   <GlowCard style={{ padding: "18px 22px", cursor: "pointer", marginTop: 12 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>

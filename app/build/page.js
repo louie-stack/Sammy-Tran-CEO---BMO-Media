@@ -149,6 +149,11 @@ export default function BuildPage() {
   const [openBuild, setOpenBuild] = useState(null);
   const [activeSection, setActiveSection] = useState("builds");
   const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
+  const sections = [
+    { label: "Active Builds", count: activeBuilds.length + 1, id: "builds" },
+    { label: "Deployments", count: recentDeploys.length, id: "deployments" },
+    { label: "Integrations", count: integrations.length, id: "integrations" },
+  ];
 
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
@@ -177,16 +182,16 @@ export default function BuildPage() {
           {/* Section labels */}
           <div style={{ padding: "14px 10px", flex: 1 }}>
             <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", padding: "0 10px", marginBottom: 8 }}>SECTIONS</div>
-            {[
-              { label: "Active Builds", count: activeBuilds.length + 1 },
-              { label: "Deployments", count: recentDeploys.length },
-              { label: "Integrations", count: integrations.length },
-            ].map((s, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, borderLeft: i === 0 ? `2px solid ${YELLOW}` : "2px solid transparent", background: i === 0 ? "rgba(234,179,8,0.05)" : "transparent", marginBottom: 2 }}>
-                <span style={{ ...IN, fontSize: 13, fontWeight: i === 0 ? 600 : 400, color: i === 0 ? "#fff" : "#666" }}>{s.label}</span>
-                <span style={{ ...MO, fontSize: 9, color: i === 0 ? YELLOW : "#333", background: i === 0 ? "rgba(234,179,8,0.1)" : "transparent", padding: "1px 7px", borderRadius: 4 }}>{s.count}</span>
-              </div>
-            ))}
+            {sections.map((s) => {
+              const isActive = activeSection === s.id;
+              return (
+                <div key={s.id} onClick={() => scrollTo(s.id)}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${YELLOW}` : "2px solid transparent", background: isActive ? "rgba(234,179,8,0.05)" : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
+                  <span style={{ ...IN, fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{s.label}</span>
+                  <span style={{ ...MO, fontSize: 9, color: isActive ? YELLOW : "#333", background: isActive ? "rgba(234,179,8,0.1)" : "transparent", padding: "1px 7px", borderRadius: 4 }}>{s.count}</span>
+                </div>
+              );
+            })}
           </div>
 
           {/* Bottom stats */}
@@ -206,11 +211,26 @@ export default function BuildPage() {
 
         {/* ── MAIN CONTENT ── */}
         <div style={{ flex: 1, overflowY: "auto", minWidth: 0 }}>
+
+          {/* Hero */}
+          <div style={{ position: "relative", padding: "60px 60px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: YELLOW, boxShadow: `0 0 8px ${YELLOW}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${YELLOW}99`, letterSpacing: "0.18em" }}>BUILD & AUTOMATION</span>
+              </div>
+              <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
+                Build & Integrations
+              </h1>
+              <p style={{ ...MO, fontSize: 11, color: "#555" }}>Email automation · flow builds · integrations · deployment log</p>
+            </motion.div>
+          </div>
+
       {/* ── BENTO GRID ── */}
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 60px 100px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "40px 60px 100px" }}>
 
         {/* Row 1: Featured build + integrations */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 12, marginBottom: 12 }}>
+        <div id="builds" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 12, marginBottom: 20 }}>
 
           {/* Featured build */}
           <Reveal delay={0}>
@@ -254,6 +274,7 @@ export default function BuildPage() {
 
           {/* Integrations */}
           <Reveal delay={0.08}>
+            <div id="integrations" style={{ height: "100%" }}>
             <GlowCard style={{ padding: "24px 24px", height: "100%" }}>
               <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>INTEGRATIONS</div>
               <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Stack Status</h3>
@@ -269,11 +290,12 @@ export default function BuildPage() {
                 ))}
               </div>
             </GlowCard>
+            </div>
           </Reveal>
         </div>
 
         {/* Row 2: Active builds */}
-        <div id="integrations" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
           {activeBuilds.map((b, i) => (
             <Reveal key={b.title} delay={i * 0.07}>
               <ColourCard rgb={b.rgb} hue={b.hue} style={{ padding: "22px 24px", borderLeft: `3px solid rgba(${b.rgb},0.5)`, cursor: "pointer" }}
@@ -301,6 +323,7 @@ export default function BuildPage() {
         </div>
 
         {/* Row 3: Recent deploys */}
+        <div id="deployments">
         <Reveal delay={0.1}>
           <GlowCard style={{ padding: "24px 28px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -327,6 +350,7 @@ export default function BuildPage() {
             </div>
           </GlowCard>
         </Reveal>
+        </div>
 
       </div>
 

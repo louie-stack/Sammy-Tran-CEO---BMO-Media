@@ -237,6 +237,13 @@ export default function HealthPage() {
   const weightLost = (WEIGHT_DATA[0].weight - WEIGHT_DATA[WEIGHT_DATA.length - 1].weight).toFixed(1);
   const [activeSection, setActiveSection] = useState("vitals");
   const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
+  const healthSections = [
+    { label: "Vitals", id: "vitals" },
+    { label: "Medications", id: "medications" },
+    { label: "Workouts", id: "workouts" },
+    { label: "Sciatica", id: "sciatica" },
+    { label: "Sleep", id: "sleep" },
+  ];
 
   return (
     <div style={{ ...IN, background: "#0D0D0D", minHeight: "100vh", color: "#fff" }}>
@@ -265,17 +272,15 @@ export default function HealthPage() {
           {/* Section labels */}
           <div style={{ padding: "14px 10px", flex: 1 }}>
             <div style={{ ...MO, fontSize: 8, color: "#333", letterSpacing: "0.14em", padding: "0 10px", marginBottom: 8 }}>SECTIONS</div>
-            {[
-              { label: "Vitals", active: true },
-              { label: "Medications", active: false },
-              { label: "Workouts", active: false },
-              { label: "Sciatica", active: false },
-              { label: "Sleep", active: false },
-            ].map((s, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, borderLeft: s.active ? `2px solid ${CYAN}` : "2px solid transparent", background: s.active ? "rgba(6,182,212,0.05)" : "transparent", marginBottom: 2 }}>
-                <span style={{ ...IN, fontSize: 13, fontWeight: s.active ? 600 : 400, color: s.active ? "#fff" : "#666" }}>{s.label}</span>
-              </div>
-            ))}
+            {healthSections.map((s) => {
+              const isActive = activeSection === s.id;
+              return (
+                <div key={s.id} onClick={() => scrollTo(s.id)}
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${CYAN}` : "2px solid transparent", background: isActive ? "rgba(6,182,212,0.05)" : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
+                  <span style={{ ...IN, fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{s.label}</span>
+                </div>
+              );
+            })}
           </div>
 
           {/* Bottom stats */}
@@ -295,8 +300,23 @@ export default function HealthPage() {
 
         {/* ── MAIN CONTENT ── */}
         <div style={{ flex: 1, overflowY: "auto", minWidth: 0 }}>
+
+          {/* Hero */}
+          <div style={{ position: "relative", padding: "60px 56px 40px", borderBottom: "1px solid #111", overflow: "hidden" }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: CYAN, boxShadow: `0 0 8px ${CYAN}80`, animation: "gPulse 2s infinite", display: "block" }} />
+                <span style={{ ...MO, fontSize: 11, color: `${CYAN}99`, letterSpacing: "0.18em" }}>HEALTH & WELLNESS</span>
+              </div>
+              <h1 style={{ fontSize: "clamp(2.4rem, 4vw, 3.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 10 }}>
+                Health Dashboard
+              </h1>
+              <p style={{ ...MO, fontSize: 11, color: "#555" }}>Vitals · medications · workouts · sleep · sciatica log</p>
+            </motion.div>
+          </div>
+
       {/* ── VITALS STRIP ── */}
-      <div style={{ borderBottom: "1px solid #1a1a1a" }}>
+      <div id="vitals" style={{ borderBottom: "1px solid #1a1a1a" }}>
         <div style={{ maxWidth: 1440, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {VITALS.map((v, i) => (
@@ -314,7 +334,7 @@ export default function HealthPage() {
         </div>
       </div>
 
-      <div style={{ padding: "40px 48px 100px" }}>
+      <div style={{ padding: "40px 48px 100px", scrollMarginTop: 80 }}>
 
         {/* ── ROW 1: Wellness Score + BP ── */}
         <Reveal>
@@ -432,6 +452,7 @@ export default function HealthPage() {
             {/* Sleep + Workouts */}
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {/* Sleep */}
+              <div id="sleep">
               <GlowCard style={{ padding: "24px 26px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 18 }}>
                   <div>
@@ -466,7 +487,9 @@ export default function HealthPage() {
                 </div>
               </GlowCard>
 
+              </div>
               {/* Workouts */}
+              <div id="workouts">
               <GlowCard style={{ padding: "24px 26px", flex: 1 }}>
                 <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 16 }}>WORKOUTS — THIS WEEK</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6, marginBottom: 14 }}>
@@ -500,6 +523,7 @@ export default function HealthPage() {
                   ))}
                 </div>
               </GlowCard>
+              </div>
             </div>
           </div>
         </Reveal>
