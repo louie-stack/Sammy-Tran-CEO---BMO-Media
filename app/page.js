@@ -157,7 +157,7 @@ export default function Home() {
     const tick = () => {
       const now = new Date();
       const h = now.getHours();
-      setTime(now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" }));
+      setTime(now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Los_Angeles", hour12: false }));
       setGreeting(h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening");
     };
     tick();
