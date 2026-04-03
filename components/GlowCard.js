@@ -12,6 +12,16 @@ const CSS = `
   }
 
   [data-glow] {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+  }
+
+  [data-glow]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  [data-glow] {
     --base:             73;
     --spread:           0;
     --radius:           10;
