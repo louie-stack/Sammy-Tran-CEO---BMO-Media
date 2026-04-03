@@ -2,10 +2,12 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Nav from "../../components/Nav";
+import GlowCard from "../../components/GlowCard";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
 const GREEN = "#C4F000";
+const hueOf = (hex) => ({ [GREEN]: 73, "#a855f7": 270, "#ec4899": 330, "#eab308": 45, "#06b6d4": 192 }[hex] ?? 73);
 
 function useIsMobile() {
   const [v, setV] = useState(false);
@@ -246,17 +248,7 @@ function AgentsPageInner() {
         }}>
 
           {/* LEFT — Info panel */}
-          <div style={{
-            padding: isMobile ? "20px 18px" : "36px 32px",
-            borderRadius: 12,
-            background: "#000",
-            border: `1px solid rgba(${a.rgb},0.18)`,
-            
-            position: "relative", overflow: "hidden",
-            transition: "border-color 0.4s, box-shadow 0.4s",
-          }}>
-            {/* Interior top glow */}
-            <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 80% 40% at 50% 0%, rgba(${a.rgb},0.07) 0%, transparent 70%)`, pointerEvents: "none", transition: "background 0.4s" }} />
+          <GlowCard style={{ "--base": hueOf(a.color), padding: isMobile ? "20px 18px" : "36px 32px", borderRadius: 12 }}>
 
             <div style={{ position: "relative" }}>
               {/* Role + status */}
@@ -317,7 +309,7 @@ function AgentsPageInner() {
                 </div>
               )}
             </div>
-          </div>
+          </GlowCard>
 
           {/* RIGHT — Character video / placeholder */}
           <div style={{ order: isMobile ? -1 : 0, height: isMobile ? 320 : 700, background: "#000", borderRadius: 0, border: "none", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>

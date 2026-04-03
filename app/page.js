@@ -355,9 +355,7 @@ export default function Home() {
             {AGENTS.map((a, i) => (
               <Reveal key={a.name} delay={i * 0.06}>
                 <Link href={a.href} style={{ textDecoration: "none", display: "block" }}>
-                  <div style={{ borderRadius: 16, overflow: "hidden", background: "rgba(255,255,255,0.02)", border: `1px solid rgba(${a.rgb},0.12)`, cursor: "pointer", transition: "border-color 0.2s, transform 0.2s" }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.35)`; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = `rgba(${a.rgb},0.12)`; e.currentTarget.style.transform = "translateY(0)"; }}>
+                  <GlowCard style={{ "--base": agentHue(a.name), padding: 0, borderRadius: 16, overflow: "hidden", cursor: "pointer" }}>
                     {/* Card header — gradient + image */}
                     <div style={{ position: "relative", height: 160, overflow: "hidden", background: a.cardBg ? "#000" : `linear-gradient(170deg, rgba(${a.rgb},0.18) 0%, rgba(${a.rgb},0.06) 45%, rgba(0,0,0,0.98) 100%)` }}>
                       <div style={{ position: "absolute", top: "10%", left: "50%", width: 140, height: 140, borderRadius: "50%", background: `radial-gradient(circle, rgba(${a.rgb},0.15) 0%, transparent 65%)`, filter: "blur(18px)", transform: "translateX(-50%)" }} />
@@ -380,7 +378,7 @@ export default function Home() {
                         <div style={{ height: "100%", width: `${progress}%`, background: status === "active" ? a.color : "#222", borderRadius: 2, boxShadow: status === "active" ? `0 0 6px ${a.color}60` : "none" }} />
                       </div></>); })()}
                     </div>
-                  </div>
+                  </GlowCard>
                 </Link>
               </Reveal>
             ))}
