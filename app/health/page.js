@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, useMotionValue, useSpring, animate } from "framer-motion";
 import Nav from "../../components/Nav";
@@ -335,7 +335,7 @@ export default function HealthPage() {
             </Reveal>
             <Reveal delay={0.05}>
               <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 16 }}>
-                <GlowCard style={{ padding: "32px 28px" }}>
+                <GlowCard style={{ "--base": 192, padding: "32px 28px" }}>
                   <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>WEEKLY WELLNESS SCORE</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 24 }}>
                     <RingGauge value={7.8} max={10} size={120} stroke={7} color={GREEN} label="/ 10" sublabel="" />
@@ -363,7 +363,7 @@ export default function HealthPage() {
                   </div>
                   <span style={{ ...MO, fontSize: 10, color: GREEN, background: `${GREEN}10`, padding: "4px 10px", borderRadius: 70, border: `1px solid ${GREEN}20` }}>↑ +0.3 vs last week</span>
                 </GlowCard>
-                <GlowCard style={{ padding: "28px" }}>
+                <GlowCard style={{ "--base": 192, padding: "28px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
                     <div>
                       <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>BLOOD PRESSURE — 14 DAYS</div>
@@ -389,7 +389,7 @@ export default function HealthPage() {
         {/* ── MEDICATIONS ── */}
         {activeSection === "medications" && (
           <Reveal delay={0}>
-            <GlowCard style={{ padding: "28px 32px" }}>
+            <GlowCard style={{ "--base": 192, padding: "28px 32px" }}>
               <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>TIRZEPATIDE CYCLE</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
                 {[
@@ -440,7 +440,7 @@ export default function HealthPage() {
         {/* ── WORKOUTS ── */}
         {activeSection === "workouts" && (
           <Reveal delay={0}>
-            <GlowCard style={{ padding: "28px 32px" }}>
+            <GlowCard style={{ "--base": 73, padding: "28px 32px" }}>
               <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>WORKOUTS — THIS WEEK</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10, marginBottom: 20 }}>
                 {WORKOUTS.map((w) => (
@@ -474,7 +474,7 @@ export default function HealthPage() {
         {/* ── SLEEP ── */}
         {activeSection === "sleep" && (
           <Reveal delay={0}>
-            <GlowCard style={{ padding: "32px 36px" }}>
+            <GlowCard style={{ "--base": 270, padding: "32px 36px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
                 <div>
                   <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SLEEP — THIS WEEK</div>
@@ -525,7 +525,7 @@ export default function HealthPage() {
         {activeSection === "sciatica" && (
           <Reveal delay={0}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              <GlowCard style={{ padding: "28px" }}>
+              <GlowCard style={{ "--base": 73, padding: "28px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
                   <div>
                     <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>WEIGHT TREND — 8 WEEKS</div>
@@ -553,7 +553,7 @@ export default function HealthPage() {
                   ))}
                 </div>
               </GlowCard>
-              <GlowCard style={{ padding: "28px" }}>
+              <GlowCard style={{ "--base": 38, padding: "28px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
                   <div>
                     <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SCIATICA & BACK LOG</div>

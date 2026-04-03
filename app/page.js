@@ -10,6 +10,15 @@ const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
 const GREEN = "#C4F000";
 
+// Convert common hex accent colours to CSS hue for --base
+const colorHue = (hex) => ({
+  "#C4F000": 73, "#a855f7": 270, "#ec4899": 330, "#eab308": 45,
+  "#06b6d4": 192, "#64748b": 215, "#f59e0b": 38, "#ef4444": 0, "#10b981": 160,
+}[hex] ?? 73);
+
+// Map agent name → hue
+const agentHue = (name) => ({ bmo: 73, marceline: 270, "princess bubblegum": 330, jake: 45, finn: 192 }[(name||"").toLowerCase()] ?? 73);
+
 function CountUp({ value, duration = 1.6 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
@@ -311,7 +320,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 12 }}>
             {PROJECTS.map((p, i) => (
               <Reveal key={p.client} delay={i * 0.05}>
-                <GlowCard style={{ padding: "20px 22px" }}>
+                <GlowCard style={{ "--base": colorHue(p.color), padding: "20px 22px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                     <div>
                       <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 3 }}>{p.client}</div>
@@ -465,7 +474,7 @@ export default function Home() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {emailDrafts.map((e, i) => (
               <Reveal key={i} delay={i * 0.05}>
-                <GlowCard style={{ padding: "20px 24px" }}>
+                <GlowCard style={{ "--base": agentHue(e.agent), padding: "20px 24px" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
                     <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, background: `${GREEN}12`, border: `1px solid ${GREEN}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -507,7 +516,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)", gap: 10 }}>
             {auditQueue.map((a, i) => (
               <Reveal key={i} delay={i * 0.05}>
-                <GlowCard style={{ padding: "20px 24px" }}>
+                <GlowCard style={{ "--base": a.status === "READY FOR REVIEW" ? 73 : a.status === "IN PROGRESS" ? 270 : 45, padding: "20px 24px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{a.client}</div>
