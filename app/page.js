@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import GlowCard from "../components/GlowCard";
 import Link from "next/link";
 import OrbitingAgents from "../components/OrbitingAgents";
-import { GradientDots } from "../components/GradientDots";
+import { FallingPattern } from "../components/FallingPattern";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -221,7 +221,7 @@ export default function Home() {
 
       {/* ── CONTENT BELOW HERO — dot grid background ── */}
       <div style={{ position: "relative" }}>
-      <GradientDots />
+      <FallingPattern color="#C4F000" duration={150} blurIntensity="0.8em" density={2} />
 
       {/* ── REVENUE STATS STRIP ────────────────────────────────────────── */}
       <section style={{ position: "relative", zIndex: 1 }}>
