@@ -467,8 +467,11 @@ export default function Home() {
               <Reveal key={i} delay={i * 0.05}>
                 <GlowCard style={{ padding: "20px 24px" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: `1.5px solid ${GREEN}40` }}>
-                      <img src={`/agents/${e.agent.toLowerCase()}.png`} alt={e.agent} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 15%" }} />
+                    <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, background: `${GREEN}12`, border: `1px solid ${GREEN}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                      </svg>
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
