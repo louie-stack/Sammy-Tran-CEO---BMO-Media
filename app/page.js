@@ -472,7 +472,7 @@ export default function Home() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {emailDrafts.map((e, i) => (
               <Reveal key={i} delay={i * 0.05}>
-                <GlowCard style={{ "--base": agentHue(e.agent), padding: "20px 24px" }}>
+                <GlowCard style={{ "--base": 73, padding: "20px 24px" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
                     <div style={{ width: 36, height: 36, borderRadius: 8, flexShrink: 0, background: `${GREEN}12`, border: `1px solid ${GREEN}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
