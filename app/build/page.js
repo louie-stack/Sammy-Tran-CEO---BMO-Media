@@ -148,7 +148,6 @@ const stats = [
 export default function BuildPage() {
   const [openBuild, setOpenBuild] = useState(null);
   const [activeSection, setActiveSection] = useState("builds");
-  const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
   const sections = [
     { label: "Active Builds", count: activeBuilds.length + 1, id: "builds" },
     { label: "Deployments", count: recentDeploys.length, id: "deployments" },
@@ -185,7 +184,7 @@ export default function BuildPage() {
             {sections.map((s) => {
               const isActive = activeSection === s.id;
               return (
-                <div key={s.id} onClick={() => scrollTo(s.id)}
+                <div key={s.id} onClick={() => setActiveSection(s.id)}
                   style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${YELLOW}` : "2px solid transparent", background: isActive ? "rgba(234,179,8,0.05)" : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
                   <span style={{ ...IN, fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{s.label}</span>
                   <span style={{ ...MO, fontSize: 9, color: isActive ? YELLOW : "#333", background: isActive ? "rgba(234,179,8,0.1)" : "transparent", padding: "1px 7px", borderRadius: 4 }}>{s.count}</span>
@@ -226,131 +225,120 @@ export default function BuildPage() {
             </motion.div>
           </div>
 
-      {/* ── BENTO GRID ── */}
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "40px 60px 100px" }}>
+      {/* ── SECTION CONTENT ── */}
+      <div style={{ padding: "40px 60px 100px" }}>
 
-        {/* Row 1: Featured build + integrations */}
-        <div id="builds" style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 12, marginBottom: 20 }}>
-
-          {/* Featured build */}
-          <Reveal delay={0}>
-            <ColourCard rgb={featuredBuild.rgb} hue={featuredBuild.hue} style={{ padding: "32px 36px", borderLeft: `3px solid rgba(${featuredBuild.rgb},0.5)`, cursor: "pointer" }}
-              onClick={() => setOpenBuild(featuredBuild)}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                    <StatusDot status={featuredBuild.status} />
-                    <span style={{ ...MO, fontSize: 9, color: "#444" }}>FEATURED BUILD · DUE {featuredBuild.due.toUpperCase()}</span>
-                  </div>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>{featuredBuild.title}</h2>
-                  <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, maxWidth: 520 }}>{featuredBuild.description}</p>
-                </div>
-                <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 32 }}>
-                  <div style={{ fontSize: 52, fontWeight: 800, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>{featuredBuild.pct}<span style={{ fontSize: 20, color: featuredBuild.color }}>%</span></div>
-                  <div style={{ ...MO, fontSize: 9, color: "#444", marginTop: 4 }}>COMPLETE</div>
-                </div>
-              </div>
-
-              <div style={{ marginBottom: 20 }}>
-                <ProgressBar pct={featuredBuild.pct} color={featuredBuild.color} />
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
-                {featuredBuild.tasks.map((t, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 14, height: 14, borderRadius: 3, border: `1px solid ${t.done ? featuredBuild.color : "#222"}`, background: t.done ? `rgba(${featuredBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      {t.done && <span style={{ color: featuredBuild.color, fontSize: 9 }}>✓</span>}
+        {/* ── ACTIVE BUILDS ── */}
+        {activeSection === "builds" && (
+          <>
+            <Reveal delay={0}>
+              <ColourCard rgb={featuredBuild.rgb} hue={featuredBuild.hue} style={{ padding: "32px 36px", borderLeft: `3px solid rgba(${featuredBuild.rgb},0.5)`, cursor: "pointer", marginBottom: 12 }}
+                onClick={() => setOpenBuild(featuredBuild)}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                      <StatusDot status={featuredBuild.status} />
+                      <span style={{ ...MO, fontSize: 9, color: "#444" }}>FEATURED BUILD · DUE {featuredBuild.due.toUpperCase()}</span>
                     </div>
-                    <span style={{ fontSize: 12, color: t.done ? "#888" : "#555", textDecoration: t.done ? "line-through" : "none" }}>{t.label}</span>
+                    <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>{featuredBuild.title}</h2>
+                    <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, maxWidth: 520 }}>{featuredBuild.description}</p>
                   </div>
-                ))}
-              </div>
+                  <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 32 }}>
+                    <div style={{ fontSize: 52, fontWeight: 800, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>{featuredBuild.pct}<span style={{ fontSize: 20, color: featuredBuild.color }}>%</span></div>
+                    <div style={{ ...MO, fontSize: 9, color: "#444", marginTop: 4 }}>COMPLETE</div>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 20 }}><ProgressBar pct={featuredBuild.pct} color={featuredBuild.color} /></div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
+                  {featuredBuild.tasks.map((t, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ width: 14, height: 14, borderRadius: 3, border: `1px solid ${t.done ? featuredBuild.color : "#222"}`, background: t.done ? `rgba(${featuredBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        {t.done && <span style={{ color: featuredBuild.color, fontSize: 9 }}>✓</span>}
+                      </div>
+                      <span style={{ fontSize: 12, color: t.done ? "#888" : "#555", textDecoration: t.done ? "line-through" : "none" }}>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>{featuredBuild.tech.map(t => <TechBadge key={t.label} {...t} />)}</div>
+              </ColourCard>
+            </Reveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+              {activeBuilds.map((b, i) => (
+                <Reveal key={b.title} delay={i * 0.07}>
+                  <ColourCard rgb={b.rgb} hue={b.hue} style={{ padding: "22px 24px", borderLeft: `3px solid rgba(${b.rgb},0.5)`, cursor: "pointer" }}
+                    onClick={() => setOpenBuild(b)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ marginBottom: 8 }}><StatusDot status={b.status} /></div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#e0e0e8", marginBottom: 4 }}>{b.title}</div>
+                        <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>{b.note}</div>
+                      </div>
+                      <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 16 }}>
+                        <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{b.pct}<span style={{ fontSize: 11, color: b.color }}>%</span></div>
+                        <div style={{ ...MO, fontSize: 8, color: "#444", marginTop: 2 }}>DUE {b.due.toUpperCase()}</div>
+                      </div>
+                    </div>
+                    <div style={{ marginBottom: 14 }}><ProgressBar pct={b.pct} color={b.color} /></div>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      {b.tech.map(t => <TechBadge key={t} label={t} color="rgba(255,255,255,0.04)" textColor="#555" />)}
+                    </div>
+                  </ColourCard>
+                </Reveal>
+              ))}
+            </div>
+          </>
+        )}
 
-              <div style={{ display: "flex", gap: 6 }}>
-                {featuredBuild.tech.map(t => <TechBadge key={t.label} {...t} />)}
-              </div>
-            </ColourCard>
-          </Reveal>
-
-          {/* Integrations */}
-          <Reveal delay={0.08}>
-            <div id="integrations" style={{ height: "100%" }}>
-            <GlowCard style={{ padding: "24px 24px", height: "100%" }}>
+        {/* ── INTEGRATIONS ── */}
+        {activeSection === "integrations" && (
+          <Reveal delay={0}>
+            <GlowCard style={{ padding: "32px 36px" }}>
               <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>INTEGRATIONS</div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Stack Status</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 28 }}>Stack Status</h2>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 {integrations.map((int, i) => (
-                  <div key={int.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 0", borderBottom: i < integrations.length - 1 ? "1px solid #111" : "none" }}>
+                  <div key={int.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0", borderBottom: i < integrations.length - 1 ? "1px solid #111" : "none" }}>
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "#d0d0d8", marginBottom: 2 }}>{int.name}</div>
-                      <div style={{ ...MO, fontSize: 9, color: "#444" }}>{int.note}</div>
+                      <div style={{ fontSize: 15, fontWeight: 600, color: "#d0d0d8", marginBottom: 3 }}>{int.name}</div>
+                      <div style={{ ...MO, fontSize: 10, color: "#444" }}>{int.note}</div>
                     </div>
                     <StatusDot status={int.status} />
                   </div>
                 ))}
               </div>
             </GlowCard>
-            </div>
           </Reveal>
-        </div>
+        )}
 
-        {/* Row 2: Active builds */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
-          {activeBuilds.map((b, i) => (
-            <Reveal key={b.title} delay={i * 0.07}>
-              <ColourCard rgb={b.rgb} hue={b.hue} style={{ padding: "22px 24px", borderLeft: `3px solid rgba(${b.rgb},0.5)`, cursor: "pointer" }}
-                onClick={() => setOpenBuild(b)}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ marginBottom: 8 }}><StatusDot status={b.status} /></div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#e0e0e8", marginBottom: 4 }}>{b.title}</div>
-                    <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>{b.note}</div>
-                  </div>
-                  <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 16 }}>
-                    <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{b.pct}<span style={{ fontSize: 11, color: b.color }}>%</span></div>
-                    <div style={{ ...MO, fontSize: 8, color: "#444", marginTop: 2 }}>DUE {b.due.toUpperCase()}</div>
-                  </div>
+        {/* ── DEPLOYMENTS ── */}
+        {activeSection === "deployments" && (
+          <Reveal delay={0}>
+            <GlowCard style={{ padding: "32px 36px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
+                <div>
+                  <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>DEPLOYMENT LOG</div>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em" }}>Recent Deploys</h2>
                 </div>
-                <div style={{ marginBottom: 14 }}>
-                  <ProgressBar pct={b.pct} color={b.color} />
-                </div>
-                <div style={{ display: "flex", gap: 6 }}>
-                  {b.tech.map(t => <TechBadge key={t} label={t} color="rgba(255,255,255,0.04)" textColor="#555" />)}
-                </div>
-              </ColourCard>
-            </Reveal>
-          ))}
-        </div>
-
-        {/* Row 3: Recent deploys */}
-        <div id="deployments">
-        <Reveal delay={0.1}>
-          <GlowCard style={{ padding: "24px 28px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <div>
-                <div style={{ ...MO, fontSize: 10, color: GREEN, letterSpacing: "0.18em", marginBottom: 6 }}>DEPLOYMENT LOG</div>
-                <h3 style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.01em" }}>Recent Deploys</h3>
+                <span style={{ ...MO, fontSize: 10, color: "#444" }}>{recentDeploys.filter(d => d.status === "live").length} SUCCESSFUL</span>
               </div>
-              <span style={{ ...MO, fontSize: 10, color: "#444" }}>{recentDeploys.filter(d => d.status === "live").length} SUCCESSFUL</span>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
-              {recentDeploys.map((d, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 16px", borderRight: i % 3 < 2 ? "1px solid #111" : "none", borderBottom: i < 3 ? "1px solid #111" : "none" }}>
-                  <div style={{ width: 2, height: 36, borderRadius: 2, background: d.color, flexShrink: 0, opacity: 0.6 }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#d0d0d8", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.title}</div>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <span style={{ ...MO, fontSize: 9, color: "#444", background: "#111", padding: "1px 7px", borderRadius: 3 }}>{d.env}</span>
-                      <span style={{ ...MO, fontSize: 9, color: "#333" }}>{d.time}</span>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
+                {recentDeploys.map((d, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRight: i % 3 < 2 ? "1px solid #111" : "none", borderBottom: i < 3 ? "1px solid #111" : "none" }}>
+                    <div style={{ width: 2, height: 36, borderRadius: 2, background: d.color, flexShrink: 0, opacity: 0.6 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: "#d0d0d8", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.title}</div>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <span style={{ ...MO, fontSize: 9, color: "#444", background: "#111", padding: "1px 7px", borderRadius: 3 }}>{d.env}</span>
+                        <span style={{ ...MO, fontSize: 9, color: "#333" }}>{d.time}</span>
+                      </div>
                     </div>
+                    <StatusDot status={d.status} />
                   </div>
-                  <StatusDot status={d.status} />
-                </div>
-              ))}
-            </div>
-          </GlowCard>
-        </Reveal>
-        </div>
+                ))}
+              </div>
+            </GlowCard>
+          </Reveal>
+        )}
 
       </div>
 

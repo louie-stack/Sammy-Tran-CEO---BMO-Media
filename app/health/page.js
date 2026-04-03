@@ -236,7 +236,6 @@ export default function HealthPage() {
   const avgSleep = (SLEEP_DATA.reduce((s, d) => s + d.hrs, 0) / SLEEP_DATA.length).toFixed(1);
   const weightLost = (WEIGHT_DATA[0].weight - WEIGHT_DATA[WEIGHT_DATA.length - 1].weight).toFixed(1);
   const [activeSection, setActiveSection] = useState("vitals");
-  const scrollTo = (id) => { setActiveSection(id); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50); };
   const healthSections = [
     { label: "Vitals", id: "vitals" },
     { label: "Medications", id: "medications" },
@@ -275,7 +274,7 @@ export default function HealthPage() {
             {healthSections.map((s) => {
               const isActive = activeSection === s.id;
               return (
-                <div key={s.id} onClick={() => scrollTo(s.id)}
+                <div key={s.id} onClick={() => setActiveSection(s.id)}
                   style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 10px", borderRadius: 8, cursor: "pointer", borderLeft: isActive ? `2px solid ${CYAN}` : "2px solid transparent", background: isActive ? "rgba(6,182,212,0.05)" : "transparent", marginBottom: 2, transition: "all 0.2s" }}>
                   <span style={{ ...IN, fontSize: 13, fontWeight: isActive ? 600 : 400, color: isActive ? "#fff" : "#666" }}>{s.label}</span>
                 </div>
@@ -315,94 +314,83 @@ export default function HealthPage() {
             </motion.div>
           </div>
 
-      {/* ── VITALS STRIP ── */}
-      <div id="vitals" style={{ borderBottom: "1px solid #1a1a1a" }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
-            {VITALS.map((v, i) => (
-              <Reveal key={v.label} delay={i * 0.07}>
-                <div style={{ padding: "26px 0", display: "flex", flexDirection: "column", alignItems: "center", borderRight: i < 3 ? "1px solid #1a1a1a" : "none" }}>
-                  <div style={{ lineHeight: 1, marginBottom: 5 }}>
-                    <CountUp to={parseFloat(v.value)} suffix={v.unit} decimals={v.value.includes(".") ? 1 : 0} color={v.color} size={28} />
+      {/* ── SECTION CONTENT ── */}
+      <div style={{ padding: "40px 48px 100px" }}>
+
+        {/* ── VITALS ── */}
+        {activeSection === "vitals" && (
+          <>
+            <Reveal>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", marginBottom: 20, borderBottom: "1px solid #1a1a1a" }}>
+                {VITALS.map((v, i) => (
+                  <div key={v.label} style={{ padding: "26px 0", display: "flex", flexDirection: "column", alignItems: "center", borderRight: i < 3 ? "1px solid #1a1a1a" : "none" }}>
+                    <div style={{ lineHeight: 1, marginBottom: 5 }}>
+                      <CountUp to={parseFloat(v.value)} suffix={v.unit} decimals={v.value.includes(".") ? 1 : 0} color={v.color} size={28} />
+                    </div>
+                    <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 4 }}>{v.label}</div>
+                    <div style={{ fontSize: 11, color: "#555" }}>{v.trend}</div>
                   </div>
-                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 4 }}>{v.label}</div>
-                  <div style={{ fontSize: 11, color: "#555" }}>{v.trend}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ padding: "40px 48px 100px", scrollMarginTop: 80 }}>
-
-        {/* ── ROW 1: Wellness Score + BP ── */}
-        <Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 16, marginBottom: 20 }}>
-
-            {/* Wellness score */}
-            <GlowCard style={{ padding: "32px 28px" }}>
-              <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>WEEKLY WELLNESS SCORE</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 24 }}>
-                <RingGauge value={7.8} max={10} size={120} stroke={7} color={GREEN} label="/ 10" sublabel="" />
-                <div style={{ flex: 1 }}>
-                  {[
-                    { label: "Blood Pressure", score: 8.5, color: CYAN },
-                    { label: "Activity",        score: 8.0, color: GREEN },
-                    { label: "Sleep",           score: 7.5, color: "#a855f7" },
-                    { label: "Back / Sciatica", score: 6.5, color: "#f59e0b" },
-                    { label: "Nutrition",       score: 8.0, color: GREEN },
-                  ].map((item, i) => (
-                    <div key={item.label} style={{ marginBottom: 9 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                        <span style={{ fontSize: 12, color: "#888" }}>{item.label}</span>
-                        <span style={{ ...MO, fontSize: 10, color: item.color }}>{item.score}</span>
-                      </div>
-                      <div style={{ background: "#111", borderRadius: 3, height: 3 }}>
-                        <motion.div
-                          initial={{ width: 0 }} whileInView={{ width: `${(item.score / 10) * 100}%` }}
-                          viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
-                          style={{ height: 3, borderRadius: 3, background: item.color }} />
+                ))}
+              </div>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 16 }}>
+                <GlowCard style={{ padding: "32px 28px" }}>
+                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>WEEKLY WELLNESS SCORE</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 24 }}>
+                    <RingGauge value={7.8} max={10} size={120} stroke={7} color={GREEN} label="/ 10" sublabel="" />
+                    <div style={{ flex: 1 }}>
+                      {[
+                        { label: "Blood Pressure", score: 8.5, color: CYAN },
+                        { label: "Activity",        score: 8.0, color: GREEN },
+                        { label: "Sleep",           score: 7.5, color: "#a855f7" },
+                        { label: "Back / Sciatica", score: 6.5, color: "#f59e0b" },
+                        { label: "Nutrition",       score: 8.0, color: GREEN },
+                      ].map((item, i) => (
+                        <div key={item.label} style={{ marginBottom: 9 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                            <span style={{ fontSize: 12, color: "#888" }}>{item.label}</span>
+                            <span style={{ ...MO, fontSize: 10, color: item.color }}>{item.score}</span>
+                          </div>
+                          <div style={{ background: "#111", borderRadius: 3, height: 3 }}>
+                            <motion.div initial={{ width: 0 }} whileInView={{ width: `${(item.score / 10) * 100}%` }}
+                              viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
+                              style={{ height: 3, borderRadius: 3, background: item.color }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <span style={{ ...MO, fontSize: 10, color: GREEN, background: `${GREEN}10`, padding: "4px 10px", borderRadius: 70, border: `1px solid ${GREEN}20` }}>↑ +0.3 vs last week</span>
+                </GlowCard>
+                <GlowCard style={{ padding: "28px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                    <div>
+                      <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>BLOOD PRESSURE — 14 DAYS</div>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                        <CountUp to={BP_DATA[BP_DATA.length - 1].sys} color="#fff" size={32} />
+                        <span style={{ fontSize: 18, color: "#555" }}>/</span>
+                        <CountUp to={BP_DATA[BP_DATA.length - 1].dia} color="#888" size={22} />
+                        <span style={{ ...MO, fontSize: 10, color: "#777" }}>mmHg · Today</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <span style={{ ...MO, fontSize: 10, color: GREEN, background: `${GREEN}10`, padding: "4px 10px", borderRadius: 70, border: `1px solid ${GREEN}20` }}>↑ +0.3 vs last week</span>
-              </div>
-            </GlowCard>
-
-            {/* BP Chart */}
-            <GlowCard style={{ padding: "28px 28px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-                <div>
-                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>BLOOD PRESSURE — 14 DAYS</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                    <CountUp to={BP_DATA[BP_DATA.length - 1].sys} color="#fff" size={32} />
-                    <span style={{ fontSize: 18, color: "#555" }}>/</span>
-                    <CountUp to={BP_DATA[BP_DATA.length - 1].dia} color="#888" size={22} />
-                    <span style={{ ...MO, fontSize: 10, color: "#777" }}>mmHg · Today</span>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 12, color: "#888", marginBottom: 2 }}>14-day avg systolic</div>
+                      <div style={{ fontSize: 20, fontWeight: 700, color: CYAN }}>{avgBP} <span style={{ fontSize: 12, color: "#777" }}>mmHg</span></div>
+                    </div>
                   </div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 12, color: "#888", marginBottom: 2 }}>14-day avg systolic</div>
-                  <div style={{ fontSize: 20, fontWeight: 700, color: CYAN }}>{avgBP} <span style={{ fontSize: 12, color: "#777" }}>mmHg</span></div>
-                </div>
+                  <BPChart data={BP_DATA} />
+                </GlowCard>
               </div>
-              <BPChart data={BP_DATA} />
-            </GlowCard>
-          </div>
-        </Reveal>
+            </Reveal>
+          </>
+        )}
 
-        {/* ── ROW 2: Tirzepatide + Sleep ── */}
-        <Reveal delay={0.05}>
-          <div id="medications" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-
-            {/* Tirzepatide */}
-            <GlowCard style={{ padding: "28px" }}>
+        {/* ── MEDICATIONS ── */}
+        {activeSection === "medications" && (
+          <Reveal delay={0}>
+            <GlowCard style={{ padding: "28px 32px" }}>
               <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>TIRZEPATIDE CYCLE</div>
-              {/* Cycle progress */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
                 {[
                   { l: "WEEK", v: `${TIRZEPATIDE.week}`, s: `/ ${TIRZEPATIDE.totalWeeks}`, color: GREEN },
@@ -415,7 +403,6 @@ export default function HealthPage() {
                   </div>
                 ))}
               </div>
-              {/* Progress bar */}
               <div style={{ marginBottom: 20 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                   <span style={{ fontSize: 12, color: "#888" }}>Progress to target dose ({TIRZEPATIDE.targetDose})</span>
@@ -431,7 +418,6 @@ export default function HealthPage() {
                   <span style={{ ...MO, fontSize: 9, color: "#555" }}>15mg (Wk12)</span>
                 </div>
               </div>
-              {/* Dose log */}
               <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 10 }}>DOSE LOG</div>
               {TIRZEPATIDE.log.map((entry, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, paddingBottom: i < TIRZEPATIDE.log.length - 1 ? 10 : 0, marginBottom: i < TIRZEPATIDE.log.length - 1 ? 10 : 0, borderBottom: i < TIRZEPATIDE.log.length - 1 ? "1px solid #111" : "none" }}>
@@ -448,168 +434,170 @@ export default function HealthPage() {
                 </div>
               ))}
             </GlowCard>
+          </Reveal>
+        )}
 
-            {/* Sleep + Workouts */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {/* Sleep */}
-              <div id="sleep">
-              <GlowCard style={{ padding: "24px 26px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 18 }}>
-                  <div>
-                    <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SLEEP — THIS WEEK</div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                      <CountUp to={parseFloat(avgSleep)} suffix="" decimals={1} color="#fff" size={28} />
-                      <span style={{ fontSize: 14, color: "#a855f7" }}>hrs avg</span>
-                    </div>
-                  </div>
-                  <span style={{ fontSize: 24 }}>😴</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "flex-end", gap: 5, height: 60 }}>
-                  {SLEEP_DATA.map((s, i) => {
-                    const pct = ((s.hrs - 5) / (10 - 5)) * 100;
-                    const good = s.hrs >= 7;
-                    return (
-                      <div key={s.day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                        <motion.div initial={{ height: 0 }} whileInView={{ height: `${pct}%` }} viewport={{ once: true }}
-                          transition={{ duration: 0.8, delay: i * 0.07, ease: "easeOut" }}
-                          style={{ width: "100%", background: good ? "#a855f7" : "#444", borderRadius: "3px 3px 0 0", minHeight: 4 }} />
-                        <span style={{ ...MO, fontSize: 8, color: "#666" }}>{s.day.slice(0,1)}</span>
+        {/* ── WORKOUTS ── */}
+        {activeSection === "workouts" && (
+          <Reveal delay={0}>
+            <GlowCard style={{ padding: "28px 32px" }}>
+              <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 20 }}>WORKOUTS — THIS WEEK</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10, marginBottom: 20 }}>
+                {WORKOUTS.map((w) => (
+                  <div key={w.day} style={{ textAlign: "center" }}>
+                    <div style={{ background: w.done && !w.rest ? `${GREEN}12` : w.rest ? "#111" : "#0a0a0a", border: `1px solid ${w.done && !w.rest ? `${GREEN}25` : "#1a1a1a"}`, borderRadius: 7, padding: "14px 4px", marginBottom: 6, opacity: !w.done ? 0.35 : 1 }}>
+                      <div style={{ fontSize: 18, marginBottom: 5 }}>{!w.done ? "○" : w.rest ? "💤" : "✓"}</div>
+                      <div style={{ ...MO, fontSize: 8, color: w.done && !w.rest ? GREEN : "#555", lineHeight: 1.4 }}>
+                        {w.type.split(" ").map((wd, i) => <div key={i}>{wd}</div>)}
                       </div>
-                    );
-                  })}
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
-                  {SLEEP_DATA.map(s => (
-                    <div key={s.day} style={{ flex: 1, textAlign: "center" }}>
-                      <span style={{ ...MO, fontSize: 8, color: s.hrs >= 7 ? "#a855f7" : "#555" }}>{s.hrs}</span>
                     </div>
-                  ))}
-                </div>
-              </GlowCard>
-
-              </div>
-              {/* Workouts */}
-              <div id="workouts">
-              <GlowCard style={{ padding: "24px 26px", flex: 1 }}>
-                <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 16 }}>WORKOUTS — THIS WEEK</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6, marginBottom: 14 }}>
-                  {WORKOUTS.map((w) => (
-                    <div key={w.day} style={{ textAlign: "center" }}>
-                      <div style={{
-                        background: w.done && !w.rest ? `${GREEN}12` : w.rest ? "#111" : "#0a0a0a",
-                        border: `1px solid ${w.done && !w.rest ? `${GREEN}25` : "#1a1a1a"}`,
-                        borderRadius: 7, padding: "10px 4px", marginBottom: 5,
-                        opacity: !w.done ? 0.35 : 1,
-                      }}>
-                        <div style={{ fontSize: 14, marginBottom: 3 }}>{!w.done ? "○" : w.rest ? "💤" : "✓"}</div>
-                        <div style={{ ...MO, fontSize: 7, color: w.done && !w.rest ? GREEN : "#555", lineHeight: 1.3 }}>
-                          {w.type.split(" ").map((wd, i) => <div key={i}>{wd}</div>)}
-                        </div>
-                      </div>
-                      <span style={{ ...MO, fontSize: 8, color: "#666" }}>{w.day.slice(0,1)}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: "flex", gap: 16, borderTop: "1px solid #1a1a1a", paddingTop: 12 }}>
-                  {[
-                    { l: "Sessions", v: WORKOUTS.filter(w => w.done && !w.rest).length },
-                    { l: "Total Cals", v: WORKOUTS.reduce((s, w) => s + w.calories, 0) },
-                    { l: "Active Mins", v: WORKOUTS.filter(w => w.done && !w.rest).reduce((s, w) => s + parseInt(w.duration) || 0, 0) },
-                  ].map(s => (
-                    <div key={s.l}>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{s.v}<span style={{ color: GREEN, fontSize: 12 }}>{s.l === "Total Cals" ? " kcal" : s.l === "Active Mins" ? " min" : ""}</span></div>
-                      <div style={{ ...MO, fontSize: 9, color: "#777" }}>{s.l}</div>
-                    </div>
-                  ))}
-                </div>
-              </GlowCard>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* ── ROW 3: Weight trend + Sciatica ── */}
-        <Reveal delay={0.05}>
-          <div id="sciatica" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-
-            {/* Weight */}
-            <GlowCard style={{ padding: "28px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-                <div>
-                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>WEIGHT TREND — 8 WEEKS</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                    <CountUp to={WEIGHT_DATA[WEIGHT_DATA.length - 1].weight} decimals={1} color="#fff" size={30} />
-                    <span style={{ fontSize: 14, color: "#777" }}>lbs</span>
+                    <span style={{ ...MO, fontSize: 9, color: "#666" }}>{w.day}</span>
                   </div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 12, color: "#888", marginBottom: 2 }}>Lost since start</div>
-                  <div style={{ fontSize: 20, fontWeight: 800, color: GREEN }}>↓ {weightLost} <span style={{ fontSize: 13, color: "#777" }}>lbs</span></div>
-                </div>
+                ))}
               </div>
-              <WeightChart data={WEIGHT_DATA} />
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 18 }}>
+              <div style={{ display: "flex", gap: 24, borderTop: "1px solid #1a1a1a", paddingTop: 16 }}>
                 {[
-                  { l: "START", v: `${WEIGHT_DATA[0].weight} lbs`, color: "#777" },
-                  { l: "CURRENT", v: `${WEIGHT_DATA[WEIGHT_DATA.length-1].weight} lbs`, color: GREEN },
-                  { l: "GOAL", v: "175 lbs", color: CYAN },
+                  { l: "Sessions", v: String(WORKOUTS.filter(w => w.done && !w.rest).length) },
+                  { l: "Total Cals", v: `${WORKOUTS.reduce((s, w) => s + w.calories, 0)} kcal` },
+                  { l: "Active Mins", v: `${WORKOUTS.filter(w => w.done && !w.rest).reduce((s, w) => s + parseInt(w.duration) || 0, 0)} min` },
                 ].map(s => (
-                  <div key={s.l} style={{ background: "#111", borderRadius: 7, padding: "10px 12px", border: "1px solid #1a1a1a" }}>
-                    <div style={{ ...MO, fontSize: 9, color: "#555", marginBottom: 4 }}>{s.l}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: s.color }}>{s.v}</div>
+                  <div key={s.l}>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>{s.v}</div>
+                    <div style={{ ...MO, fontSize: 10, color: "#777" }}>{s.l}</div>
                   </div>
                 ))}
               </div>
             </GlowCard>
+          </Reveal>
+        )}
 
-            {/* Sciatica log */}
-            <GlowCard style={{ padding: "28px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+        {/* ── SLEEP ── */}
+        {activeSection === "sleep" && (
+          <Reveal delay={0}>
+            <GlowCard style={{ padding: "32px 36px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
                 <div>
-                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SCIATICA & BACK LOG</div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                    <span style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>
-                      {SCIATICA[0].pain}<span style={{ color: "#f59e0b", fontSize: 16 }}>/10</span>
-                    </span>
-                    <span style={{ fontSize: 13, color: "#777" }}>Last episode</span>
+                  <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SLEEP — THIS WEEK</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                    <CountUp to={parseFloat(avgSleep)} suffix="" decimals={1} color="#fff" size={36} />
+                    <span style={{ fontSize: 16, color: "#a855f7" }}>hrs avg</span>
                   </div>
                 </div>
-                <div style={{ fontSize: 28, animation: "float 3s ease-in-out infinite" }}>🦴</div>
+                <span style={{ fontSize: 36 }}>😴</span>
               </div>
-              {/* Pain trend mini chart */}
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 40, marginBottom: 18 }}>
-                {[...SCIATICA].reverse().map((s, i) => {
-                  const h = (s.pain / 10) * 100;
-                  const col = s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981";
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120, marginBottom: 12 }}>
+                {SLEEP_DATA.map((s, i) => {
+                  const pct = ((s.hrs - 5) / (10 - 5)) * 100;
                   return (
-                    <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                      <motion.div initial={{ height: 0 }} whileInView={{ height: `${h}%` }} viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: i * 0.1 }}
-                        style={{ width: "100%", background: col, borderRadius: "3px 3px 0 0", minHeight: 3 }} />
-                      <span style={{ ...MO, fontSize: 8, color: "#555" }}>{s.date.split(" ")[0]}</span>
+                    <div key={s.day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+                      <motion.div initial={{ height: 0 }} whileInView={{ height: `${pct}%` }} viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: i * 0.07, ease: "easeOut" }}
+                        style={{ width: "100%", background: s.hrs >= 7 ? "#a855f7" : "#444", borderRadius: "4px 4px 0 0", minHeight: 4 }} />
+                      <span style={{ ...MO, fontSize: 10, color: "#666" }}>{s.day}</span>
                     </div>
                   );
                 })}
               </div>
-              {SCIATICA.map((s, i) => (
-                <div key={i} style={{ paddingBottom: i < SCIATICA.length - 1 ? 14 : 0, marginBottom: i < SCIATICA.length - 1 ? 14 : 0, borderBottom: i < SCIATICA.length - 1 ? "1px solid #111" : "none" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 }}>
-                    <span style={{ ...MO, fontSize: 10, color: "#888" }}>{s.date}</span>
-                    <PainDot level={s.pain} />
+              <div style={{ display: "flex", justifyContent: "space-around", marginBottom: 20 }}>
+                {SLEEP_DATA.map(s => (
+                  <div key={s.day} style={{ flex: 1, textAlign: "center" }}>
+                    <span style={{ ...MO, fontSize: 10, color: s.hrs >= 7 ? "#a855f7" : "#555", fontWeight: s.hrs >= 7 ? 700 : 400 }}>{s.hrs}h</span>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
-                    <div><span style={{ ...MO, fontSize: 9, color: "#555" }}>Trigger: </span><span style={{ fontSize: 11, color: "#888" }}>{s.trigger}</span></div>
-                    <div><span style={{ ...MO, fontSize: 9, color: "#555" }}>Relief: </span><span style={{ fontSize: 11, color: "#888" }}>{s.relief}</span></div>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 16, borderTop: "1px solid #1a1a1a", paddingTop: 16 }}>
+                {[
+                  { l: "Best Night", v: `${Math.max(...SLEEP_DATA.map(s => s.hrs))}h`, color: "#a855f7" },
+                  { l: "Worst Night", v: `${Math.min(...SLEEP_DATA.map(s => s.hrs))}h`, color: "#555" },
+                  { l: "Nights ≥7h", v: `${SLEEP_DATA.filter(s => s.hrs >= 7).length}/7`, color: GREEN },
+                ].map(s => (
+                  <div key={s.l} style={{ flex: 1, background: "#111", borderRadius: 8, padding: "14px 16px", border: "1px solid #1a1a1a" }}>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: s.color }}>{s.v}</div>
+                    <div style={{ ...MO, fontSize: 9, color: "#555", marginTop: 4 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </GlowCard>
+          </Reveal>
+        )}
+
+        {/* ── SCIATICA ── */}
+        {activeSection === "sciatica" && (
+          <Reveal delay={0}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <GlowCard style={{ padding: "28px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                  <div>
+                    <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>WEIGHT TREND — 8 WEEKS</div>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <CountUp to={WEIGHT_DATA[WEIGHT_DATA.length - 1].weight} decimals={1} color="#fff" size={30} />
+                      <span style={{ fontSize: 14, color: "#777" }}>lbs</span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 12, color: "#888", marginBottom: 2 }}>Lost since start</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: GREEN }}>↓ {weightLost} <span style={{ fontSize: 13, color: "#777" }}>lbs</span></div>
                   </div>
                 </div>
-              ))}
-            </GlowCard>
-          </div>
-        </Reveal>
+                <WeightChart data={WEIGHT_DATA} />
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 18 }}>
+                  {[
+                    { l: "START", v: `${WEIGHT_DATA[0].weight} lbs`, color: "#777" },
+                    { l: "CURRENT", v: `${WEIGHT_DATA[WEIGHT_DATA.length-1].weight} lbs`, color: GREEN },
+                    { l: "GOAL", v: "175 lbs", color: CYAN },
+                  ].map(s => (
+                    <div key={s.l} style={{ background: "#111", borderRadius: 7, padding: "10px 12px", border: "1px solid #1a1a1a" }}>
+                      <div style={{ ...MO, fontSize: 9, color: "#555", marginBottom: 4 }}>{s.l}</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: s.color }}>{s.v}</div>
+                    </div>
+                  ))}
+                </div>
+              </GlowCard>
+              <GlowCard style={{ padding: "28px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                  <div>
+                    <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>SCIATICA & BACK LOG</div>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <span style={{ fontSize: 28, fontWeight: 800, color: "#fff" }}>{SCIATICA[0].pain}<span style={{ color: "#f59e0b", fontSize: 16 }}>/10</span></span>
+                      <span style={{ fontSize: 13, color: "#777" }}>Last episode</span>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 28, animation: "float 3s ease-in-out infinite" }}>🦴</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 40, marginBottom: 18 }}>
+                  {[...SCIATICA].reverse().map((s, i) => {
+                    const h = (s.pain / 10) * 100;
+                    const col = s.pain >= 5 ? "#ef4444" : s.pain >= 3 ? "#f59e0b" : "#10b981";
+                    return (
+                      <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                        <motion.div initial={{ height: 0 }} whileInView={{ height: `${h}%` }} viewport={{ once: true }}
+                          transition={{ duration: 0.6, delay: i * 0.1 }}
+                          style={{ width: "100%", background: col, borderRadius: "3px 3px 0 0", minHeight: 3 }} />
+                        <span style={{ ...MO, fontSize: 8, color: "#555" }}>{s.date.split(" ")[0]}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                {SCIATICA.map((s, i) => (
+                  <div key={i} style={{ paddingBottom: i < SCIATICA.length - 1 ? 14 : 0, marginBottom: i < SCIATICA.length - 1 ? 14 : 0, borderBottom: i < SCIATICA.length - 1 ? "1px solid #111" : "none" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 }}>
+                      <span style={{ ...MO, fontSize: 10, color: "#888" }}>{s.date}</span>
+                      <PainDot level={s.pain} />
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
+                      <div><span style={{ ...MO, fontSize: 9, color: "#555" }}>Trigger: </span><span style={{ fontSize: 11, color: "#888" }}>{s.trigger}</span></div>
+                      <div><span style={{ ...MO, fontSize: 9, color: "#555" }}>Relief: </span><span style={{ fontSize: 11, color: "#888" }}>{s.relief}</span></div>
+                    </div>
+                  </div>
+                ))}
+              </GlowCard>
+            </div>
+          </Reveal>
+        )}
+
+      </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }
-
