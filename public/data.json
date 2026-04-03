@@ -12,17 +12,17 @@
       { "text": "Ritual Beauty discovery call at 2:00 PM today", "urgent": false },
       { "text": "MoonBrew Klaviyo cart flow v3 is live", "urgent": false },
       { "text": "Nexmail strategy review is overdue by 2 days", "urgent": true },
-      { "text": "Jolie Skin follow-up is 3 days overdue — Marceline is on it", "urgent": false }
+      { "text": "Jolie Skin follow-up is 3 days overdue - Marceline is on it", "urgent": false }
     ]
   },
   "emails": [
-    { "from": "Ritual Beauty", "subject": "Re: Partnership proposal — ready to move forward", "urgent": true, "time": "8:14am" },
+    { "from": "Ritual Beauty", "subject": "Re: Partnership proposal - ready to move forward", "urgent": true, "time": "8:14am" },
     { "from": "Jolie Skin", "subject": "Following up on our intro call last week", "urgent": false, "time": "9:02am" },
-    { "from": "Centr Fitness", "subject": "BFCM planning kickoff — can we get on a call?", "urgent": false, "time": "10:31am" }
+    { "from": "Centr Fitness", "subject": "BFCM planning kickoff - can we get on a call?", "urgent": false, "time": "10:31am" }
   ],
   "calendar": [
-    { "time": "2:00 PM", "title": "Discovery call — Ritual Beauty", "tag": "SALES" },
-    { "time": "4:30 PM", "title": "Team sync — weekly review", "tag": "INTERNAL" },
+    { "time": "2:00 PM", "title": "Discovery call - Ritual Beauty", "tag": "SALES" },
+    { "time": "4:30 PM", "title": "Team sync - weekly review", "tag": "INTERNAL" },
     { "time": "EOD", "title": "Review Nexmail strategy v2", "tag": "PRODUCT" }
   ],
   "agents": [
@@ -46,9 +46,9 @@
     { "client": "LA Clippers", "type": "Q2 Loyalty Program Audit", "status": "QUEUED", "pct": 0, "assignee": "PB", "due": "Apr 7" }
   ],
   "emailDrafts": [
-    { "to": "Ritual Beauty", "subject": "Partnership proposal — next steps", "preview": "Following our call today, I wanted to outline what a partnership could look like...", "agent": "BMO", "urgent": true },
-    { "to": "Jolie Skin", "subject": "Checking in — email strategy", "preview": "Hi — just wanted to follow up on our intro call and share a few initial thoughts on your email setup...", "agent": "Marceline", "urgent": false },
-    { "to": "Centr Fitness", "subject": "BFCM planning — proposed timeline", "preview": "Ahead of our kickoff call, here's a rough timeline for BFCM prep based on your current setup...", "agent": "BMO", "urgent": false }
+    { "to": "Ritual Beauty", "subject": "Partnership proposal - next steps", "preview": "Following our call today, I wanted to outline what a partnership could look like...", "agent": "BMO", "urgent": true },
+    { "to": "Jolie Skin", "subject": "Checking in - email strategy", "preview": "Hi - just wanted to follow up on our intro call and share a few initial thoughts on your email setup...", "agent": "Marceline", "urgent": false },
+    { "to": "Centr Fitness", "subject": "BFCM planning - proposed timeline", "preview": "Ahead of our kickoff call, here's a rough timeline for BFCM prep based on your current setup...", "agent": "BMO", "urgent": false }
   ],
   "recentBuilds": [
     { "desc": "MoonBrew abandoned cart flow v3", "env": "Klaviyo", "date": "Today 09:31", "ok": true },

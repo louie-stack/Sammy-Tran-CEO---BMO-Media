@@ -166,16 +166,21 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    fetch("/data.json").then(r => r.json()).then(setData).catch(() => {});
+    let mounted = true;
+    const load = () => fetch(`/data.json?t=${Date.now()}`, { cache: "no-store" })
+      .then(r => r.json()).then(j => { if (mounted) setData(j); }).catch(() => {});
+    load();
+    const id = setInterval(load, 30000);
+    return () => { mounted = false; clearInterval(id); };
   }, []);
 
   const d = data || {};
-  const brief = d.brief || { date: MORNING_BRIEF.date, bullets: MORNING_BRIEF.bullets };
-  const emails = d.emails || MORNING_BRIEF.emails;
-  const calendar = d.calendar || MORNING_BRIEF.calendar;
+  const brief = d.brief || { date: "", bullets: [] };
+  const emails = d.emails || [];
+  const calendar = d.calendar || [];
   const stats = d.stats || {};
-  const pipeline = d.pipeline || PIPELINE_SNAPSHOT;
-  const recentBuilds = d.recentBuilds || RECENT_BUILDS;
+  const pipeline = d.pipeline || [];
+  const recentBuilds = d.recentBuilds || [];
   const auditQueue = d.auditQueue || [];
   const emailDrafts = d.emailDrafts || [];
   const agentsData = d.agents || [];

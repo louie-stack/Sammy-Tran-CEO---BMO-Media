@@ -4,6 +4,7 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 import AgentSquarePFP from "../../components/AgentSquarePFP";
+import { useData } from "../../hooks/useData";
 
 const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
@@ -55,7 +56,7 @@ function StatusDot({ status }) {
     queued: { color: "#555", label: "QUEUED" },
     failed: { color: "#ef4444", label: "FAILED" },
   };
-  const s = map[status.toLowerCase()] || map.queued;
+  const s = map[(status || "").toLowerCase()] || map.queued;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
       <span style={{ width: 5, height: 5, borderRadius: "50%", background: s.color, boxShadow: `0 0 5px ${s.color}80`, display: "block", animation: status === "in progress" ? "gPulse 1.5s infinite" : "none" }} />
@@ -71,81 +72,13 @@ function TechBadge({ label, color = "#333", textColor = "#777" }) {
 }
 
 /* ── Data ── */
-const featuredBuild = {
-  title: "MoonBrew — Full Lifecycle Email System",
-  client: "MoonBrew",
-  status: "In Progress",
-  pct: 78,
-  color: "#3b82f6", rgb: "59,130,246", hue: 217,
-  description: "Complete Klaviyo lifecycle build — welcome series, post-purchase, win-back, cart abandon, and browse abandon. 7 flows, 34 emails total. Currently building win-back sequence.",
-  tech: [
-    { label: "Klaviyo", color: "rgba(34,197,94,0.1)", textColor: "#22c55e" },
-    { label: "Figma", color: "rgba(168,85,247,0.1)", textColor: "#a855f7" },
-    { label: "n8n", color: "rgba(234,179,8,0.1)", textColor: "#eab308" },
-    { label: "Postman", color: "rgba(239,68,68,0.1)", textColor: "#ef4444" },
-  ],
-  tasks: [
-    { label: "Welcome series (5 emails)", done: true },
-    { label: "Post-purchase flow (4 emails)", done: true },
-    { label: "Cart abandonment (3 emails)", done: true },
-    { label: "Browse abandonment (2 emails)", done: true },
-    { label: "Win-back sequence (6 emails)", done: false },
-    { label: "SMS layer integration", done: false },
-    { label: "QA + send-time optimisation", done: false },
-  ],
-  due: "Apr 5",
-};
-
-const activeBuilds = [
-  {
-    title: "Centr Fitness — Welcome Series",
-    client: "Centr Fitness", status: "Testing",
-    pct: 90, color: "#f59e0b", rgb: "245,158,11", hue: 38,
-    tech: ["Klaviyo", "Figma"],
-    due: "Apr 3", note: "QA in progress — 2 emails left to review",
-  },
-  {
-    title: "LA Clippers — Loyalty Flow Rebuild",
-    client: "LA Clippers", status: "In Progress",
-    pct: 45, color: "#8b5cf6", rgb: "139,92,246", hue: 263,
-    tech: ["Klaviyo", "Gorgias"],
-    due: "Apr 10", note: "Segment logic being rebuilt from scratch",
-  },
-  {
-    title: "Nexmail — Onboarding Automation",
-    client: "Nexmail", status: "In Progress",
-    pct: 30, color: YELLOW, rgb: "234,179,8", hue: 48,
-    tech: ["n8n", "Vercel", "Supabase"],
-    due: "Apr 14", note: "Webhook triggers mapped, building sequences",
-  },
-];
-
-const recentDeploys = [
-  { title: "MoonBrew cart abandon flow v3", env: "Klaviyo", time: "Today 09:31", status: "live", color: "#22c55e" },
-  { title: "Centr Fitness SMS welcome trigger", env: "Klaviyo", time: "Today 11:15", status: "live", color: "#22c55e" },
-  { title: "Weekly metrics dashboard", env: "Vercel", time: "Today 14:02", status: "live", color: "#22c55e" },
-  { title: "Gorgias webhook patch", env: "n8n", time: "Yesterday 18:44", status: "failed", color: "#ef4444" },
-  { title: "Allegiance Flag post-purchase v2", env: "Klaviyo", time: "Mar 31", status: "live", color: "#22c55e" },
-  { title: "Jolie Skin browse abandon", env: "Klaviyo", time: "Mar 30", status: "live", color: "#22c55e" },
-];
-
-const integrations = [
-  { name: "Klaviyo", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "All flows active" },
-  { name: "n8n", status: "in progress", color: "#f59e0b", rgb: "245,158,11", hue: 38, note: "1 workflow failing" },
-  { name: "Vercel", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "3 projects deployed" },
-  { name: "Gorgias", status: "testing", color: "#f59e0b", rgb: "245,158,11", hue: 38, note: "Webhook under review" },
-  { name: "Supabase", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "DB healthy" },
-  { name: "Postman", status: "live", color: "#22c55e", rgb: "34,197,94", hue: 142, note: "API tests passing" },
-];
-
-const stats = [
-  { label: "ACTIVE BUILDS", value: "4" },
-  { label: "DEPLOYED THIS MONTH", value: "12" },
-  { label: "FLOWS LIVE", value: "31" },
-  { label: "FAILED DEPLOYS", value: "1" },
-];
-
 export default function BuildPage() {
+  const { data: bd } = useData("build");
+  const featuredBuild = bd?.featuredBuild || {};
+  const activeBuilds = bd?.activeBuilds || [];
+  const recentDeploys = bd?.recentDeploys || [];
+  const integrations = bd?.integrations || [];
+  const stats = bd?.stats || [];
   const [openBuild, setOpenBuild] = useState(null);
   const [activeSection, setActiveSection] = useState("builds");
   const sections = [
@@ -238,7 +171,7 @@ export default function BuildPage() {
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                       <StatusDot status={featuredBuild.status} />
-                      <span style={{ ...MO, fontSize: 9, color: "#444" }}>FEATURED BUILD · DUE {featuredBuild.due.toUpperCase()}</span>
+                      <span style={{ ...MO, fontSize: 9, color: "#444" }}>FEATURED BUILD · DUE {featuredBuild.due?.toUpperCase()}</span>
                     </div>
                     <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>{featuredBuild.title}</h2>
                     <p style={{ fontSize: 13, color: "#666", lineHeight: 1.7, maxWidth: 520 }}>{featuredBuild.description}</p>
@@ -250,7 +183,7 @@ export default function BuildPage() {
                 </div>
                 <div style={{ marginBottom: 20 }}><ProgressBar pct={featuredBuild.pct} color={featuredBuild.color} /></div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
-                  {featuredBuild.tasks.map((t, i) => (
+                  {(featuredBuild.tasks || []).map((t, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 14, height: 14, borderRadius: 3, border: `1px solid ${t.done ? featuredBuild.color : "#222"}`, background: t.done ? `rgba(${featuredBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {t.done && <span style={{ color: featuredBuild.color, fontSize: 9 }}>✓</span>}
@@ -259,7 +192,7 @@ export default function BuildPage() {
                     </div>
                   ))}
                 </div>
-                <div style={{ display: "flex", gap: 6 }}>{featuredBuild.tech.map(t => <TechBadge key={t.label} {...t} />)}</div>
+                <div style={{ display: "flex", gap: 6 }}>{(featuredBuild.tech || []).map(t => <TechBadge key={t.label} {...t} />)}</div>
               </ColourCard>
             </Reveal>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
@@ -275,7 +208,7 @@ export default function BuildPage() {
                       </div>
                       <div style={{ textAlign: "right", flexShrink: 0, marginLeft: 16 }}>
                         <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>{b.pct}<span style={{ fontSize: 11, color: b.color }}>%</span></div>
-                        <div style={{ ...MO, fontSize: 8, color: "#444", marginTop: 2 }}>DUE {b.due.toUpperCase()}</div>
+                        <div style={{ ...MO, fontSize: 8, color: "#444", marginTop: 2 }}>DUE {b.due?.toUpperCase()}</div>
                       </div>
                     </div>
                     <div style={{ marginBottom: 14 }}><ProgressBar pct={b.pct} color={b.color} /></div>
@@ -380,9 +313,9 @@ export default function BuildPage() {
                     <>
                       <div style={{ ...MO, fontSize: 10, color: "#444", letterSpacing: "0.12em", marginBottom: 12, marginTop: 4 }}>TASK CHECKLIST</div>
                       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                        {openBuild.tasks.map((t, i) => (
+                        {(openBuild.tasks || []).map((t, i) => (
                           <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 + i * 0.06 }}
-                            style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < openBuild.tasks.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+                            style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < (openBuild.tasks || []).length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
                             <div style={{ width: 16, height: 16, borderRadius: 4, border: `1px solid ${t.done ? openBuild.color : "#222"}`, background: t.done ? `rgba(${openBuild.rgb},0.15)` : "transparent", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                               {t.done && <span style={{ color: openBuild.color, fontSize: 10 }}>✓</span>}
                             </div>

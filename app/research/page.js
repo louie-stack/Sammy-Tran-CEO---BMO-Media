@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 import AgentSquarePFP from "../../components/AgentSquarePFP";
+import { useData } from "../../hooks/useData";
 
 const MO = { fontFamily: "'Space Mono', monospace" };
 const IN = { fontFamily: "'Inter', sans-serif" };
@@ -70,99 +71,7 @@ const CATEGORIES = [
   { key: "competitor", label: "Competitors" },
 ];
 
-const briefs = [
-  {
-    title: "Klaviyo Ecosystem — Q2 2026 Trends",
-    status: "In Progress", pct: 72, tag: "Market Intel", category: "market",
-    color: PINK, rgb: "236,72,153", hue: 330,
-    summary: "Deep-dive into Klaviyo platform trajectory for Q2 2026. Covers AI feature rollout, pricing shifts, and competitive positioning relative to BMO's service model.",
-    bullets: [
-      "AI-powered segmentation beta opens early access for select partners — BMO clients eligible",
-      "Klaviyo raising prices ~12% on mid-tier plans from May 1 — client comms needed for 6 accounts",
-      "New predictive analytics dashboard overlaps with BMO's reporting offer — differentiate now",
-      "Send-time optimisation native feature launching Q2 — affects Nexmail positioning",
-    ],
-    sources: ["Klaviyo Partner Portal", "eCom Industry Report", "PB Research Notes"],
-    dueDate: "Apr 8", assignee: "Princess Bubblegum",
-  },
-  {
-    title: "Centr Fitness Pre-Call Research Pack",
-    status: "Complete", pct: 100, tag: "Client Research", category: "client",
-    color: "#10b981", rgb: "16,185,129", hue: 160,
-    summary: "Full pre-call intelligence brief for Centr Fitness ahead of onboarding discovery. Covers email program audit, competitive benchmarks, and recommended strategy angles.",
-    bullets: [
-      "Current email program: 2 flows active (welcome + post-purchase), no segmentation",
-      "3.2% average open rate — well below fitness industry benchmark of 6.1%",
-      "Subscriber list: ~48k, 30-day active: 9k — significant re-engagement opportunity",
-      "BFCM 2025 generated 0 email revenue — major gap to close before Q4",
-      "Recommend: Full lifecycle build + SMS layer from Day 1",
-    ],
-    sources: ["Klaviyo Audit", "Centr Website", "Industry Benchmarks Q1 2026"],
-    dueDate: "Completed Mar 30", assignee: "Princess Bubblegum",
-  },
-  {
-    title: "Nexmail Product Strategy v2",
-    status: "In Progress", pct: 45, tag: "Product", category: "product",
-    color: PURPLE, rgb: "168,85,247", hue: 270,
-    summary: "Second iteration of Nexmail's go-to-market positioning. Repositioning from a SaaS tool to a high-touch intelligence layer. Focus on the BMO strategy-execution gap in the market.",
-    bullets: [
-      "Core differentiator: human-verified AI strategy — not just automated email sends",
-      "Target segment: DTC brands doing $1M–$20M in annual email revenue",
-      "Pricing model: retainer-based ($2.5k–$8k/mo) vs per-send SaaS",
-      "Competitive advantage: BMO execution layer + Nexmail intel = unmatched client ROI",
-    ],
-    sources: ["Internal Strategy Docs", "Competitor Analysis", "Client Interviews"],
-    dueDate: "Apr 7", assignee: "Princess Bubblegum",
-  },
-];
 
-const competitors = [
-  {
-    name: "Retention.com", threat: "High", color: "#ef4444", rgb: "239,68,68", hue: 0,
-    updated: "Apr 1, 2026",
-    summary: "Strong identity resolution product. Growing fast in DTC space. Their new Klaviyo Sync feature has direct overlap with BMO's lifecycle positioning.",
-    bullets: [
-      "Launched native Klaviyo integration Q1 — reducing friction for mid-market DTC",
-      "Raised Series B ($40M) — accelerating sales team and product roadmap",
-      "Targeting BMO's core client base (DTC $1M–$20M ARR) aggressively",
-      "Weakness: pure tech play, no human strategy layer — BMO's core differentiator holds",
-    ],
-    action: "Immediate: Update Nexmail positioning to counter Retention.com narrative",
-  },
-  {
-    name: "Yotpo", threat: "Medium", color: "#f59e0b", rgb: "245,158,11", hue: 38,
-    updated: "Mar 28, 2026",
-    summary: "Expanding from loyalty into full CRM suite. Strong brand recognition. Lifecycle offering still shallow compared to BMO's strategy depth.",
-    bullets: [
-      "New lifecycle product launched — bundled with loyalty (potentially attractive to clients)",
-      "Klaviyo partnership announcement signals intent to play in the flow space",
-      "Pricing accessible for smaller brands — could pull from BMO's lower-tier pipeline",
-      "No dedicated strategy team — execution quality is self-serve",
-    ],
-    action: "Monitor quarterly. Update client decks to highlight BMO strategy vs Yotpo self-serve.",
-  },
-  {
-    name: "Rejoiner", threat: "Low", color: "#10b981", rgb: "16,185,129", hue: 160,
-    updated: "Mar 20, 2026",
-    summary: "Niche email automation player losing ground to native Klaviyo flows. Not a major threat for enterprise-tier clients.",
-    bullets: [
-      "Declining market share as Klaviyo native features improve",
-      "Customer base skews toward smaller brands under $500k revenue",
-      "No AI roadmap visible — falling behind on product innovation",
-    ],
-    action: "No action needed. Revisit in Q3.",
-  },
-];
-
-const insights = [
-  { text: "Klaviyo announces AI-powered segmentation beta — BMO clients eligible for early access", source: "Klaviyo Blog", date: "Apr 1", category: "market", urgent: true },
-  { text: "BFCM 2026 planning starts now — brands locking in retainer budgets in Q2", source: "eCom Industry Report", date: "Mar 31", category: "market", urgent: true },
-  { text: "SMS opt-in rates declining post-TCPA enforcement — strategy review needed for 4 clients", source: "Attentive Research", date: "Mar 29", category: "client", urgent: true },
-  { text: "Tiered loyalty outperforms points-only by 34% in retention rate (Q1 2026 data)", source: "Loyalty360", date: "Mar 27", category: "market", urgent: false },
-  { text: "Subscription growth fastest in food & beverage — Centr + MoonBrew direct opportunity", source: "Recharge Data", date: "Mar 25", category: "client", urgent: false },
-  { text: "Average email open rate down 0.8% industry-wide in Q1 — subject line testing critical", source: "Mailcharts", date: "Mar 24", category: "market", urgent: false },
-  { text: "Nexmail competitor Retention.com raises $40M — accelerating into BMO's core market", source: "TechCrunch", date: "Mar 22", category: "competitor", urgent: true },
-];
 
 /* ── Main Component ───────────────────────────────────────────── */
 export default function ResearchPage() {
@@ -170,6 +79,10 @@ export default function ResearchPage() {
   const [openBrief, setOpenBrief] = useState(null);
   const [openCompetitor, setOpenCompetitor] = useState(null);
   const [intelFilter, setIntelFilter] = useState("all");
+  const { data: rd } = useData("research");
+  const briefs = rd?.briefs || [];
+  const competitors = rd?.competitors || [];
+  const insights = rd?.insights || [];
 
 
   const filteredInsights = intelFilter === "all" ? insights : insights.filter(i => i.category === intelFilter);

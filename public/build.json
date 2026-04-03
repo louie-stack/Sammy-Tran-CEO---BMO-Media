@@ -1,0 +1,51 @@
+{
+  "featuredBuild": {
+    "title": "MoonBrew — Full Lifecycle Email System",
+    "client": "MoonBrew", "status": "In Progress", "pct": 78,
+    "color": "#3b82f6", "rgb": "59,130,246", "hue": 217,
+    "description": "Complete Klaviyo lifecycle build — welcome series, post-purchase, win-back, cart abandon, and browse abandon. 7 flows, 34 emails total.",
+    "tech": [
+      { "label": "Klaviyo", "color": "rgba(34,197,94,0.1)", "textColor": "#22c55e" },
+      { "label": "Figma", "color": "rgba(168,85,247,0.1)", "textColor": "#a855f7" },
+      { "label": "n8n", "color": "rgba(234,179,8,0.1)", "textColor": "#eab308" },
+      { "label": "Postman", "color": "rgba(239,68,68,0.1)", "textColor": "#ef4444" }
+    ],
+    "tasks": [
+      { "label": "Welcome series (5 emails)", "done": true },
+      { "label": "Post-purchase flow (4 emails)", "done": true },
+      { "label": "Cart abandonment (3 emails)", "done": true },
+      { "label": "Browse abandonment (2 emails)", "done": true },
+      { "label": "Win-back sequence (6 emails)", "done": false },
+      { "label": "SMS layer integration", "done": false },
+      { "label": "QA + send-time optimisation", "done": false }
+    ],
+    "due": "Apr 5"
+  },
+  "activeBuilds": [
+    { "title": "Centr Fitness — Welcome Series", "client": "Centr Fitness", "status": "Testing", "pct": 90, "color": "#f59e0b", "rgb": "245,158,11", "hue": 38, "tech": ["Klaviyo", "Figma"], "due": "Apr 3", "note": "QA in progress — 2 emails left to review" },
+    { "title": "LA Clippers — Loyalty Flow Rebuild", "client": "LA Clippers", "status": "In Progress", "pct": 45, "color": "#8b5cf6", "rgb": "139,92,246", "hue": 263, "tech": ["Klaviyo", "Gorgias"], "due": "Apr 10", "note": "Segment logic being rebuilt from scratch" },
+    { "title": "Nexmail — Onboarding Automation", "client": "Nexmail", "status": "In Progress", "pct": 30, "color": "#eab308", "rgb": "234,179,8", "hue": 48, "tech": ["n8n", "Vercel", "Supabase"], "due": "Apr 14", "note": "Webhook triggers mapped, building sequences" }
+  ],
+  "recentDeploys": [
+    { "title": "MoonBrew cart abandon flow v3", "env": "Klaviyo", "time": "Today 09:31", "status": "live" },
+    { "title": "Centr Fitness SMS welcome trigger", "env": "Klaviyo", "time": "Today 11:15", "status": "live" },
+    { "title": "Weekly metrics dashboard", "env": "Vercel", "time": "Today 14:02", "status": "live" },
+    { "title": "Gorgias webhook patch", "env": "n8n", "time": "Yesterday 18:44", "status": "failed" },
+    { "title": "Allegiance Flag post-purchase v2", "env": "Klaviyo", "time": "Mar 31", "status": "live" },
+    { "title": "Jolie Skin browse abandon", "env": "Klaviyo", "time": "Mar 30", "status": "live" }
+  ],
+  "integrations": [
+    { "name": "Klaviyo", "status": "live", "color": "#22c55e", "rgb": "34,197,94", "hue": 142, "note": "All flows active" },
+    { "name": "n8n", "status": "in progress", "color": "#f59e0b", "rgb": "245,158,11", "hue": 38, "note": "1 workflow failing" },
+    { "name": "Vercel", "status": "live", "color": "#22c55e", "rgb": "34,197,94", "hue": 142, "note": "3 projects deployed" },
+    { "name": "Gorgias", "status": "testing", "color": "#f59e0b", "rgb": "245,158,11", "hue": 38, "note": "Webhook under review" },
+    { "name": "Supabase", "status": "live", "color": "#22c55e", "rgb": "34,197,94", "hue": 142, "note": "DB healthy" },
+    { "name": "Postman", "status": "live", "color": "#22c55e", "rgb": "34,197,94", "hue": 142, "note": "API tests passing" }
+  ],
+  "stats": [
+    { "label": "ACTIVE BUILDS", "value": "4" },
+    { "label": "DEPLOYED THIS MONTH", "value": "12" },
+    { "label": "FLOWS LIVE", "value": "31" },
+    { "label": "FAILED DEPLOYS", "value": "1" }
+  ]
+}

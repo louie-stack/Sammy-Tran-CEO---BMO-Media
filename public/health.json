@@ -1,0 +1,57 @@
+{
+  "vitals": [
+    { "label": "RESTING HR", "value": "62", "unit": "bpm", "color": "#ec4899", "trend": "↓ 2 from last week" },
+    { "label": "SLEEP AVG", "value": "7.4", "unit": "hrs", "color": "#a855f7", "trend": "↑ 0.3 improvement" },
+    { "label": "WEIGHT", "value": "184", "unit": "lbs", "color": "#C4F000", "trend": "↓ 8.3 lbs since Wk1" },
+    { "label": "HYDRATION", "value": "2.4", "unit": "L", "color": "#06b6d4", "trend": "On target" }
+  ],
+  "bpData": [
+    { "day": "19", "sys": 128, "dia": 83 }, { "day": "20", "sys": 124, "dia": 80 },
+    { "day": "21", "sys": 122, "dia": 78 }, { "day": "22", "sys": 119, "dia": 76 },
+    { "day": "23", "sys": 126, "dia": 82 }, { "day": "24", "sys": 121, "dia": 79 },
+    { "day": "25", "sys": 118, "dia": 75 }, { "day": "26", "sys": 123, "dia": 80 },
+    { "day": "27", "sys": 120, "dia": 77 }, { "day": "28", "sys": 117, "dia": 74 },
+    { "day": "29", "sys": 125, "dia": 81 }, { "day": "30", "sys": 119, "dia": 76 },
+    { "day": "31", "sys": 122, "dia": 79 }, { "day": "1", "sys": 121, "dia": 79 }
+  ],
+  "weightData": [
+    { "week": 1, "weight": 192.4 }, { "week": 2, "weight": 190.8 }, { "week": 3, "weight": 189.2 },
+    { "week": 4, "weight": 188.6 }, { "week": 5, "weight": 187.1 }, { "week": 6, "weight": 185.9 },
+    { "week": 7, "weight": 185.2 }, { "week": 8, "weight": 184.1 }
+  ],
+  "sleepData": [
+    { "day": "Mon", "hrs": 7.2 }, { "day": "Tue", "hrs": 6.8 }, { "day": "Wed", "hrs": 7.5 },
+    { "day": "Thu", "hrs": 8.1 }, { "day": "Fri", "hrs": 6.4 }, { "day": "Sat", "hrs": 8.8 },
+    { "day": "Sun", "hrs": 7.0 }
+  ],
+  "workouts": [
+    { "day": "Mon", "type": "Lower Body", "done": true, "rest": false, "duration": "48 min", "calories": 320 },
+    { "day": "Tue", "type": "Rest", "done": true, "rest": true, "duration": "—", "calories": 0 },
+    { "day": "Wed", "type": "Upper Body", "done": true, "rest": false, "duration": "52 min", "calories": 290 },
+    { "day": "Thu", "type": "Walk 5k", "done": true, "rest": false, "duration": "38 min", "calories": 210 },
+    { "day": "Fri", "type": "Lower Body", "done": true, "rest": false, "duration": "50 min", "calories": 340 },
+    { "day": "Sat", "type": "Rest", "done": true, "rest": true, "duration": "—", "calories": 0 },
+    { "day": "Sun", "type": "Upper Body", "done": false, "rest": false, "duration": "—", "calories": 0 }
+  ],
+  "tirzepatide": {
+    "week": 8, "totalWeeks": 12, "dose": "7.5mg", "nextDate": "Apr 8",
+    "startDate": "Feb 11", "targetDose": "15mg",
+    "log": [
+      { "week": 1, "dose": "2.5mg", "date": "Feb 11", "note": "Started. Mild nausea day 2." },
+      { "week": 3, "dose": "5mg", "date": "Feb 25", "note": "Appetite noticeably reduced." },
+      { "week": 5, "dose": "5mg", "date": "Mar 11", "note": "Energy improved. No side effects." },
+      { "week": 7, "dose": "7.5mg", "date": "Mar 25", "note": "Dose increased. Mild fatigue first 2 days." },
+      { "week": 8, "dose": "7.5mg", "date": "Apr 1", "note": "Holding 7.5mg. Good tolerance." }
+    ]
+  },
+  "sciatica": [
+    { "date": "Apr 1", "pain": 2, "trigger": "Prolonged sitting 3h+", "relief": "Prone press x10, ice", "duration": "~45 min" },
+    { "date": "Mar 29", "pain": 4, "trigger": "Long drive (2h)", "relief": "Ice pack, stretching", "duration": "~2 hrs" },
+    { "date": "Mar 26", "pain": 2, "trigger": "Morning stiffness", "relief": "Morning walk", "duration": "~30 min" },
+    { "date": "Mar 22", "pain": 3, "trigger": "Heavy lower body session", "relief": "Rest + ibuprofen", "duration": "~1.5 hrs" },
+    { "date": "Mar 18", "pain": 1, "trigger": "Desk work", "relief": "Posture correction", "duration": "~20 min" }
+  ],
+  "medications": [
+    { "name": "Tirzepatide", "dose": "7.5mg", "frequency": "Weekly", "nextDose": "Apr 8", "status": "active" }
+  ]
+}

@@ -4,6 +4,7 @@ import { motion, useInView, useMotionValue, useSpring, animate } from "framer-mo
 import Nav from "../../components/Nav";
 import GlowCard from "../../components/GlowCard";
 import AgentSquarePFP from "../../components/AgentSquarePFP";
+import { useData } from "../../hooks/useData";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -156,64 +157,7 @@ function WeightChart({ data }) {
 
 // ── DATA ─────────────────────────────────────────────────────────────────────
 
-const BP_DATA = [
-  { day: "19", sys: 128, dia: 83 }, { day: "20", sys: 124, dia: 80 },
-  { day: "21", sys: 122, dia: 78 }, { day: "22", sys: 119, dia: 76 },
-  { day: "23", sys: 126, dia: 82 }, { day: "24", sys: 121, dia: 79 },
-  { day: "25", sys: 118, dia: 75 }, { day: "26", sys: 123, dia: 80 },
-  { day: "27", sys: 120, dia: 77 }, { day: "28", sys: 117, dia: 74 },
-  { day: "29", sys: 125, dia: 81 }, { day: "30", sys: 119, dia: 76 },
-  { day: "31", sys: 122, dia: 79 }, { day: "1",  sys: 121, dia: 79 },
-];
 
-const WEIGHT_DATA = [
-  { week: 1, weight: 192.4 }, { week: 2, weight: 190.8 }, { week: 3, weight: 189.2 },
-  { week: 4, weight: 188.6 }, { week: 5, weight: 187.1 }, { week: 6, weight: 185.9 },
-  { week: 7, weight: 185.2 }, { week: 8, weight: 184.1 },
-];
-
-const SLEEP_DATA = [
-  { day: "Mon", hrs: 7.2 }, { day: "Tue", hrs: 6.8 }, { day: "Wed", hrs: 7.5 },
-  { day: "Thu", hrs: 8.1 }, { day: "Fri", hrs: 6.4 }, { day: "Sat", hrs: 8.8 },
-  { day: "Sun", hrs: 7.0 },
-];
-
-const WORKOUTS = [
-  { day: "Mon", type: "Lower Body", done: true, rest: false, duration: "48 min", calories: 320 },
-  { day: "Tue", type: "Rest", done: true, rest: true, duration: "—", calories: 0 },
-  { day: "Wed", type: "Upper Body", done: true, rest: false, duration: "52 min", calories: 290 },
-  { day: "Thu", type: "Walk 5k", done: true, rest: false, duration: "38 min", calories: 210 },
-  { day: "Fri", type: "Lower Body", done: true, rest: false, duration: "50 min", calories: 340 },
-  { day: "Sat", type: "Rest", done: true, rest: true, duration: "—", calories: 0 },
-  { day: "Sun", type: "Upper Body", done: false, rest: false, duration: "—", calories: 0 },
-];
-
-const TIRZEPATIDE = {
-  week: 8, totalWeeks: 12, dose: "7.5mg", nextDate: "Apr 8",
-  startDate: "Feb 11", targetDose: "15mg",
-  log: [
-    { week: 1, dose: "2.5mg", date: "Feb 11", note: "Started. Mild nausea day 2." },
-    { week: 3, dose: "5mg",   date: "Feb 25", note: "Appetite noticeably reduced." },
-    { week: 5, dose: "5mg",   date: "Mar 11", note: "Energy improved. No side effects." },
-    { week: 7, dose: "7.5mg", date: "Mar 25", note: "Dose increased. Mild fatigue first 2 days." },
-    { week: 8, dose: "7.5mg", date: "Apr 1",  note: "Holding 7.5mg. Good tolerance." },
-  ],
-};
-
-const SCIATICA = [
-  { date: "Apr 1",  pain: 2, trigger: "Prolonged sitting 3h+", relief: "Prone press x10, ice", duration: "~45 min" },
-  { date: "Mar 29", pain: 4, trigger: "Long drive (2h)",        relief: "Ice pack, stretching",  duration: "~2 hrs" },
-  { date: "Mar 26", pain: 2, trigger: "Morning stiffness",      relief: "Morning walk",           duration: "~30 min" },
-  { date: "Mar 22", pain: 3, trigger: "Heavy lower body session",relief: "Rest + ibuprofen",      duration: "~1.5 hrs" },
-  { date: "Mar 18", pain: 1, trigger: "Desk work",              relief: "Posture correction",     duration: "~20 min" },
-];
-
-const VITALS = [
-  { label: "RESTING HR", value: "62", unit: "bpm", color: "#ec4899", trend: "↓ 2 from last week" },
-  { label: "SLEEP AVG",  value: "7.4", unit: "hrs", color: "#a855f7", trend: "↑ 0.3 improvement" },
-  { label: "WEIGHT",     value: "184", unit: "lbs", color: GREEN,    trend: "↓ 8.3 lbs since Wk1" },
-  { label: "HYDRATION",  value: "2.4", unit: "L",   color: CYAN,     trend: "On target" },
-];
 
 function PainDot({ level }) {
   const color = level >= 7 ? "#ef4444" : level >= 4 ? "#f59e0b" : level >= 2 ? "#eab308" : "#10b981";
@@ -232,9 +176,18 @@ function PainDot({ level }) {
 // ── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function HealthPage() {
-  const avgBP = Math.round(BP_DATA.reduce((s, d) => s + d.sys, 0) / BP_DATA.length);
-  const avgSleep = (SLEEP_DATA.reduce((s, d) => s + d.hrs, 0) / SLEEP_DATA.length).toFixed(1);
-  const weightLost = (WEIGHT_DATA[0].weight - WEIGHT_DATA[WEIGHT_DATA.length - 1].weight).toFixed(1);
+  const { data: hd } = useData("health");
+  const BP_DATA = hd?.bpData || [];
+  const WEIGHT_DATA = hd?.weightData || [];
+  const SLEEP_DATA = hd?.sleepData || [];
+  const WORKOUTS = hd?.workouts || [];
+  const TIRZEPATIDE = hd?.tirzepatide || {};
+  const SCIATICA = hd?.sciatica || [];
+  const VITALS = hd?.vitals || [];
+
+  const avgBP = BP_DATA.length ? Math.round(BP_DATA.reduce((s, d) => s + d.sys, 0) / BP_DATA.length) : 0;
+  const avgSleep = SLEEP_DATA.length ? (SLEEP_DATA.reduce((s, d) => s + d.hrs, 0) / SLEEP_DATA.length).toFixed(1) : "0.0";
+  const weightLost = WEIGHT_DATA.length >= 2 ? (WEIGHT_DATA[0].weight - WEIGHT_DATA[WEIGHT_DATA.length - 1].weight).toFixed(1) : "0.0";
   const [activeSection, setActiveSection] = useState("vitals");
   const healthSections = [
     { label: "Vitals", id: "vitals" },
@@ -368,9 +321,9 @@ export default function HealthPage() {
                     <div>
                       <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>BLOOD PRESSURE — 14 DAYS</div>
                       <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                        <CountUp to={BP_DATA[BP_DATA.length - 1].sys} color="#fff" size={32} />
+                        <CountUp to={BP_DATA[BP_DATA.length - 1]?.sys || 0} color="#fff" size={32} />
                         <span style={{ fontSize: 18, color: "#555" }}>/</span>
-                        <CountUp to={BP_DATA[BP_DATA.length - 1].dia} color="#888" size={22} />
+                        <CountUp to={BP_DATA[BP_DATA.length - 1]?.dia || 0} color="#888" size={22} />
                         <span style={{ ...MO, fontSize: 10, color: "#777" }}>mmHg · Today</span>
                       </div>
                     </div>
@@ -419,10 +372,10 @@ export default function HealthPage() {
                 </div>
               </div>
               <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.12em", marginBottom: 10 }}>DOSE LOG</div>
-              {TIRZEPATIDE.log.map((entry, i) => (
-                <div key={i} style={{ display: "flex", gap: 12, paddingBottom: i < TIRZEPATIDE.log.length - 1 ? 10 : 0, marginBottom: i < TIRZEPATIDE.log.length - 1 ? 10 : 0, borderBottom: i < TIRZEPATIDE.log.length - 1 ? "1px solid #111" : "none" }}>
-                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: i === TIRZEPATIDE.log.length - 1 ? `${GREEN}15` : "#111", border: `1px solid ${i === TIRZEPATIDE.log.length - 1 ? GREEN : "#1a1a1a"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <span style={{ ...MO, fontSize: 8, color: i === TIRZEPATIDE.log.length - 1 ? GREEN : "#555" }}>W{entry.week}</span>
+              {(TIRZEPATIDE.log || []).map((entry, i) => (
+                <div key={i} style={{ display: "flex", gap: 12, paddingBottom: i < (TIRZEPATIDE.log || []).length - 1 ? 10 : 0, marginBottom: i < (TIRZEPATIDE.log || []).length - 1 ? 10 : 0, borderBottom: i < (TIRZEPATIDE.log || []).length - 1 ? "1px solid #111" : "none" }}>
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: i === (TIRZEPATIDE.log || []).length - 1 ? `${GREEN}15` : "#111", border: `1px solid ${i === (TIRZEPATIDE.log || []).length - 1 ? GREEN : "#1a1a1a"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ ...MO, fontSize: 8, color: i === (TIRZEPATIDE.log || []).length - 1 ? GREEN : "#555" }}>W{entry.week}</span>
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 2 }}>
@@ -530,7 +483,7 @@ export default function HealthPage() {
                   <div>
                     <div style={{ ...MO, fontSize: 10, color: "#777", letterSpacing: "0.14em", marginBottom: 6 }}>WEIGHT TREND — 8 WEEKS</div>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                      <CountUp to={WEIGHT_DATA[WEIGHT_DATA.length - 1].weight} decimals={1} color="#fff" size={30} />
+                      <CountUp to={WEIGHT_DATA[WEIGHT_DATA.length - 1]?.weight || 0} decimals={1} color="#fff" size={30} />
                       <span style={{ fontSize: 14, color: "#777" }}>lbs</span>
                     </div>
                   </div>
@@ -542,8 +495,8 @@ export default function HealthPage() {
                 <WeightChart data={WEIGHT_DATA} />
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 18 }}>
                   {[
-                    { l: "START", v: `${WEIGHT_DATA[0].weight} lbs`, color: "#777" },
-                    { l: "CURRENT", v: `${WEIGHT_DATA[WEIGHT_DATA.length-1].weight} lbs`, color: GREEN },
+                    { l: "START", v: `${WEIGHT_DATA[0]?.weight ?? "—"} lbs`, color: "#777" },
+                    { l: "CURRENT", v: `${WEIGHT_DATA[WEIGHT_DATA.length-1]?.weight ?? "—"} lbs`, color: GREEN },
                     { l: "GOAL", v: "175 lbs", color: CYAN },
                   ].map(s => (
                     <div key={s.l} style={{ background: "#111", borderRadius: 7, padding: "10px 12px", border: "1px solid #1a1a1a" }}>

@@ -1,0 +1,37 @@
+{
+  "pipeline": [
+    { "key": "prospect", "stage": "Prospect", "color": "#64748b", "rgb": "100,116,139", "hue": 215, "deals": [
+      { "co": "Alo Yoga", "contact": "Lisa Chen", "value": "$5.2k/mo", "days": 8, "note": "Warm intro via mutual contact" },
+      { "co": "Graza Olive Oil", "contact": "Tom R.", "value": "$2.8k/mo", "days": 3, "note": "Inbound — found via podcast" },
+      { "co": "Starface", "contact": "Megan K.", "value": "$4.5k/mo", "days": 12, "note": "Discovery call booked" }
+    ]},
+    { "key": "qualified", "stage": "Qualified", "color": "#3b82f6", "rgb": "59,130,246", "hue": 217, "deals": [
+      { "co": "Ritual Beauty", "contact": "James Walsh", "value": "$6k/mo", "days": 5, "note": "Strong fit — Klaviyo + SMS setup needed" },
+      { "co": "Fly By Jing", "contact": "Sarah T.", "value": "$3.2k/mo", "days": 9, "note": "Qualification call scheduled" },
+      { "co": "Jolie Skin", "contact": "Alex M.", "value": "$4.1k/mo", "days": 14, "note": "Budget confirmed, awaiting proposal" },
+      { "co": "Brightland", "contact": "Rachel S.", "value": "$2.6k/mo", "days": 2, "note": "Initial call completed" }
+    ]},
+    { "key": "proposal", "stage": "Proposal", "color": "#8b5cf6", "rgb": "139,92,246", "hue": 263, "deals": [
+      { "co": "Centr Fitness", "contact": "Mike D.", "value": "$4.2k/mo", "days": 6, "note": "Proposal sent — awaiting review" },
+      { "co": "Our Place", "contact": "Luz R.", "value": "$5.5k/mo", "days": 11, "note": "Deck reviewed, verbal yes — contract pending" }
+    ]},
+    { "key": "negotiation", "stage": "Negotiation", "color": "#f59e0b", "rgb": "245,158,11", "hue": 38, "deals": [
+      { "co": "MoonBrew", "contact": "Dan S.", "value": "$3.8k/mo", "days": 18, "note": "Contract revision sent — no response" },
+      { "co": "Strands Haircare", "contact": "Eric D.", "value": "$7.2k/mo", "days": 22, "note": "22 days stalled — needs direct call" }
+    ]},
+    { "key": "closed", "stage": "Closed Won", "color": "#10b981", "rgb": "16,185,129", "hue": 160, "deals": [
+      { "co": "LA Clippers", "contact": "Charisse S.", "value": "$8.5k/mo", "days": 0, "note": "Active — onboarding complete" },
+      { "co": "Travel Pro", "contact": "Andy S.", "value": "$4k/mo", "days": 0, "note": "Active — Month 2" },
+      { "co": "Allegiance Flag", "contact": "Katie L.", "value": "$2.2k/mo", "days": 0, "note": "Active — Month 1" },
+      { "co": "Nursing Queen", "contact": "Quinn R.", "value": "$1.8k/mo", "days": 0, "note": "Active — Month 3" },
+      { "co": "James Michelle", "contact": "Jordan T.", "value": "$5.6k/mo", "days": 0, "note": "Active — Month 5" }
+    ]}
+  ],
+  "followUps": [
+    { "co": "Starface", "contact": "Megan K.", "overdue": 5, "note": "Discovery call booked", "assignee": "Marceline", "color": "#ef4444", "rgb": "239,68,68" },
+    { "co": "Fly By Jing", "contact": "Sarah T.", "overdue": 7, "note": "Qualification call", "assignee": "Marceline", "color": "#ef4444", "rgb": "239,68,68" },
+    { "co": "MoonBrew", "contact": "Dan S.", "overdue": 2, "note": "Contract revision sent", "assignee": "BMO", "color": "#f59e0b", "rgb": "245,158,11" },
+    { "co": "Jolie Skin", "contact": "Alex M.", "overdue": 3, "note": "Proposal follow-up", "assignee": "Marceline", "color": "#f59e0b", "rgb": "245,158,11" },
+    { "co": "Brightland", "contact": "Rachel S.", "overdue": 1, "note": "Initial outreach", "assignee": "BMO", "color": "#f59e0b", "rgb": "245,158,11" }
+  ]
+}
