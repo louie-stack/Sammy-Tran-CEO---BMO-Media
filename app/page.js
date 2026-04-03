@@ -5,6 +5,7 @@ import Nav from "../components/Nav";
 import GlowCard from "../components/GlowCard";
 import Link from "next/link";
 import OrbitingAgents from "../components/OrbitingAgents";
+import { GradientDots } from "../components/GradientDots";
 
 const IN = { fontFamily: "'Inter', sans-serif" };
 const MO = { fontFamily: "'Space Mono', monospace" };
@@ -218,8 +219,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── CONTENT BELOW HERO — dot grid background ── */}
+      <div style={{ position: "relative" }}>
+      <GradientDots />
+
       {/* ── REVENUE STATS STRIP ────────────────────────────────────────── */}
-      <section>
+      <section style={{ position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 20px" : "0 60px" }}>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)" }}>
             {[
@@ -241,7 +246,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 20px" : "0 60px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 20px" : "0 60px", position: "relative", zIndex: 1 }}>
 
         {/* ── MORNING BRIEF ──────────────────────────────────────────────── */}
         <section style={{ padding: "56px 0 0" }}>
@@ -582,6 +587,7 @@ export default function Home() {
           </Reveal>
         </section>
       </div>
+      </div>{/* end dot grid wrapper */}
     </div>
   );
 }
